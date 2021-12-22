@@ -13,7 +13,7 @@ class PropertyController extends Controller
     public function index()
     {
 
-        $properties = Property::with(['community', 'offer'])->paginate(5);
+        $properties = Property::with(['community', 'offer'])->where('offer_type', '!=', 'stop')->paginate(5);
         if ($properties) {
             return response()->json([
                 'status' => true,
@@ -75,7 +75,9 @@ class PropertyController extends Controller
     }
     public function type($offer_type)
     {
-        $properties = Property::with('community')->where('offer_type', $offer_type)->get();
+        $properties = Property::with('community')
+            ->where('offer_type', $offer_type)
+            ->get();
         $status = Property::with('community')->where('offer_type', $offer_type)->count();
         if ($status > 0) {
             return response()->json([
