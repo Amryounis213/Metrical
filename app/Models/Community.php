@@ -9,6 +9,9 @@ class Community extends Model
 {
     use HasFactory;
     protected $fillable = ['name_ar', 'name_en', 'name_gr', 'area', 'location_longitude', 'location_latitude', 'image', 'status', 'readness_percentage'];
+    
+    protected $appends =['image_path'];
+    protected $hidden = ['image'];
 
     public function properties()
     {
@@ -51,7 +54,7 @@ class Community extends Model
             'name' => $this->$name,
             'area' => $this->area,
             'address' => $this->address,
-            'image' => $this->image,
+            'image' => $this->image_path,
             'number_properties' => $this->properties()->count(),
             'status' => $this->status ? 'Ready' : 'Under constuction',
             'ready_properties' => $this->properties()->where('status', 1)->count(),
@@ -63,5 +66,16 @@ class Community extends Model
             'events' => $this->event,
 
         ];
+    }
+    
+    public function getImagePathAttribute($value)
+    {
+        if(!$this->image){
+            return asset('uploads/palceholder.jpg');
+        }
+        if(stripos($this->image , 'http') ===  0){
+            return $this->image;
+        }
+        return asset('uploads/' . $this->image);
     }
 }

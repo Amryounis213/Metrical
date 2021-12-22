@@ -11,7 +11,8 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
+    protected $appends =['image_path'];
+  
 
 
     protected $fillable = [
@@ -40,7 +41,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'code'
+        'code',
+        'image_url'
     ];
 
     /**
@@ -113,11 +115,26 @@ class User extends Authenticatable
             'country' => $this->country,
             'city' => $this->city,
             'mobile_number' => $this->mobile_number,
-            'image_url' => $this->image_url,
+            'image_url' => $this->image_path,
             'type' => $this->type,
             'status' => $this->status,
             'news' => $NewUserNews,
             'properties' => $user->owner->property ?? [],
         ];
+    }
+    public function moveIn()
+    {
+        $this->hasMany(MoveIn::class);
+    }
+
+    public function getImagePathAttribute($value)
+    {
+        if(!$this->image_url){
+            return asset('uploads/palceholder.jpg');
+        }
+        if(stripos($this->image_url , 'http') ===  0){
+            return $this->image_url;
+        }
+        return asset('uploads/' . $this->image_url);
     }
 }
