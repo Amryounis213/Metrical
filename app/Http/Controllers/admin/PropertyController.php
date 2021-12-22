@@ -71,9 +71,17 @@ class PropertyController extends Controller
         $request->merge([
             'date_added' => Carbon::now(),
             'community_id' => 1,
-            ''
         ]);
-        $isSaved = Property::create($request->all());
+        $input = $request->all();
+        if ($request->hasFile('image_url')) {
+            $file = $request->file('image_url');
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $input['image_url'] = $image_path;
+        }
+
+        $isSaved = Property::create($input);
         if ($isSaved) {
             return redirect()->route('properties.index');
         }
@@ -115,7 +123,16 @@ class PropertyController extends Controller
     public function update(Request $request, $id)
     {
         $property = Property::findOrfail($id);
-        $isUpdated = $property->update($request->all());
+
+        $input = $request->all();
+        if ($request->hasFile('image_url')) {
+            $file = $request->file('image_url');
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $input['image_url'] = $image_path;
+        }
+        $isUpdated = $property->update($input);
         if ($isUpdated) {
             return redirect()->route('properties.index');
         }
