@@ -120,4 +120,8 @@ class User extends Authenticatable
             'properties' => $user->owner->property ?? [],
         ];
     }
+    public function moveIn()
+    {
+        $this->hasMany(MoveIn::class);
+    }
 }

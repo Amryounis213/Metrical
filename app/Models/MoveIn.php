@@ -33,4 +33,9 @@ class MoveIn extends Model
         'user_id',
         'property_id',
     ];
+
+    public function user()
+    {
+        $this->belongsTo(User::class);
+    }
 }

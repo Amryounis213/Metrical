@@ -8,6 +8,7 @@ use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\OfferController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\API\PropertyController;
 use App\Http\Controllers\API\RentController;
 use App\Http\Controllers\API\servicesController;
@@ -66,7 +67,15 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
 
     Route::get('home', [UserController::class, 'home']);
 
-    //new requests 
+    //new requests Mohammed Profile
+    Route::get('profile/movein', [ProfileController::class , 'moveIn'])
+    ->middleware('auth:sanctum');
+    Route::get('profile/moveout', [ProfileController::class , 'moveOut'])
+    ->middleware('auth:sanctum');
+    Route::get('profile/work-permit', [ProfileController::class , 'WorkPermit'])
+    ->middleware('auth:sanctum');
+    Route::get('profile/delivery-permit', [ProfileController::class , 'Delivery'])
+    ->middleware('auth:sanctum');
 
 });
 //API (Amr Younis)
