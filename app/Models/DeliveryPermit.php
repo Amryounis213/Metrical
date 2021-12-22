@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,4 +35,19 @@ class DeliveryPermit extends Model
         'user_id',
         'property_id',
     ];
+    public function getStartTimeAttribute($value)
+    {
+        # code...
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+    public function getEndTimeAttribute($value)
+    {
+        # code...
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+    public function getCreatedAtAttribute($value)
+    {
+        # code...
+        return Carbon::parse($value)->format('Y-m-d');
+    }
 }

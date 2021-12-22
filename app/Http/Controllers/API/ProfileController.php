@@ -16,7 +16,10 @@ class ProfileController extends Controller
     {
         $user_id = Auth::guard('sanctum')->id();
 
-        $move_in = MoveIn::where('user_id', $user_id)->get();
+        // $move_in = MoveIn::where('user_id', $user_id)->get();
+        $move_in = MoveIn::where('user_id', $user_id)->get([
+            'created_at','data' ,'start_time','end_time','full_name','mobile'
+        ]);
         return  response()->json(
             [
                 'status' => true,
@@ -32,7 +35,9 @@ class ProfileController extends Controller
     {
         $user_id = Auth::guard('sanctum')->id();
 
-        $move_out = MoveOut::where('user_id', $user_id)->get();
+        $move_out = MoveOut::where('user_id', $user_id)->get([
+            'created_at','data' ,'start_time','end_time','full_name','mobile' 
+        ]);
         return  response()->json(
             [
                 'status' => true,
@@ -49,7 +54,10 @@ class ProfileController extends Controller
     {
         $user_id = Auth::guard('sanctum')->id();
 
-        $delivery = DeliveryPermit::where('user_id', $user_id)->get();
+        $delivery = DeliveryPermit::where('user_id', $user_id)->get([
+            'created_at','delivery_company','date','resident_name','resident_mobile','resident_country'
+
+        ]);
         return  response()->json(
             [
                 'status' => true,
@@ -65,7 +73,9 @@ class ProfileController extends Controller
     {
         $user_id = Auth::guard('sanctum')->id();
 
-        $work_permit = WorkPermit::where('user_id', $user_id)->get();
+        $work_permit = WorkPermit::where('user_id', $user_id)->get([
+            'created_at','contractor_name', 'contractor_contact_name', 'number_of_staff', 'mobile', 'country','start_time','end_time'
+        ]);
         return  response()->json(
             [
                 'status' => true,
