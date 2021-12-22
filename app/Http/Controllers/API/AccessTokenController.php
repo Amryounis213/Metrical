@@ -414,13 +414,31 @@ class AccessTokenController extends Controller
         );
     }
 
-    public function terms()
+    public function terms(Request $request)
     {
+        $value = $request->header('lang');
+
+        if ($value == 'ar') {
+            return response()->json([
+                'status' => true,
+                'code' => 200,
+                'message' => 'terms message',
+                'user' => User::$term_ar
+            ]);
+        } if ($value == 'gr') {
+            return response()->json([
+                'status' => true,
+                'code' => 200,
+                'message' => 'terms message',
+                'user' => User::$term_en
+            ]);
+        }
+        
         return response()->json([
             'status' => true,
             'code' => 200,
             'message' => 'terms message',
-            'user' => User::$term
+            'user' => User::$term_en
         ]);
     }
 

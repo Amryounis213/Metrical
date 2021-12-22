@@ -67,7 +67,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class, 'interested_users');
     }
 
-    static $term = "Contrary to popular belief, Lorem Ipsum is
+    static $term_en = "Contrary to popular belief, Lorem Ipsum is
     not simply random text. It has roots in a
     piece of classical Latin literature from 45
     BC, making it over 2000 years old. Richard
@@ -98,6 +98,36 @@ class User extends Authenticatable
     BC, making it over 2000 years old. Richard
     McClintock, a Latin professor at Hampden";
 
+    static $term_ar ='خلافا للاعتقاد الشائع ، فإن Lorem Ipsum هو
+    ليس مجرد نص عشوائي. لها جذور في أ
+    قطعة من الأدب اللاتيني الكلاسيكي من 45
+    قبل الميلاد ، مما يجعلها أكثر من 2000 سنة. ريتشارد
+    بحث مكلينتوك ، أستاذ اللغة اللاتينية في كلية هامبدن سيدني في فيرجينيا ، عن أحد
+    الكلمات اللاتينية الأكثر غموضًا ، consectetur ،
+    من ممر لوريم إيبسوم ، وانطلق
+    من خلال الاستشهادات من الكلمة في الكلاسيكية
+    اكتشف الأدب الذي لا شك فيه
+    مصدر. لوريم إيبسوم يأتي من أقسام
+    1.10.32 و 1.10.33 من "de Finibus Bonorum
+    et Malorum "(أقصى الخير و
+    الشر) بواسطة شيشرون ، مكتوب عام 45 قبل الميلاد. هذا الكتاب
+    أطروحة في نظرية الأخلاق جدا
+    شعبية خلال عصر النهضة. الأول
+    سطر لوريم إيبسوم ، "Lorem ipsum dolor sit
+    amet .. "، يأتي من سطر في القسم 1.10.32.
+    الجزء القياسي المستخدم من لوريم إيبسوم
+    منذ 1500s مستنسخة أدناه ل
+    المهتمين. الأقسام 1.10.32 و
+    1.10.33 من “de Finibus Bonorum et
+    Malorum ”بواسطة Cicero مستنسخة أيضًا في
+    شكلها الأصلي بالضبط ، يرافقه
+    النسخ الإنجليزية من ترجمة عام 1914
+    بواسطة H. Rackham.
+    خلافا للاعتقاد الشائع ، فإن Lorem Ipsum هو
+    ليس مجرد نص عشوائي. لها جذور في أ
+    قطعة من الأدب اللاتيني الكلاسيكي من 45
+    قبل الميلاد ، مما يجعلها أكثر من 2000 سنة. ريتشارد
+    مكلينتوك ، أستاذ لاتيني في هامبدن';
 
 
 
