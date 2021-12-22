@@ -44,6 +44,9 @@ class Property extends Model
 
 
     ];
+    protected $appends =['image_path'];
+    protected $hidden = ['image_url'];
+
 
     protected $casts = ['amenities' => 'json', 'images' => 'json'];
     /**
@@ -100,7 +103,7 @@ class Property extends Model
             'name' => $this->$name,
             'description' => $this->$description,
             'area' => $this->area,
-            'main_image' => $this->image_url,
+            'main_image' => $this->image_path,
             'images' => $this->images,
             'reference' => $this->reference,
             'feminizations' => $this->feminizations,
@@ -119,13 +122,13 @@ class Property extends Model
                 'name' => $community->$name ?? '',
                 'status' => $community->status ? 'under constraction' : 'ready',
                 'properties_count' => $community->properties->count() ?? 'null',
-                'image' => $community->image,
+                'image' => $community->image_path,
             ],
             'owner' => $this->owner_id ?
                 [
                     'name' => $owner->full_name ?? 0,
                     'mobile' => $owner->mobile,
-                    'image' => User::find($owner->user_id)->image_url,
+                    'image' => User::find($owner->user_id)->image_path,
 
 
                 ] : null,
@@ -137,4 +140,16 @@ class Property extends Model
             })->where('status', 0)->get(),
         ];
     }
+
+    public function getImagePathAttribute($value)
+    {
+        if(!$this->image_url){
+            return asset('uploads/palceholder.jpg');
+        }
+        if(stripos($this->image_url , 'http') ===  0){
+            return $this->image_url;
+        }
+        return asset('uploads/' . $this->image);
+    }
+    
 }

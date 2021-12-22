@@ -15,9 +15,12 @@ class servicesController extends Controller
 
     public function moveIn(Request $request)
     {
+        $user_id = Auth::guard('sanctum')->id();
+        $request->merge([
+            'user_id' => $user_id
+        ]);
 
         $request->validate([
-            'user_id' => 'required|exists:users,id',
             'property_id' => 'required|exists:properties,id'
         ]);
         $moveIn = MoveIn::create($request->all());
@@ -40,10 +43,14 @@ class servicesController extends Controller
 
 
     public function moveOut(Request $request)
-    {
-
+    {   
+        $user_id = Auth::guard('sanctum')->id();
+        $request->merge([
+            'user_id' => $user_id
+        ]);
+        
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            // 'user_id' => 'required|exists:users,id',
             'property_id' => 'required|exists:properties,id'
         ]);
         $moveOut = MoveOut::create($request->all());
@@ -67,9 +74,13 @@ class servicesController extends Controller
 
     public function workPermit(Request $request)
     {
-
+        $user_id = Auth::guard('sanctum')->id();
+        $request->merge([
+            'user_id' => $user_id
+        ]);
+        
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            // 'user_id' => 'required|exists:users,id',
             'property_id' => 'required|exists:properties,id'
         ]);
         $WorkPermit = WorkPermit::create($request->all());
@@ -92,9 +103,13 @@ class servicesController extends Controller
 
     public function deliveryPermit(Request $request)
     {
-
+        $user_id = Auth::guard('sanctum')->id();
+        $request->merge([
+            'user_id' => $user_id
+        ]);
+        
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            // 'user_id' => 'required|exists:users,id',
             'property_id' => 'required|exists:properties,id'
         ]);
         $DeliveryPermit = DeliveryPermit::create($request->all());

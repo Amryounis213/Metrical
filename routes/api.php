@@ -8,7 +8,7 @@ use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\NewsController;
 use App\Http\Controllers\API\OfferController;
-use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\PropertyController;
 use App\Http\Controllers\API\RentController;
 use App\Http\Controllers\API\servicesController;
