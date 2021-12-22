@@ -170,6 +170,7 @@ class AccessTokenController extends Controller
             'status' => true,
             'code' => 200,
             'message' => 'Login success',
+            'token' => $token->plainTextToken,
             'user' => $user,
         ]);
     }
@@ -227,7 +228,7 @@ class AccessTokenController extends Controller
             'status' => true,
             'code' => 200,
             'message' => 'The user is logout',
-            'data' => null
+            'user' => null
         ], 200);
     }
 
@@ -255,7 +256,7 @@ class AccessTokenController extends Controller
                 'status' => true,
                 'code' => 200,
                 'message' => 'user exisit',
-                'data' => $user
+                'user' => $user
             ],
             200
         );
@@ -279,7 +280,7 @@ class AccessTokenController extends Controller
                 'status' => true,
                 'code' => 200,
                 'message' => 'password was updated',
-                'data' => $user
+                'user' => $user
             ],
             200
         );
@@ -334,14 +335,14 @@ class AccessTokenController extends Controller
             'type' => '2',
         ]);
 
-        Tenant::create($request->all());
+        $tenants = Tenant::create($request->all());
 
         return  response()->json(
             [
                 'status' => true,
                 'code' => 200,
-                'message' => 'Your request has been sentWe will contact you shortly Successfully',
-                'data' => ''
+                'message' => 'Your request has been sent We will contact you shortly Successfully',
+                'data' => $tenants,
             ],
             200
         );
@@ -399,7 +400,7 @@ class AccessTokenController extends Controller
         ]);
 
 
-        Owner::create($request->all());
+        $owner = Owner::create($request->all());
 
 
         return  response()->json(
@@ -407,7 +408,7 @@ class AccessTokenController extends Controller
                 'status' => true,
                 'code' => 200,
                 'message' => 'your request as Owner is submitted',
-                'data' => ''
+                'data' => $owner
             ],
             200
         );
@@ -419,7 +420,7 @@ class AccessTokenController extends Controller
             'status' => true,
             'code' => 200,
             'message' => 'terms message',
-            'data' => User::$term
+            'user' => User::$term
         ]);
     }
 
@@ -455,7 +456,7 @@ class AccessTokenController extends Controller
             'status' => true,
             'code' => 201,
             'message' => 'password was updated',
-            'date' => ''
+            'user' => ''
         ], 201);
     }
 }
