@@ -110,4 +110,15 @@ class OfferController extends Controller
         );
         return redirect()->back();
     }
+
+    public function type($type)
+    {
+        $title = 'Offers';
+        $offers = Offer::where('type', $type)->get();
+
+        return view('admin.offers.index', [
+            'offers' => $offers,
+            'title' => $title,
+        ]);
+    }
 }
