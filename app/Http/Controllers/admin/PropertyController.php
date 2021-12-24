@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Amenity;
 use App\Models\Property;
+use App\Models\Tenant;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -27,17 +28,13 @@ class PropertyController extends Controller
         }])->get();
 
         $percentage = Property::Percentage() ?? 0;
+        $tenants = Tenant::get();
 
-        //dd($properties[0]->rent()->get());
-        // $startTime = strtotime($properties[0]->rent[0]->from);
-        // $finisTime = strtotime($properties[0]->rent[0]->to);
-        // dd(($finisTime - $startTime) / 86400);
-        // dd($properties[0]->rent[0]->from);
         return view('admin.properties.index', [
             'properties' => $properties,
             'percentage' => $percentage,
             'properties_count' => Property::count(),
-
+            'tenants' => $tenants
         ]);
     }
 

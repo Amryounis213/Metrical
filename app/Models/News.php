@@ -17,6 +17,13 @@ class News extends Model
         'description_gr',
         'image_url', 'images', 'community_id'
     ];
+
+    protected $appends = ['image_path'];
+    protected $hidden = ['image_url'];
+
+    protected $casts = [
+        'images' => 'array',
+    ];
     public function community()
     {
         return $this->belongsTo(Community::class, 'community_id', 'id');
@@ -33,13 +40,19 @@ class News extends Model
             'id' => $this->id,
             'title' => $this->$title,
             'description' => $this->$description,
-            'main_image' => $this->image_url,
+            'main_image' => $this->image_path,
             'images' => $this->images,
             'community_id' => $this->community_id,
         ];
     }
-
-    protected $casts = [
-        'images' => 'array',
-    ];
+    public function getImagePathAttribute($value)
+    {
+        if (!$this->image_url) {
+            return asset('uploads/palceholder.jpg');
+        }
+        if (stripos($this->image_url, 'http') ===  0) {
+            return $this->image_url;
+        }
+        return asset('uploads/' . $this->image_url);
+    }
 }

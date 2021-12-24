@@ -39,12 +39,12 @@ class Property extends Model
         'community_id',
         'owner_id',
         'amenities',
-
+        'ownership_date',
 
 
 
     ];
-    protected $appends =['image_path'];
+    protected $appends = ['image_path'];
     protected $hidden = ['image_url'];
 
 
@@ -104,7 +104,7 @@ class Property extends Model
             'description' => $this->$description,
             'area' => $this->area,
             'main_image' => $this->image_path,
-            'images' => $this->images,
+            'images' => $this->images ?? [],
             'reference' => $this->reference,
             'feminizations' => $this->feminizations,
             'type' => $this->type,
@@ -132,7 +132,7 @@ class Property extends Model
 
 
                 ] : null,
-            'city' => $this->city ?? null,
+            'ownership_date' => $this->ownership_date,
             'rent_now' => $rentNow,
             'current_rent' => $rentNow ? Rent::where('property_id', $this->id)->where('status', 'active')->first(['from', 'to']) : null,
             'offer' => Offer::whereHas('property', function ($query) {
@@ -143,13 +143,12 @@ class Property extends Model
 
     public function getImagePathAttribute($value)
     {
-        if(!$this->image_url){
+        if (!$this->image_url) {
             return asset('uploads/palceholder.jpg');
         }
-        if(stripos($this->image_url , 'http') ===  0){
+        if (stripos($this->image_url, 'http') ===  0) {
             return $this->image_url;
         }
-        return asset('uploads/' . $this->image);
+        return asset('uploads/' . $this->image_url);
     }
-    
 }

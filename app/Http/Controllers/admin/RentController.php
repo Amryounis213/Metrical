@@ -17,11 +17,15 @@ class RentController extends Controller
 
 
 
+        if (!Rent::where('property_id', $request->property_id)->where('status', 'active')->exists()) {
+            $request->merge([
+                'from' => Carbon::parse($request->from)->format('Y-m-d H:m'),
+                'to' => Carbon::parse($request->to)->format('Y-m-d H:m'),
+            ]);
+        } else {
+            return 'Properties Have Rent';
+        }
 
-        $request->merge([
-            'from' => Carbon::parse($request->from)->format('Y-m-d H:m'),
-            'to' => Carbon::parse($request->to)->format('Y-m-d H:m'),
-        ]);
 
         $isRented = Rent::create($request->all());
         if ($isRented) {

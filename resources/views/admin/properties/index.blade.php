@@ -15,6 +15,7 @@
                     <!--begin::Search Form-->
                     <div class="d-flex align-items-center" id="kt_subheader_search">
                         <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{$properties_count}} Total</span>
+
                         <form class="ml-5">
                             <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                                 <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." />
@@ -36,6 +37,8 @@
                                 </div>
                             </div>
                         </form>
+
+                       
                     </div>
                     <!--end::Search Form-->
                     <!--begin::Group Actions-->
@@ -85,6 +88,15 @@
                     </div>
                     <!--end::Group Actions-->
                 </div>
+                <div class="flex-row-fluid">
+                    <div class="d-flex align-items-center pt-2">
+                        <span class="ml-3 mr-3 font-weight-bolder">Rental Properties</span>
+                        <div class="progress progress-xs mt-2 mb-2 w-50">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{$percentage . '%'}};" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <span class="ml-3 font-weight-bolder">% {{$percentage}}</span>
+                    </div>
+                </div>
                 <!--end::Details-->
                 <!--begin::Toolbar-->
                 <div class="d-flex align-items-center">
@@ -97,6 +109,8 @@
                   
                 </div>
                 <!--end::Toolbar-->
+
+                
             </div>
         </div>
         <!--end::Subheader-->
@@ -178,20 +192,13 @@
                                         <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">{{$rent->to ?? ''}}</span>
                                     </div>
                                     <div class="mr-12 d-flex flex-column mb-7">
-                                        <span class="d-block font-weight-bold mb-4">Remain Time</span>
+                                        <span class="d-block font-weight-bold mb-4">Rental Period</span>
                                         <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">{{ \Carbon\Carbon::parse($rent->to)->diffForHumans(\Carbon\Carbon::parse($rent->from)) }}</span>
                                     </div>
-                                    <!--begin::Progress-->
-                                    <div class="flex-row-fluid mb-7">
-                                        <span class="d-block font-weight-bold mb-4">Rent Complete</span>
-                                        <div class="d-flex align-items-center pt-2">
-                                            <div class="progress progress-xs mt-2 mb-2 w-100">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{$percentage . '%'}};" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <span class="ml-3 font-weight-bolder">{{----}}</span>
-                                        </div>
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="d-block font-weight-bold mb-4">Rent Price </span>
+                                        <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">{{$rent->price ?? ''}}</span>
                                     </div>
-                                    <!--end::Progress-->
                                 </div> 
                                 @empty
                                 <div class="d-flex flex-wrap mt-14">
@@ -207,6 +214,8 @@
                                 @endforelse
                                 
                                 <!--end::Content-->
+
+                               
                                 <!--begin::Text-->
                                 <p class="mb-7 mt-3">{{$property->description_en}}</p>
                                 <!--end::Text-->
@@ -297,7 +306,7 @@
                                 </div>
                                 <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">details</button>
                                 <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Add Owner</button>
-                                <button data-toggle="modal" data-target="#exampleModal" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Make Rent</button>
+                                <button data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Make Rent</button>
 
                             </div>
                             <!--end::Footer-->
@@ -307,7 +316,9 @@
                       
                     </div>
 
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <!-- Modal-->
+                     <!-----Model For Rent--->
+                     <div class="modal fade" id="exampleModal{{$property->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -318,7 +329,6 @@
                                 </div>
                                 <form action="{{route('renting.store')}}" method="POST">
                                 <div class="modal-body">
-                                    
                                         @csrf
                                     <div class="form-group row">
                                         <label class="col-form-label text-right col-lg-3 col-sm-12">Start Time</label>
@@ -356,14 +366,16 @@
                                         <input name="price" type="number" class="form-control"  placeholder="Ex : 500"/>
                                         </div>
                                     </div>
-                                    <input hidden name="property_id" type="number" class="form-control"  value="{{$property->id}}" />
+                                    <input hidden  name="property_id" type="number" class="form-control"  value="{{$property->id}}" />
                     
                                     <div class="form-group row">
                                         <label class="col-form-label text-right col-lg-3 col-sm-12">Tenant</label>
                                         <div class="col-lg-6 col-md-9 col-sm-12">
                                             <select name="tenant_id" class="form-control" id="exampleSelectd">
                                                 <option data-dismiss>--Select Name</option>
-                                                <option value="1"> Amr Yon</option>
+                                                @foreach ($tenants as $tenant)
+                                                <option value="{{$tenant->id}}" >{{$tenant->full_name}}</option>
+                                                @endforeach
                                         </select>                    
                                     
                                         </div>
@@ -384,10 +396,13 @@
                             </div>
                         </div>
                     </div>
+
+
+                    <!----- End Model For Rent --->
                     @endforeach
 
-                    <!-- Modal-->
-
+                  
+                   
                 </div>
                 <!--end::Row-->
                 
