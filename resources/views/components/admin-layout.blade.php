@@ -23,6 +23,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="canonical" href="https://keenthemes.com/metronic" />
     <!--begin::Fonts-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
     <!--begin::Page Vendors Styles(used by this page)-->
@@ -3475,7 +3476,6 @@ License: You must have a valid license purchased only from themeforest(the above
     <script src="{{ asset('admin/assets/js/file-upload/dropzonejs.js') }}"></script>
     <script src="{{ asset('admin/assets/js/file-upload/uppy.js') }}"></script>
     <script src="{{ asset('admin/assets/js/pages/crud/forms/widgets/bootstrap-datetimepicker.js')}}"></script>
-
     @if (Route::has('offers.index'))
        <!--begin::Page Scripts(used by this page)-->
 		<script src="{{asset('admin/assets/js/pages/crud/ktdatatable/base/html-table.js')}}"></script>

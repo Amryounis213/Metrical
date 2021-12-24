@@ -6,10 +6,12 @@ use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\admin\RentController;
+use App\Http\Controllers\admin\StopOffers;
 use App\Http\Controllers\API\CommunityController;
 use App\Http\Controllers\EventsController;
 use App\Models\Event;
 use App\Models\Rent;
+use App\Models\Stopoffer;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Notifications\SendReminderForEventNotification;
@@ -54,11 +56,12 @@ Route::get('admin-panel', function () {
 
 Route::prefix('admin')->group(function () {
     Route::resource('communities', CommunitiesController::class);
+    Route::post('add-owner' ,[PropertyController::class, 'addOwner'])->name('properties.addOwner');
     Route::resource('properties', PropertyController::class);
     Route::resource('offers', OfferController::class);
     Route::resource('events', EventsController::class);
     Route::resource('news', NewsController::class);
-
+    Route::get('stop-offer', [StopOffers::class , 'index'])->name('offers.index');
     Route::get('binding-users', [UsersController::class, 'index'])->name('binding.users');
     Route::get('tenants-users', [UsersController::class, 'tenants'])->name('tenants.users');
     Route::get('owners-users', [UsersController::class, 'owners'])->name('owners.users');
