@@ -75,6 +75,16 @@ class Property extends Model
         return $this->belongsTo(Owner::class, 'owner_id', 'id');
     }
 
+    public function enquires()
+    {
+        return $this->hasMany(Enquiry::class, 'property_id', 'id');
+    }
+
+
+    public function contact()
+    {
+        return $this->hasMany(ContactWithAdmin::class, 'property_id', 'id');
+    }
     /**
      * 
      * 

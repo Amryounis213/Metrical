@@ -16,4 +16,9 @@ class ContactWithAdmin extends Model
         'message',
         'phone_number'
     ];
+
+    public function property()
+    {
+        return $this->belongsto(Property::class, 'property_id', 'id');
+    }
 }

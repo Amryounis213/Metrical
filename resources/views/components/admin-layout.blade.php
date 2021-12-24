@@ -294,7 +294,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                         </a>
                                                     </li>
                                                     <li class="menu-item" aria-haspopup="true">
-                                                        <a href="custom/apps/support-center/license.html"
+                                                        <a href="{{route('offer-type' , 'sale')}}"
                                                             class="menu-link">
                                                             <i class="menu-bullet menu-bullet-dot">
                                                                 <span></span>
@@ -304,7 +304,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     </li>
 
                                                     <li class="menu-item" aria-haspopup="true">
-                                                        <a href="custom/apps/support-center/license.html"
+                                                        <a href="{{route('offer-type' , 'rent')}}"
                                                             class="menu-link">
                                                             <i class="menu-bullet menu-bullet-dot">
                                                                 <span></span>
@@ -314,7 +314,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     </li>
                                                     
                                                     <li class="menu-item" aria-haspopup="true">
-                                                        <a href="custom/apps/support-center/license.html"
+                                                        <a href="{{route('offer-type' , 'stop')}}"
                                                             class="menu-link">
                                                             <i class="menu-bullet menu-bullet-dot">
                                                                 <span></span>
@@ -323,15 +323,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                         </a>
                                                     </li>
 
-                                                    <li class="menu-item" aria-haspopup="true">
-                                                        <a href="custom/apps/support-center/license.html"
-                                                            class="menu-link">
-                                                            <i class="menu-bullet menu-bullet-dot">
-                                                                <span></span>
-                                                            </i>
-                                                            <span class="menu-text">Accept Offers</span>
-                                                        </a>
-                                                    </li>
+                                                   
 
 
                                                 </ul>

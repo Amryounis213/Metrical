@@ -78,6 +78,15 @@ class PropertyController extends Controller
             $input['image_url'] = $image_path;
         }
 
+
+        if ($request->hasfile('images')) {
+            foreach ($request->file('images') as $image) {
+                $name = $image->store('uploads', 'public');
+                $data[] = $name;
+            }
+            $input['images'] = $data;
+        }
+
         $isSaved = Property::create($input);
         if ($isSaved) {
             return redirect()->route('properties.index');
@@ -128,6 +137,14 @@ class PropertyController extends Controller
                 'disk' => 'upload',
             ]);
             $input['image_url'] = $image_path;
+        }
+
+        if ($request->hasfile('images')) {
+            foreach ($request->file('images') as $image) {
+                $name = $image->store('uploads', 'public');
+                $data[] = $name;
+            }
+            $input['images'] = $data;
         }
         $isUpdated = $property->update($input);
         if ($isUpdated) {
