@@ -8,9 +8,26 @@ use Illuminate\Http\Request;
 
 class servicesController extends Controller
 {
-    public function index()
+    public function moveIns()
     {
-        $moveIn = MoveIn::get(['id', 'full_name', 'email']);
-        return view('admin.services.movein.index' , ['moveIn' =>$moveIn]);
+        $moveIn = MoveIn::get();
+
+        return view('admin.services.movein.index', ['moveIn' => $moveIn]);
+    }
+    public function acceptMovein($id)
+    {
+        $service = MoveIn::findOrFail($id);
+        $service->update([
+            'agree' => true
+        ]);
+        return redirect()->route('moveins');
+    }
+    public function refuseMovein($id)
+    {
+        $service = MoveIn::findOrFail($id);
+        $service->update([
+            'agree' => false
+        ]);
+        return redirect()->route('moveins');
     }
 }

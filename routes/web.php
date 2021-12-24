@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\admin\RentController;
+use App\Http\Controllers\Admin\servicesController;
 use App\Http\Controllers\API\CommunityController;
 use App\Http\Controllers\EventsController;
 use App\Models\Event;
@@ -29,20 +30,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $events =  Rent::with('tenet')->whereDate('to', Carbon::now()->addDays(7))->get();
-        // return $events[0]->tenet;x
-        foreach($events as $event){
-            // return $event->property->name_en;
-            // $user =  $event->tenet;
-            // // return $event[0];
-            // $user->notify(new SendReminderForEventNotification($eventx));
-            // foreach($event->tenet as $user){
-            //     // $user = User::find($user);
-            //     return $user;
-            //     // return $user;
-            // //    return $event->property->name_en;
-            // }
-            
-        }
+    // return $events[0]->tenet;x
+    foreach ($events as $event) {
+        // return $event->property->name_en;
+        // $user =  $event->tenet;
+        // // return $event[0];
+        // $user->notify(new SendReminderForEventNotification($eventx));
+        // foreach($event->tenet as $user){
+        //     // $user = User::find($user);
+        //     return $user;
+        //     // return $user;
+        // //    return $event->property->name_en;
+        // }
+
+    }
     return view('welcome');
 });
 
@@ -53,7 +54,14 @@ Route::get('admin-panel', function () {
 
 
 Route::prefix('admin')->group(function () {
+
+    Route::get('moveins', [servicesController::class, 'moveIns'])->name('moveins');
+    Route::put('accept-movein/{id}', [servicesController::class, 'acceptMovein'])->name('accept-movein');
+    Route::put('refuse-movein/{id}', [servicesController::class, 'refuseMovein'])->name('refuse-movein');
+
     Route::resource('communities', CommunitiesController::class);
+    Route::get('communities/results', [CommunitiesController::class, 'result'])->name('communities.results');
+
     Route::resource('properties', PropertyController::class);
     Route::resource('offers', OfferController::class);
     Route::resource('events', EventsController::class);

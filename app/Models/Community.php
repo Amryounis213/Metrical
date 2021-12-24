@@ -5,12 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Community extends Model
 {
     use HasFactory;
     protected $fillable = ['name_ar', 'name_en', 'name_gr', 'area', 'location_longitude', 'location_latitude', 'image', 'status', 'readness_percentage'];
-    
-    protected $appends =['image_path'];
+
+    protected $appends = ['image_path'];
     protected $hidden = ['image'];
 
     public function properties()
@@ -67,13 +68,13 @@ class Community extends Model
 
         ];
     }
-    
+
     public function getImagePathAttribute($value)
     {
-        if(!$this->image){
+        if (!$this->image) {
             return asset('uploads/palceholder.jpg');
         }
-        if(stripos($this->image , 'http') ===  0){
+        if (stripos($this->image, 'http') ===  0) {
             return $this->image;
         }
         return asset('uploads/' . $this->image);

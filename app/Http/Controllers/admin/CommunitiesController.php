@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class CommunitiesController extends Controller
 {
+    public function result()
+    {
+    }
     public function index()
     {
         $communities = Community::get();
@@ -42,8 +45,8 @@ class CommunitiesController extends Controller
 
     public function show($id)
     {
-        $response = Http::get('http://www.geoplugin.net/extras/forward_place.gp?place=Sohag&country=EG');
-        return unserialize($response)[0];
+        // $response = Http::get('http://www.geoplugin.net/extras/forward_place.gp?place=Sohag&country=EG');
+        // return unserialize($response)[0];
     }
     public function edit($id)
     {
