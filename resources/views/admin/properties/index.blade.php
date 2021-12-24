@@ -246,7 +246,14 @@
                                         <div class="symbol-group symbol-hover">
                                             @if ($property->owner != null)
                                             <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="{{$property->owner->full_name ?? ''}}">
-                                                <img alt="Pic" src="{{asset('admin/assets/media/users/300_25.jpg')}}" />
+                                                
+                                                <img style="
+                                                display: inline-block;
+                                                width: 100%;
+                                                max-width: 30px;
+                                                height: 30px;"
+                                                 alt="Pic" src="{{asset($property->owner->user->image_path)}}" />
+                                                {{-- {{$property->owner->full_name ?? ''}} --}}
                                             </div>
                                             @else
                                             <div class="symbol symbol-30 symbol-circle">
@@ -304,8 +311,8 @@
                                     </div>
                                    
                                 </div>
-                                <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">details</button>
-                                <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Add Owner</button>
+                                {{-- <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">details</button> --}}
+                                <button data-toggle="modal" data-target="#owner-{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Add Owner</button>
                                 <button data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Make Rent</button>
 
                             </div>
@@ -396,6 +403,66 @@
                             </div>
                         </div>
                     </div>
+                    
+
+                    <!----- End Model For Rent --->
+                      <!-- Modal-->
+                     <!-----Model For Owner--->
+                     <div class="modal fade" id="owner-{{$property->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Make A New Rent</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <i aria-hidden="true" class="ki ki-close"></i>
+                                    </button>
+                                </div>
+                                <form action="{{route('properties.addOwner')}}" method="POST">
+                                <div class="modal-body">
+                                        @csrf
+                                    
+                                    <input hidden  name="property_id" type="number" class="form-control"  value="{{$property->id}}" />
+                    
+                                    <div class="form-group row">
+                                        {{-- <label class="col-form-label text-right col-lg-3 col-sm-12">owner</label>
+                                        <div class="col-lg-6 col-md-9 col-sm-12">
+                                            <select name="owner_id" class="form-control" id="exampleSelectd">
+                                                <option data-dismiss>--Select Name of owner</option>
+                                                @foreach ($owners as $owner)
+                                                <option value="{{$owner->id}}" >{{$owner->full_name}}</option>
+                                                @endforeach
+                                        </select>                    
+                                    
+                                        </div> --}}
+                                        <div class="form-group row" data-select2-id="127">
+                                            <label class="col-form-label text-right col-lg-3 col-sm-12">Owner Name</label>
+                                            <div class="col-lg-4 col-md-9 col-sm-12" data-select2-id="126">
+                                                <select class="form-control select2-hidden-accessible" id="kt_select2_1" name="param" data-select2-id="kt_select2_1" tabindex="-1" aria-hidden="true">
+                                                    <option  name="owner_id" data-dismiss>--Select Name of owner</option>
+                                                    @foreach ($owners as $owner)
+                                                    <option value="{{$owner->id}}" >{{$owner->full_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span class="select2 select2-container select2-container--default select2-container--below select2-container--open" dir="ltr" data-select2-id="1" style="width: 308.5px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="true" tabindex="0" aria-disabled="false" aria-labelledby="select2-kt_select2_1-container" aria-owns="select2-kt_select2_1-results" aria-activedescendant="select2-kt_select2_1-result-r1yl-NV"><span class="select2-selection__rendered" id="select2-kt_select2_1-container" role="textbox" aria-readonly="true" title="Alaska">Select Owne For Properity</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                       
+                                       
+                                </div>
+                    
+                    
+                    
+                    
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary font-weight-bold">Create</button>
+                                </div>
+                            </form>
+
+                            </div>
+                        </div>
+                    </div>
 
 
                     <!----- End Model For Rent --->
@@ -446,6 +513,7 @@
             <!--end::Container-->
         </div>
         <!--end::Entry-->
+        
     </div>
-
+<x-form-script />
 </x-admin-layout>

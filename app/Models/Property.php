@@ -154,7 +154,7 @@ class Property extends Model
     public function getImagePathAttribute($value)
     {
         if (!$this->image_url) {
-            return asset('uploads/palceholder.jpg');
+            return asset('admin/assets/media/users/300_25.jpg');
         }
         if (stripos($this->image_url, 'http') ===  0) {
             return $this->image_url;

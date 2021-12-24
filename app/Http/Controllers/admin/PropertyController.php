@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Amenity;
+use App\Models\Owner;
 use App\Models\Property;
 use App\Models\Tenant;
 use Carbon\Carbon;
@@ -29,15 +30,27 @@ class PropertyController extends Controller
 
         $percentage = Property::Percentage() ?? 0;
         $tenants = Tenant::get();
-
+        $owners = Owner::get();
+        // return $owners[0]->user;
         return view('admin.properties.index', [
             'properties' => $properties,
             'percentage' => $percentage,
             'properties_count' => Property::count(),
-            'tenants' => $tenants
+            'tenants' => $tenants,
+            'owners' => $owners
         ]);
     }
+    // add Owner Mohammed
 
+    public function addOwner(Request $request)
+    {
+        // return $request;
+        $properties = Property::findORFail($request->property_id);
+        // return $properties;
+        $properties->update(['owner_id' => $request->owner_id]);
+        
+        return back();
+    }
     /**
      * Show the form for creating a new resource.
      *
