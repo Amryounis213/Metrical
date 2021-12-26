@@ -59,6 +59,7 @@
                                             </form>
                                         </div>
                                         <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
+                                            {{ $communities->count() }} elements of communities
                                         </div>
                                     </div>
                                 </div>

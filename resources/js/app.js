@@ -1,7 +1,7 @@
 require('./bootstrap');
 
+import Alpine from 'alpinejs';
 
-Window.Echo.private('send_message')
-    .listen('.sendMessage', function(event){
-            // your code saad please
-    });
+window.Alpine = Alpine;
+
+Alpine.start();
