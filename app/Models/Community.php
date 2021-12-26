@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-
-class Community extends Model
+class Community extends Model implements Searchable
 {
     use HasFactory;
     protected $fillable = ['name_ar', 'name_en', 'name_gr', 'area', 'location_longitude', 'location_latitude', 'image', 'status', 'readness_percentage'];
@@ -14,6 +15,18 @@ class Community extends Model
     protected $appends = ['image_path'];
     protected $hidden = ['image'];
 
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('communities.show', $this->id);
+
+        return new \Spatie\Searchable\SearchResult(
+            $this,
+            $this->name_en,
+            $this->name_ar,
+            $this->id
+        );
+    }
     public function properties()
     {
         return $this->hasMany(Property::class, 'community_id', 'id');

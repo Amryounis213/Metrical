@@ -40,43 +40,26 @@
                             <div class="card-body py-0">
                                 <!--begin::Search Form-->
                                 <div class="mb-7">
-                                    <div class="row align-items-center">
+                                    <div class="row align-items-start">
                                         <div class="col-lg-9 col-xl-8">
-                                            <div class="row align-items-center">
+                                            <form action="{{ route('communities.results') }}" method="GET"
+                                                class="row align-items-start">
                                                 <div class="col-md-4 my-2 my-md-0">
                                                     <div class="input-icon">
-                                                        <input type="text" class="form-control" placeholder="Search..."
-                                                            id="kt_datatable_search_query" />
+                                                        <input name='name' type="text" class="form-control"
+                                                            placeholder="Search..." id="kt_datatable_search_query" />
                                                         <span>
                                                             <i class="flaticon2-search-1 text-muted"></i>
                                                         </span>
                                                     </div>
+
                                                 </div>
-                                                <div class="col-md-4 my-2 my-md-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-                                                        <select class="form-control" id="kt_datatable_search_status">
-                                                            <option value="">All</option>
-                                                            <option value="1">Active</option>
-                                                            <option value="2">Draft</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 my-2 my-md-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-                                                        <select class="form-control" id="kt_datatable_search_type">
-                                                            <option value="">All</option>
-                                                            <option value="1">Online</option>
-                                                            <option value="2">Retail</option>
-                                                            <option value="3">Direct</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                <button type="submit"
+                                                    class="btn btn-light-primary px-6 font-weight-bold">Search</button>
+                                            </form>
                                         </div>
                                         <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                            <a href="#" class="btn btn-light-primary px-6 font-weight-bold">Search</a>
+
                                         </div>
                                     </div>
                                 </div>
@@ -103,8 +86,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($results as $community)
-                                            <tr>
+                                            @foreach ($communities as $community)
+                                            <str>
                                                 <td class="pl-0 py-6">
                                                     <label class="checkbox checkbox-lg checkbox-inline">
                                                         <input type="checkbox" value="1" />
@@ -224,8 +207,8 @@
                                                     </a>
 
                                                 </td>
-                                            </tr>
-                                            @endforeach
+                                                </tr>
+                                                @endforeach
 
 
                                         </tbody>

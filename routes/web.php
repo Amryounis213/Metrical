@@ -62,8 +62,8 @@ Route::prefix('admin')->group(function () {
     Route::put('accept-movein/{id}', [servicesController::class, 'acceptMovein'])->name('accept-movein');
     Route::put('refuse-movein/{id}', [servicesController::class, 'refuseMovein'])->name('refuse-movein');
 
-    Route::resource('communities', CommunitiesController::class);
     Route::get('communities/results', [CommunitiesController::class, 'result'])->name('communities.results');
+    Route::resource('communities', CommunitiesController::class);
 
     Route::post('add-owner', [PropertyController::class, 'addOwner'])->name('properties.addOwner');
     Route::resource('properties', PropertyController::class);
