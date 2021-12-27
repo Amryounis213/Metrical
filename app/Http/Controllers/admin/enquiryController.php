@@ -8,7 +8,16 @@ use Illuminate\Http\Request;
 
 class enquiryController extends Controller
 {
+    public function result(Request $request)
+    {
 
+        $enquiries = Enquiry::where('full_name', 'LIKE', '%' . $request->name . '%')->paginate(10);
+
+        return view('admin.enquires.result', [
+            'enquiries' => $enquiries,
+            'title' => 'Show All Enquiries'
+        ]);
+    }
 
     public function index()
     {

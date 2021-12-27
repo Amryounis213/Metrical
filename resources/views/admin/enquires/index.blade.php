@@ -78,7 +78,8 @@
                                 </h3>
                                 <div class="card-toolbar">
                                     <!--begin::Button-->
-                                    <a href="{{--route('enquiry.create')--}}" class="btn btn-primary font-weight-bolder">
+                                    <a href="{{--route('enquiry.create')--}}"
+                                        class="btn btn-primary font-weight-bolder">
                                         <span class="svg-icon svg-icon-md">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
@@ -104,41 +105,24 @@
                                 <div class="mb-7">
                                     <div class="row align-items-center">
                                         <div class="col-lg-9 col-xl-8">
-                                            <div class="row align-items-center">
+                                            <form action="{{ route('enquires.results') }}" method="GET"
+                                                class="row align-items-start">
                                                 <div class="col-md-4 my-2 my-md-0">
                                                     <div class="input-icon">
-                                                        <input type="text" class="form-control" placeholder="Search..."
-                                                            id="kt_datatable_search_query" />
+                                                        <input name='name' type="text" class="form-control"
+                                                            placeholder="Search..." id="kt_datatable_search_query" />
                                                         <span>
                                                             <i class="flaticon2-search-1 text-muted"></i>
                                                         </span>
                                                     </div>
+
                                                 </div>
-                                                <div class="col-md-4 my-2 my-md-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-                                                        <select class="form-control" id="kt_datatable_search_status">
-                                                            <option value="">All</option>
-                                                            <option value="1">Active</option>
-                                                            <option value="2">Draft</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 my-2 my-md-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-                                                        <select class="form-control" id="kt_datatable_search_type">
-                                                            <option value="">All</option>
-                                                            <option value="1">Online</option>
-                                                            <option value="2">Retail</option>
-                                                            <option value="3">Direct</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                <button type="submit"
+                                                    class="btn btn-light-primary px-6 font-weight-bold">Search</button>
+                                            </form>
                                         </div>
                                         <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                            <a href="#" class="btn btn-light-primary px-6 font-weight-bold">Search</a>
+                                            {{ $enquiry->count() }} elements of enquiries
                                         </div>
                                     </div>
                                 </div>
@@ -176,14 +160,6 @@
                                                         class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$enquiry->id}}</a>
                                                 </td>
                                                 <td>
-                                                    <span style="border-radius: 3px;"
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg"><img
-                                                            style="width: 80px; height:60px; overflow:hidden;"
-                                                            src="{{ asset('uploads/' . $enquiry->image_url)}}"
-                                                            alt=""></span>
-
-                                                </td>
-                                                <td>
                                                     <span
                                                         class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$enquiry->full_name}}</span>
 
@@ -193,7 +169,12 @@
                                                         class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$enquiry->email}}</span>
 
                                                 </td>
-                                               
+                                                <td>
+                                                    <span
+                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$enquiry->subject}}</span>
+
+                                                </td>
+
                                                 <td>
                                                     <span class="label label-lg label-light-success label-inline">
                                                         {{ $enquiry->property->name_en  ?? ''}}</span>
@@ -220,7 +201,7 @@
                                                             <!--end::Svg Icon-->
                                                         </span>
                                                     </a>
-                                                   
+
                                                     <a class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
                                                         <form action="{{-- route('enquiry.destroy', $enquiry->id) --}}"
                                                             method="POST">
@@ -292,7 +273,7 @@
                     </div>
                 </div>
             </div>
-           
+
         </div>
     </div>
 </x-admin-layout>

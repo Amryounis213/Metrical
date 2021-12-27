@@ -81,14 +81,11 @@
                                     <a href="{{--route('contacts.create')--}}" class="btn btn-primary font-weight-bolder">
                                         <span class="svg-icon svg-icon-md">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
-                                                viewBox="0 0 24 24" version="1.1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                     <rect x="0" y="0" width="24" height="24" />
                                                     <circle fill="#000000" cx="9" cy="15" r="6" />
-                                                    <path
-                                                        d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z"
-                                                        fill="#000000" opacity="0.3" />
+                                                    <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
                                                 </g>
                                             </svg>
                                             <!--end::Svg Icon-->
@@ -104,48 +101,27 @@
                                 <div class="mb-7">
                                     <div class="row align-items-center">
                                         <div class="col-lg-9 col-xl-8">
-                                            <div class="row align-items-center">
+                                            <form action="{{ route('contacts.results') }}" method="GET" class="row align-items-start">
                                                 <div class="col-md-4 my-2 my-md-0">
                                                     <div class="input-icon">
-                                                        <input type="text" class="form-control" placeholder="Search..."
-                                                            id="kt_datatable_search_query" />
+                                                        <input name='name' type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
                                                         <span>
                                                             <i class="flaticon2-search-1 text-muted"></i>
                                                         </span>
                                                     </div>
+
                                                 </div>
-                                                <div class="col-md-4 my-2 my-md-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-                                                        <select class="form-control" id="kt_datatable_search_status">
-                                                            <option value="">All</option>
-                                                            <option value="1">Active</option>
-                                                            <option value="2">Draft</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 my-2 my-md-0">
-                                                    <div class="d-flex align-items-center">
-                                                        <label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-                                                        <select class="form-control" id="kt_datatable_search_type">
-                                                            <option value="">All</option>
-                                                            <option value="1">Online</option>
-                                                            <option value="2">Retail</option>
-                                                            <option value="3">Direct</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                <button type="submit" class="btn btn-light-primary px-6 font-weight-bold">Search</button>
+                                            </form>
                                         </div>
                                         <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                            <a href="#" class="btn btn-light-primary px-6 font-weight-bold">Search</a>
+                                            {{ $contacts->count() }} elements of contacts
                                         </div>
                                     </div>
                                 </div>
                                 <!--begin::Table-->
                                 <div class="table-responsive">
-                                    <table class="table table-head-custom table-vertical-center"
-                                        id="kt_advance_table_widget_2">
+                                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_2">
                                         <thead>
                                             <tr class="text-uppercase">
                                                 <th class="pl-0" style="width: 40px">
@@ -172,76 +148,53 @@
                                                     </label>
                                                 </td>
                                                 <td class="pl-0">
-                                                    <a href="#"
-                                                        class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$contact->id}}</a>
+                                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$contact->id}}</a>
                                                 </td>
                                                 <td>
-                                                    <span style="border-radius: 3px;"
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg"><img
-                                                            style="width: 80px; height:60px; overflow:hidden;"
-                                                            src="{{ asset('uploads/' . $contact->image_url)}}"
-                                                            alt=""></span>
+                                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$contact->name}}</span>
 
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$contact->full_name}}</span>
+                                                    <span style="border-radius: 3px;" class="text-dark-75 font-weight-bolder d-block font-size-lg"><img style="width: 80px; height:60px; overflow:hidden;" src="{{ asset('uploads/' . $contact->image_url)}}" alt=""></span>
+
+                                                </td>
+
+                                                <td>
+                                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$contact->email}}</span>
 
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$contact->email}}</span>
+                                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$contact->message}}</span>
 
                                                 </td>
-                                                <td>
-                                                    <span
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$contact->message}}</span>
 
-                                                </td>
-                                               
                                                 <td class="pr-0 text-right">
                                                     <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm">
                                                         <span class="svg-icon svg-icon-md svg-icon-primary">
                                                             <!--begin::Svg Icon | path:assets/media/svg/icons/General/Settings-1.svg-->
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
-                                                                height="24px" viewBox="0 0 24 24" version="1.1">
-                                                                <g stroke="none" stroke-width="1" fill="none"
-                                                                    fill-rule="evenodd">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                                     <rect x="0" y="0" width="24" height="24" />
-                                                                    <path
-                                                                        d="M7,3 L17,3 C19.209139,3 21,4.790861 21,7 C21,9.209139 19.209139,11 17,11 L7,11 C4.790861,11 3,9.209139 3,7 C3,4.790861 4.790861,3 7,3 Z M7,9 C8.1045695,9 9,8.1045695 9,7 C9,5.8954305 8.1045695,5 7,5 C5.8954305,5 5,5.8954305 5,7 C5,8.1045695 5.8954305,9 7,9 Z"
-                                                                        fill="#000000" />
-                                                                    <path
-                                                                        d="M7,13 L17,13 C19.209139,13 21,14.790861 21,17 C21,19.209139 19.209139,21 17,21 L7,21 C4.790861,21 3,19.209139 3,17 C3,14.790861 4.790861,13 7,13 Z M17,19 C18.1045695,19 19,18.1045695 19,17 C19,15.8954305 18.1045695,15 17,15 C15.8954305,15 15,15.8954305 15,17 C15,18.1045695 15.8954305,19 17,19 Z"
-                                                                        fill="#000000" opacity="0.3" />
+                                                                    <path d="M7,3 L17,3 C19.209139,3 21,4.790861 21,7 C21,9.209139 19.209139,11 17,11 L7,11 C4.790861,11 3,9.209139 3,7 C3,4.790861 4.790861,3 7,3 Z M7,9 C8.1045695,9 9,8.1045695 9,7 C9,5.8954305 8.1045695,5 7,5 C5.8954305,5 5,5.8954305 5,7 C5,8.1045695 5.8954305,9 7,9 Z" fill="#000000" />
+                                                                    <path d="M7,13 L17,13 C19.209139,13 21,14.790861 21,17 C21,19.209139 19.209139,21 17,21 L7,21 C4.790861,21 3,19.209139 3,17 C3,14.790861 4.790861,13 7,13 Z M17,19 C18.1045695,19 19,18.1045695 19,17 C19,15.8954305 18.1045695,15 17,15 C15.8954305,15 15,15.8954305 15,17 C15,18.1045695 15.8954305,19 17,19 Z" fill="#000000" opacity="0.3" />
                                                                 </g>
                                                             </svg>
                                                             <!--end::Svg Icon-->
                                                         </span>
                                                     </a>
-                                                   
+
                                                     <a class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
-                                                        <form action="{{-- route('contacts.destroy', $contact->id) --}}"
-                                                            method="POST">
+                                                        <form action="{{-- route('contacts.destroy', $contact->id) --}}" method="POST">
                                                             @csrf
                                                             @method('delete')
                                                             <button type="submit" style="border:none">
                                                                 <span class="svg-icon svg-icon-md svg-icon-primary">
                                                                     <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                                        width="24px" height="24px" viewBox="0 0 24 24"
-                                                                        version="1.1">
-                                                                        <g stroke="none" stroke-width="1" fill="none"
-                                                                            fill-rule="evenodd">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                                             <rect x="0" y="0" width="24" height="24" />
-                                                                            <path
-                                                                                d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z"
-                                                                                fill="#000000" fill-rule="nonzero" />
-                                                                            <path
-                                                                                d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
-                                                                                fill="#000000" opacity="0.3" />
+                                                                            <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero" />
+                                                                            <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3" />
                                                                         </g>
                                                                     </svg>
                                                                     <!--end::Svg Icon-->
@@ -264,8 +217,7 @@
 
 
                             <!-- Modal-->
-                            <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
-                                aria-labelledby="staticBackdrop" aria-hidden="true">
+                            <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-scrollable" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -278,8 +230,7 @@
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-light-primary font-weight-bold"
-                                                data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
                                             <button type="button" class="btn btn-primary font-weight-bold">Save
                                                 changes</button>
                                         </div>

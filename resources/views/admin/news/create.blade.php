@@ -210,7 +210,8 @@
                                                 data-live-search="true">
                                                 <option value="">Select</option>
                                                 @foreach ($communities as $community)
-                                                <option value="{{$community->id ?? ''}}">{{$community->name_en ?? ''}}</option>
+                                                <option value="{{$community->id ?? ''}}">{{$community->name_en ?? ''}}
+                                                </option>
                                                 @endforeach
                                             </select>
                                             <span class="form-text text-muted">you can select any community </span>

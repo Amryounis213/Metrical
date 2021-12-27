@@ -121,7 +121,7 @@
                                             </form>
                                         </div>
                                         <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                            {{ $news->total() }} elements of news
+                                            {{ $news->count() }} elements of news
                                         </div>
                                     </div>
                                 </div>

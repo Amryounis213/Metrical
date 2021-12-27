@@ -11,6 +11,17 @@ use Illuminate\Support\Facades\Auth;
 class EventsController extends Controller
 {
 
+    public function result(Request $request)
+    {
+
+        $events = Event::where('title_en', 'LIKE', '%' . $request->name . '%')->paginate(10);
+
+        return view('admin.events.result', [
+            'events' => $events,
+            'title' => 'Show All Results'
+        ]);
+    }
+
     public function index()
     {
         $events = Event::with('community')->paginate(2);
@@ -62,6 +73,4 @@ class EventsController extends Controller
         $event->delete();
         return redirect()->route('events.index')->with('delete', 'the event is deleted');
     }
-
-    
 }
