@@ -14,6 +14,17 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function result(Request $request)
+    {
+
+        $news = News::where('title_en', 'LIKE', '%' . $request->name . '%')->paginate(10);
+
+        return view('admin.news.result', [
+            'news' => $news,
+            'title' => 'Show All Results'
+        ]);
+    }
     public function index()
     {
         $news = News::with('community')->paginate(5);
