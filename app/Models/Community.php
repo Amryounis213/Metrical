@@ -4,15 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Community extends Model
+class Community extends Model implements Searchable
 {
     use HasFactory;
     protected $fillable = ['name_ar', 'name_en', 'name_gr', 'area', 'location_longitude', 'location_latitude', 'image', 'status', 'readness_percentage'];
-    
-    protected $appends =['image_path'];
+
+    protected $appends = ['image_path'];
     protected $hidden = ['image'];
 
+
+    public function getSearchResult(): SearchResult
+    {
+        $url = route('communities.show', $this->id);
+
+        return new \Spatie\Searchable\SearchResult(
+            $this,
+            $this->name_en,
+            $this->name_ar,
+            $this->id
+        );
+    }
     public function properties()
     {
         return $this->hasMany(Property::class, 'community_id', 'id');
@@ -67,13 +81,13 @@ class Community extends Model
 
         ];
     }
-    
+
     public function getImagePathAttribute($value)
     {
-        if(!$this->image){
+        if (!$this->image) {
             return asset('uploads/palceholder.jpg');
         }
-        if(stripos($this->image , 'http') ===  0){
+        if (stripos($this->image, 'http') ===  0) {
             return $this->image;
         }
         return asset('uploads/' . $this->image);

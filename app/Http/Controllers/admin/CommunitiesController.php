@@ -5,9 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Community;
 use Illuminate\Http\Request;
+use Spatie\Searchable\Search;
 
 class CommunitiesController extends Controller
 {
+    public function result(Request $request)
+    {
+
+        $communities = Community::where('name_en', 'LIKE', '%' . $request->name . '%')->get();
+
+        return view('admin.communities.result', [
+            'communities' => $communities,
+            'title' => 'Show All Results'
+        ]);
+    }
     public function index()
     {
         $communities = Community::get();
@@ -42,8 +53,10 @@ class CommunitiesController extends Controller
 
     public function show($id)
     {
-        $response = Http::get('http://www.geoplugin.net/extras/forward_place.gp?place=Sohag&country=EG');
-        return unserialize($response)[0];
+        $community = Community::findOrFail($id);
+        return $community;
+        // $response = Http::get('http://www.geoplugin.net/extras/forward_place.gp?place=Sohag&country=EG');
+        // return unserialize($response)[0];
     }
     public function edit($id)
     {
