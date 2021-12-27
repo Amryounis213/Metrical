@@ -16,7 +16,7 @@ License: You must have a valid license purchased only from themeforest(the above
 	<!--begin::Head-->
 	<head><base href="../../../">
 		<meta charset="utf-8" />
-		<title>Select2 | Keenthemes</title>
+		<title>Metrical</title>
 		<meta name="description" content="Select2 dropdown examples" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<link rel="canonical" href="https://keenthemes.com/metronic" />
@@ -308,7 +308,16 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                 <span class="menu-text">Pinding Offers</span>
                                                             </a>
                                                         </li>
-    
+														
+														<li class="menu-item" aria-haspopup="true">
+                                                            <a href="{{route('offers.stop')}}"
+                                                                class="menu-link">
+                                                                <i class="menu-bullet menu-bullet-dot">
+                                                                    <span></span>
+                                                                </i>
+                                                                <span class="menu-text">Stop Offers</span>
+                                                            </a>
+                                                        </li>
                                                        
     
     
@@ -415,6 +424,41 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                     <span></span>
                                                                 </i>
                                                                 <span class="menu-text">Add Amenity</span>
+                                                            </a>
+                                                        </li>
+                                                      
+                                                    </ul>
+                                                </div>
+                                            </li>
+
+											<li class="menu-item menu-item-submenu" aria-haspopup="true"
+                                                data-menu-toggle="hover">
+                                                <a href="javascript:;" class="menu-link menu-toggle">
+                                                    <i class="menu-bullet menu-bullet-line">
+                                                        <span></span>
+                                                    </i>
+                                                    <span class="menu-text">Enquires & Contact</span>
+                                                    <i class="menu-arrow"></i>
+                                                </a>
+                                                <div class="menu-submenu">
+                                                    <i class="menu-arrow"></i>
+                                                    <ul class="menu-subnav">
+                                                        <li class="menu-item" aria-haspopup="true">
+                                                            <a href="{{route('enquiresShow')}}"
+                                                                class="menu-link">
+                                                                <i class="menu-bullet menu-bullet-dot">
+                                                                    <span></span>
+                                                                </i>
+                                                                <span class="menu-text">Show Enquires</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="menu-item" aria-haspopup="true">
+                                                            <a href="{{route('contactShow')}}"
+                                                                class="menu-link">
+                                                                <i class="menu-bullet menu-bullet-dot">
+                                                                    <span></span>
+                                                                </i>
+                                                                <span class="menu-text">Show Contact</span>
                                                             </a>
                                                         </li>
                                                       
@@ -2083,38 +2127,7 @@ License: You must have a valid license purchased only from themeforest(the above
 			</span>
 		</div>
 		<!--end::Scrolltop-->
-		<!--begin::Sticky Toolbar-->
-		<ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
-			<!--begin::Item-->
-			<li class="nav-item mb-2" id="kt_demo_panel_toggle" data-toggle="tooltip" title="Check out more demos" data-placement="right">
-				<a class="btn btn-sm btn-icon btn-bg-light btn-icon-success btn-hover-success" href="#">
-					<i class="flaticon2-drop"></i>
-				</a>
-			</li>
-			<!--end::Item-->
-			<!--begin::Item-->
-			<li class="nav-item mb-2" data-toggle="tooltip" title="Layout Builder" data-placement="left">
-				<a class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" href="https://preview.keenthemes.com/metronic/demo1/builder.html" target="_blank">
-					<i class="flaticon2-gear"></i>
-				</a>
-			</li>
-			<!--end::Item-->
-			<!--begin::Item-->
-			<li class="nav-item mb-2" data-toggle="tooltip" title="Documentation" data-placement="left">
-				<a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" href="https://keenthemes.com/metronic/?page=docs" target="_blank">
-					<i class="flaticon2-telegram-logo"></i>
-				</a>
-			</li>
-			<!--end::Item-->
-			<!--begin::Item-->
-			<li class="nav-item" id="kt_sticky_toolbar_chat_toggler" data-toggle="tooltip" title="Chat Example" data-placement="left">
-				<a class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" href="#" data-toggle="modal" data-target="#kt_chat_modal">
-					<i class="flaticon2-chat-1"></i>
-				</a>
-			</li>
-			<!--end::Item-->
-		</ul>
-		<!--end::Sticky Toolbar-->
+		
 		<!--begin::Demo Panel-->
 		<div id="kt_demo_panel" class="offcanvas offcanvas-right p-10">
 			<!--begin::Header-->

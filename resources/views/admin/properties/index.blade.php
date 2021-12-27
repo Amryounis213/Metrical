@@ -156,7 +156,7 @@
                                                         <span class="text-primary text-uppercase font-weight-bold font-size-sm">Options</span>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="#" class="navi-link">
+                                                        <a href="{{route('properties.edit' ,$property->id)}}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="flaticon2-shopping-cart-1"></i>
                                                             </span>
@@ -413,7 +413,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Make A New Rent</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Add Owner For <strong class="text-success"> {{$property->name_en}}</strong></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <i aria-hidden="true" class="ki ki-close"></i>
                                     </button>
@@ -422,32 +422,24 @@
                                 <div class="modal-body">
                                         @csrf
                                     
-                                    <input hidden  name="property_id" type="number" class="form-control"  value="{{$property->id}}" />
-                    
-                                    <div class="form-group row">
-                                        {{-- <label class="col-form-label text-right col-lg-3 col-sm-12">owner</label>
-                                        <div class="col-lg-6 col-md-9 col-sm-12">
-                                            <select name="owner_id" class="form-control" id="exampleSelectd">
-                                                <option data-dismiss>--Select Name of owner</option>
+                                        <input hidden  name="property_id" type="number" class="form-control"  value="{{$property->id}}" />
+                                       
+                                    
+                                        <div class="form-group row">
+                                            <label class="col-2 col-form-label">Owners</label>
+                                            <div class="col-10">
+                                                <select name="owner_id" class="form-control selectpicker" data-size="7"
+                                                data-live-search="true">
+                                                <option value="">Select</option>
                                                 @foreach ($owners as $owner)
                                                 <option value="{{$owner->id}}" >{{$owner->full_name}}</option>
                                                 @endforeach
-                                        </select>                    
-                                    
-                                        </div> --}}
-                                        <div class="form-group row" data-select2-id="127">
-                                            <label class="col-form-label text-right col-lg-3 col-sm-12">Owner Name</label>
-                                            <div class="col-lg-4 col-md-9 col-sm-12" data-select2-id="126">
-                                                <select class="form-control select2-hidden-accessible" id="kt_select2_1" name="param" data-select2-id="kt_select2_1" tabindex="-1" aria-hidden="true">
-                                                    <option  name="owner_id" data-dismiss>--Select Name of owner</option>
-                                                    @foreach ($owners as $owner)
-                                                    <option value="{{$owner->id}}" >{{$owner->full_name}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <span class="select2 select2-container select2-container--default select2-container--below select2-container--open" dir="ltr" data-select2-id="1" style="width: 308.5px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="true" tabindex="0" aria-disabled="false" aria-labelledby="select2-kt_select2_1-container" aria-owns="select2-kt_select2_1-results" aria-activedescendant="select2-kt_select2_1-result-r1yl-NV"><span class="select2-selection__rendered" id="select2-kt_select2_1-container" role="textbox" aria-readonly="true" title="Alaska">Select Owne For Properity</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                             
+                                             </select>
                                             </div>
                                         </div>
-                                    </div>
+                                        
+                                  
                                        
                                        
                                 </div>

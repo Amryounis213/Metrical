@@ -13,7 +13,7 @@ class EventsController extends Controller
 
     public function index()
     {
-        $events = Event::with('community')->paginate(2);
+        $events = Event::with('community')->paginate(5);
         // return $events;
         return view('admin.events.index', [
             'events' => $events,
@@ -25,7 +25,7 @@ class EventsController extends Controller
         $event = new Event();
         $communites = Community::get();
         return view('admin.events.create', [
-            'title' => 'create New Event',
+            'title' => 'Create New Event',
             'communites' => $communites,
             'event' => $event
         ]);
@@ -54,14 +54,12 @@ class EventsController extends Controller
     {
         $event = Event::findOrFail($id);
         $event->update($request->all());
-        return redirect()->route('events.index')->with('edit', 'the event is updated');
+        return redirect()->route('events.index')->with('edit', 'The event  ( ' . $event->title_en . ') is updated');
     }
     public function destroy($id)
     {
         $event = Event::findOrFail($id);
         $event->delete();
-        return redirect()->route('events.index')->with('delete', 'the event is deleted');
+        return redirect()->route('events.index')->with('delete', 'The event ( ' . $event->title_en . ') is deleted');
     }
-
-    
 }

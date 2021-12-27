@@ -13,7 +13,7 @@
                 <!--end::Separator-->
                 <!--begin::Search Form-->
                 <div class="d-flex align-items-center" id="kt_subheader_search">
-                    <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{--$properties_count--}} Total</span>
+                    <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{ $communities->count() }} Total</span>
                     <form class="ml-5">
                         <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                             <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." />
@@ -156,9 +156,7 @@
                                                     class="btn btn-light-primary px-6 font-weight-bold">Search</button>
                                             </form>
                                         </div>
-                                        <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                            {{ $communities->count() }} elements of communities
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <!--begin::Table-->

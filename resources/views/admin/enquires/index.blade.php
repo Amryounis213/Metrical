@@ -245,7 +245,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($enquiry as $enquiry)
+                                            @foreach ($enquiry as $key=>$enquiry)
                                             <tr>
                                                 <td class="pl-0 py-6">
                                                     <label class="checkbox checkbox-lg checkbox-inline">
@@ -255,16 +255,9 @@
                                                 </td>
                                                 <td class="pl-0">
                                                     <a href="#"
-                                                        class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$enquiry->id}}</a>
+                                                        class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$key + 1}}</a>
                                                 </td>
-                                                <td>
-                                                    <span style="border-radius: 3px;"
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg"><img
-                                                            style="width: 80px; height:60px; overflow:hidden;"
-                                                            src="{{ asset('uploads/' . $enquiry->image_url)}}"
-                                                            alt=""></span>
-
-                                                </td>
+                                                
                                                 <td>
                                                     <span
                                                         class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$enquiry->full_name}}</span>
@@ -275,7 +268,10 @@
                                                         class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$enquiry->email}}</span>
 
                                                 </td>
-                                               
+                                                <td>
+                                                    <span
+                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$enquiry->subject}}</span>
+                                                </td>
                                                 <td>
                                                     <span class="label label-lg label-light-success label-inline">
                                                         {{ $enquiry->property->name_en  ?? ''}}</span>

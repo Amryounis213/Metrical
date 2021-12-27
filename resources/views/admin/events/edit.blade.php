@@ -245,7 +245,7 @@
 
                                     </div>
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary mr-2">Create</button>
+                                        <button type="submit" class="btn btn-primary mr-2">Update</button>
                                         <button type="reset" class="btn btn-secondary">Cancel</button>
                                     </div>
                                 </div>

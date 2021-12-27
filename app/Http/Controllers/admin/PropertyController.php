@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Amenity;
+use App\Models\Community;
 use App\Models\Owner;
 use App\Models\Property;
 use App\Models\Tenant;
@@ -48,7 +49,7 @@ class PropertyController extends Controller
         $properties = Property::findORFail($request->property_id);
         // return $properties;
         $properties->update(['owner_id' => $request->owner_id]);
-        
+
         return back();
     }
     /**
@@ -61,10 +62,13 @@ class PropertyController extends Controller
         $title = 'Create New Property';
         $property = new Property();
         $amenities = Amenity::all();
+        //  $communities = Community::get();
+
         return view('admin.properties.create', [
             'title' => $title,
             'property' => $property,
-            'amenities' => $amenities
+            'amenities' => $amenities,
+            'communities' => Community::get(),
         ]);
     }
 
@@ -80,7 +84,6 @@ class PropertyController extends Controller
 
         $request->merge([
             'date_added' => Carbon::now(),
-            'community_id' => 1,
         ]);
         $input = $request->all();
         if ($request->hasFile('image_url')) {

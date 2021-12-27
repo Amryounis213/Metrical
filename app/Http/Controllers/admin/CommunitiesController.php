@@ -39,6 +39,7 @@ class CommunitiesController extends Controller
     public function store(Request $request)
     {
         if ($request->hasFile('image_url')) {
+
             $file = $request->file('image_url');
             $image_path = $file->store('/', [
                 'disk' => 'upload',

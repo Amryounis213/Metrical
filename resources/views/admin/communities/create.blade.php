@@ -215,7 +215,10 @@
                                                 <input id="kt_maxlength_2" name="readness_percentage"
                                                     class="form-control" type="number"
                                                     value="{{$community->readness_percentage}}"
-                                                    id="readness_percentage" />
+                                                    min="0"
+                                                    max="100"
+                                                    id="readness_percentage"  />
+                                                    
                                             </div>
                                         </div>
 
@@ -246,4 +249,5 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
+@include('components.form-script')
 @endsection

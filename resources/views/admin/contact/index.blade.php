@@ -14,7 +14,7 @@
             <!--end::Separator-->
             <!--begin::Search Form-->
             <div class="d-flex align-items-center" id="kt_subheader_search">
-                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{--$properties_count--}} Total</span>
+                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{$contacts->count()}} Total</span>
                 <form class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                         <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." />
@@ -176,24 +176,7 @@
                                   
                                 </h3>
                                 <div class="card-toolbar">
-                                    <!--begin::Button-->
-                                    <a href="{{--route('contacts.create')--}}" class="btn btn-primary font-weight-bolder">
-                                        <span class="svg-icon svg-icon-md">
-                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
-                                                viewBox="0 0 24 24" version="1.1">
-                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <rect x="0" y="0" width="24" height="24" />
-                                                    <circle fill="#000000" cx="9" cy="15" r="6" />
-                                                    <path
-                                                        d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z"
-                                                        fill="#000000" opacity="0.3" />
-                                                </g>
-                                            </svg>
-                                            <!--end::Svg Icon-->
-                                        </span>contact Record
-                                    </a>
-                                    <!--end::Button-->
+                                   
                                 </div>
                             </div>
                             <!--end::Header-->
@@ -255,14 +238,13 @@
                                                 </th>
                                                 <th class="pl-0" style="min-width: 100px">#</th>
                                                 <th style="min-width: 120px">Full Name</th>
-                                                <th style="min-width: 120px">Image</th>
                                                 <th style="min-width: 120px">Email</th>
                                                 <th style="min-width: 120px">Subject</th>
                                                 <th class="pr-0 text-right" style="min-width: 160px">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($contacts as $contact)
+                                            @foreach ($contacts as $key=>$contact)
                                             <tr>
                                                 <td class="pl-0 py-6">
                                                     <label class="checkbox checkbox-lg checkbox-inline">
@@ -272,19 +254,12 @@
                                                 </td>
                                                 <td class="pl-0">
                                                     <a href="#"
-                                                        class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$contact->id}}</a>
+                                                        class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$key + 1}}</a>
                                                 </td>
-                                                <td>
-                                                    <span style="border-radius: 3px;"
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg"><img
-                                                            style="width: 80px; height:60px; overflow:hidden;"
-                                                            src="{{ asset('uploads/' . $contact->image_url)}}"
-                                                            alt=""></span>
-
-                                                </td>
+                                               
                                                 <td>
                                                     <span
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$contact->full_name}}</span>
+                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$contact->name}}</span>
 
                                                 </td>
                                                 <td>

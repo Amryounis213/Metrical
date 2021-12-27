@@ -6,14 +6,14 @@
         <!--begin::Details-->
         <div class="d-flex align-items-center flex-wrap mr-2">
             <!--begin::Title-->
-            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Communities</h5>
+            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Events</h5>
             <!--end::Title-->
             <!--begin::Separator-->
             <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
             <!--end::Separator-->
             <!--begin::Search Form-->
             <div class="d-flex align-items-center" id="kt_subheader_search">
-                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{--$properties_count--}} Total</span>
+                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{$events->count()}} Total</span>
                 <form class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                         <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." />
