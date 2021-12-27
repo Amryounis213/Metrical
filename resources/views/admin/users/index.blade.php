@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Advance Table Widget 5-->
         <div class="card card-custom gutter-b">
@@ -175,4 +176,4 @@
         </div>
         <!--end::Advance Table Widget 5-->
     </div>
-</x-admin-layout>
+@endsection

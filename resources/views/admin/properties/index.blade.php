@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
 
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -102,9 +103,9 @@
                 <div class="d-flex align-items-center">
                     <!--begin::Button-->
                     <a href="#" class=""></a>
-                    <!--end::Button-->
+                    <!--end::Button--> 
                     <!--begin::Button-->
-                    <a href="{{route('properties.create')}}" class="btn btn-light-primary font-weight-bold ml-2">Add Property</a>
+                    <a  href="{{route('properties.create')}}" class="btn btn-light-primary font-weight-bold ml-2">Add Property</a>
                     <!--end::Button-->
                   
                 </div>
@@ -313,7 +314,7 @@
                                 </div>
                                 {{-- <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">details</button> --}}
                                 <button data-toggle="modal" data-target="#owner-{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Add Owner</button>
-                                <button data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Make Rent</button>
+                                <button  data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto make-rent">Make Rent</button>
 
                             </div>
                             <!--end::Footer-->
@@ -340,9 +341,9 @@
                                     <div class="form-group row">
                                         <label class="col-form-label text-right col-lg-3 col-sm-12">Start Time</label>
                                         <div class="col-lg-6 col-md-9 col-sm-12">
-                                            <div class="input-group date" id="kt_datetimepicker_7_1" data-target-input="nearest">
-                                                <input name="from" type="text" class="form-control datetimepicker-input" placeholder="Select date &amp; time" data-target="#kt_datetimepicker_7_1" />
-                                                <div class="input-group-append" data-target="#kt_datetimepicker_7_1" data-toggle="datetimepicker">
+                                            <div class="input-group date kt_datetimepicker_7_1" data-target-input="nearest">
+                                                <input name="from" type="text" class="form-control datetimepicker-input" placeholder="Select date &amp; time" data-target=".kt_datetimepicker_7_1" />
+                                                <div class="input-group-append" data-target=".kt_datetimepicker_7_1" data-toggle="datetimepicker">
                                                     <span class="input-group-text">
                                                         <i class="ki ki-calendar"></i>
                                                     </span>
@@ -355,9 +356,9 @@
                                     <div class="form-group row">
                                         <label class="col-form-label text-right col-lg-3 col-sm-12">Last Time</label>
                                         <div class="col-lg-6 col-md-9 col-sm-12">
-                                            <div class="input-group date" id="kt_datetimepicker_7_2" data-target-input="nearest">
-                                                <input name="to" type="text" class="form-control datetimepicker-input" placeholder="Select date &amp; time" data-target="#kt_datetimepicker_7_2" />
-                                                <div class="input-group-append" data-target="#kt_datetimepicker_7_2" data-toggle="datetimepicker">
+                                            <div class="input-group date kt_datetimepicker_7_2"  data-target-input="nearest">
+                                                <input name="to" type="text" class="form-control datetimepicker-input" placeholder="Select date &amp; time" data-target=".kt_datetimepicker_7_2" />
+                                                <div class="input-group-append" data-target=".kt_datetimepicker_7_2" data-toggle="datetimepicker">
                                                     <span class="input-group-text">
                                                         <i class="ki ki-calendar"></i>
                                                     </span>
@@ -515,5 +516,6 @@
         <!--end::Entry-->
         
     </div>
+
 <x-form-script />
-</x-admin-layout>
+@endsection

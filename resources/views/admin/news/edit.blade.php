@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -303,4 +304,4 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
-</x-admin-layout>
+@endsection

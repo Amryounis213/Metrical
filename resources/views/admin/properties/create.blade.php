@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -189,7 +190,7 @@
                                                         data-action="change" data-toggle="tooltip" title=""
                                                         data-original-title="Change avatar">
                                                         <i class="fa fa-pen icon-sm text-muted"></i>
-                                                        <input name="image_url" type="file" name="profile_avatar"
+                                                        <input multiple name="images[]" type="file" name="profile_avatar"
                                                             accept=".png, .jpg, .jpeg" />
                                                         <input type="hidden" name="profile_avatar_remove" />
                                             </label>
@@ -213,6 +214,20 @@
 
                                        
                                        
+   <div class="form-group row">
+    <label class="col-form-label text-right col-lg-3 col-sm-12">Placeholder</label>
+    <div class=" col-lg-4 col-md-9 col-sm-12">
+     <select class="form-control select2" id="kt_select2_4" name="param">
+      <option label="Label"></option>
+      <optgroup label="Alaskan/Hawaiian Time Zone">
+       <option value="AK">Alaska</option>
+       <option value="HI">Hawaii</option>
+      </optgroup>
+     
+     </select>
+    </div>
+   </div>
+  
 
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Name</label>
@@ -467,5 +482,5 @@
     </div>
     <!--end::Content-->
    
-    @include('components.form-script');
-</x-admin-layout>
+@include('components.form-script');
+@endsection

@@ -13,9 +13,9 @@ class StopOffers extends Controller
     {
         $offers = Stopoffer::get();
         // return $offers;
-        return view('admin.properties.stop-offer',[
+        return view('admin.properties.stop-offer', [
             'offers' => $offers,
-            'title' => 'Show All Communities'
+            'title' => 'Show all stop offers'
         ]);
     }
     public function StopOffer(Request $request)

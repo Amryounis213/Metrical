@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -468,4 +469,4 @@
     <!--end::Content-->
    
     @include('components.form-script');
-</x-admin-layout>
+@endsection
