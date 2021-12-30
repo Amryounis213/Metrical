@@ -184,7 +184,7 @@
                                 <th style="min-width: 120px">Contry</th>
                                 <th style="min-width: 120px">City</th>
                                 <th style="min-width: 120px">Mobile Number</th>
-                                <th style="min-width: 130px">Type</th>
+                                <th style="min-width: 130px">Request type</th>
                                 <th class="pr-0 text-right" style="min-width: 160px">action</th>
                             </tr>
                         </thead>
@@ -221,9 +221,9 @@
                                         {{ $user->mobile_number }}</span>
                                 </td>
                                 <td>
-                                    <span class="label label-lg label-light-success label-inline">@if($user->type == 0)
-                                        normal @elseif($user->type == 1)
-                                        Owner @elseif($user->type == 2)
+                                    <span class="label label-lg label-light-success label-inline">@if($user->need == 'normal')
+                                        normal @elseif($user->need == 'owner')
+                                        Owner @elseif($user->need == 'tenant')
                                         Tenant @endif</span>
                                 </td>
                                 <td class="pr-0 text-right">

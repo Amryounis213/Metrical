@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use App\Models\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class OfferController extends Controller
 {
@@ -16,6 +17,7 @@ class OfferController extends Controller
      */
     public function index()
     {
+        Gate::authorize('offers.view');
         $title = 'All Offers';
         $offers = Offer::with('property')->get();
         return view('admin.offers.index', [
@@ -97,6 +99,7 @@ class OfferController extends Controller
 
     public function acceptOffers($id)
     {
+        Gate::authorize('offers.accept');
         $offers = Offer::find($id);
         $offers->update([
             'status' => "1",

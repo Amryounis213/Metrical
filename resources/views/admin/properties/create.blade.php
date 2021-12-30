@@ -1,6 +1,6 @@
 @extends('components.admin-layout')
 @section('content')
-    <!--begin::Content-->
+  
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
         <div class="subheader py-2 py-lg-6 subheader-solid" id="kt_subheader">
@@ -24,6 +24,16 @@
         </div>
         <!--end::Subheader-->
         <!--begin::Entry-->
+          <!--begin::Content-->
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
             <div class="container">
@@ -78,11 +88,11 @@
                                             </div>
                                         </div>
 
-
+                                       
 
                                         <div class="form-group row">
 
-                                            <label class="col-2 col-form-label">Another Images</label>
+                                            <label class="col-2 col-form-label">Multiple Images Upload</label>
                                             <div class="col-lg-9 col-xl-6">
                                                 <div class="image-input image-input-empty image-input-outline"
                                                     id="kt_image_4"
@@ -134,16 +144,16 @@
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Name</label>
                                             <div class="col-lg-3">
-                                                <input  maxlength="25"  name="name_ar" type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
+                                                <input  maxlength="25"  name="name_ar" value="{{ old('name_ar') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
                                                 
                                             </div>
                                             <div class="col-lg-3">
-                                                <input maxlength="25"  name="name_gr" type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
+                                                <input maxlength="25"  name="name_gr" value="{{ old('name_gr') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
                                                 
                                             </div>
 
                                             <div class="col-lg-4">
-                                                <input maxlength="25"  name="name_en" type="text" class="form-control kt_maxlength_1" placeholder="English" />
+                                                <input maxlength="25"  name="name_en" value="{{ old('name_en') }}"  type="text" class="form-control kt_maxlength_1" placeholder="English" />
                                                 
                                             </div>
 
@@ -153,21 +163,21 @@
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (Arabic)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_ar" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6">{{$property->description_ar}}</textarea>
+                                                <textarea name="description_ar" value="{{ old('description_ar') }}" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6">{{$property->description_ar}}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (Germany)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_gr" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6">{{$property->description_gr}}</textarea>
+                                                <textarea name="description_gr" value="{{ old('description_gr') }}" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6">{{$property->description_gr}}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (English)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_en" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6">{{$property->description_en}}</textarea>
+                                                <textarea name="description_en" value="{{ old('description_en') }}" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6">{{$property->description_en}}</textarea>
                                             </div>
                                         </div>
 
@@ -180,6 +190,7 @@
                                                     class="form-control kt_maxlength_1" type="text"
                                                     value="{{$property->address_ar}}"
                                                     maxlength="100"
+                                                    value="{{ old('address_ar') }}"
                                                     id="readness_percentage" />
                                             </div>
                                         </div>
@@ -190,6 +201,7 @@
                                                     class="form-control kt_maxlength_1" type="text"
                                                     value="{{$property->address_gr}}"
                                                     maxlength="100"
+                                                    value="{{ old('address_gr') }}"
                                                     id="readness_percentage" />
                                             </div>
                                         </div>
@@ -200,6 +212,7 @@
                                                     class="form-control kt_maxlength_1" type="text"
                                                     value="{{$property->address_en}}"
                                                     maxlength="100"
+                                                    value="{{ old('address_en') }}"
                                                     id="readness_percentage" />
                                             </div>
                                         </div>
@@ -208,13 +221,13 @@
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Area (mm)</label>
                                             <div class="col-lg-4">
-                                                <input max="100000"  name="area" step="any" type="number" class="form-control"  value="{{$property->area}}" placeholder="Ex:195 mm" />
+                                                <input max="100000" value="{{ old('area') }}"  name="area" step="any" type="number" class="form-control"  value="{{$property->area}}" placeholder="Ex:195 mm" />
                                                 
                                             </div>
 
                                             <label class="col-2 col-form-label">Reference</label>
                                             <div class="col-lg-4">
-                                                <input   name="reference" type="text" class="form-control"  value="{{$property->reference}}" placeholder="Ex: 9551200" />
+                                                <input   name="reference" value="{{ old('reference') }}" type="text" class="form-control"  value="{{$property->reference}}" placeholder="Ex: 9551200" />
                                                 
                                             </div>
 
@@ -226,11 +239,11 @@
                                        
                                        
                                         <div class="form-group row">
-                                            <label for="address_ar" class="col-2 col-form-label">Feminizations</label>
+                                            <label for="feminizations" class="col-2 col-form-label">Feminizations</label>
                                             <div class="col-10">
                                                 <input  name="feminizations"
                                                     class="form-control" type="text"
-                                                    value="{{$property->feminizations}}"
+                                                    value="{{ old('feminizations') }}"
                                                     id="readness_percentage" />
                                             </div>
                                         </div>
@@ -317,16 +330,18 @@
                                             <label class="col-2 col-form-label">Information</label>
                                             <div class="col-lg-3">
                                                 <input name="gate" type="number" class="form-control"placeholder="Gates" />
-                                                
+                                                <span class="form-text text-muted">Gates number</span>
                                             </div>
                                             <div class="col-lg-3">
                                                 <input name="bathroom" type="number" class="form-control" placeholder="Bathroom" />
-                                                
+                                                <span class="form-text text-muted">Bathroom number</span>
+
                                             </div>
 
                                             <div class="col-lg-3">
                                                 <input name="bedroom" type="number" class="form-control" placeholder="Bedroom" />
-                                                
+                                                <span class="form-text text-muted">Bedroom number</span>
+
                                             </div>
                                           
                                         </div>
@@ -382,6 +397,10 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
-   
+@section('scripts')
+<script>
+    
+</script>
+@endsection
 @include('components.form-script');
 @endsection

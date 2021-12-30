@@ -8,10 +8,12 @@ use App\Models\Community;
 use App\Models\Owner;
 use App\Models\Property;
 use App\Models\Tenant;
+use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PropertyController extends Controller
 {
@@ -23,15 +25,16 @@ class PropertyController extends Controller
     public function index()
     {
 
-
+        //Gate::authorize('properties.view');
 
         $properties = Property::with(['community', 'owner', 'rent' => function ($query) {
             $query->where('status', 'active');
-        }])->get();
+        }])->paginate(6);
 
         $percentage = Property::Percentage() ?? 0;
-        $tenants = Tenant::get();
-        $owners = Owner::get();
+        $tenants = User::with('tenant')->where('type', '3')->orWhere('type', '2')->get();
+        $owners = User::with('owner')->where('type', '3')->orWhere('type', '1')->get();
+
         // return $owners[0]->user;
         return view('admin.properties.index', [
             'properties' => $properties,
@@ -45,10 +48,13 @@ class PropertyController extends Controller
 
     public function addOwner(Request $request)
     {
-        // return $request;
+        Gate::authorize('properties.addowner');
         $properties = Property::findORFail($request->property_id);
         // return $properties;
-        $properties->update(['owner_id' => $request->owner_id]);
+        $properties->update([
+            'owner_id' => $request->owner_id,
+            'ownership_date' => Carbon::now(),
+        ]);
 
         return back();
     }
@@ -59,6 +65,9 @@ class PropertyController extends Controller
      */
     public function create()
     {
+
+        Gate::authorize('properties.create');
+
         $title = 'Create New Property';
         $property = new Property();
         $amenities = Amenity::all();
@@ -80,7 +89,27 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-
+        $request->validate([
+            'image_url' => 'nullable',
+            'images' => 'nullable|max:10240',
+            'community_id' => 'required|exists:communities,id',
+            'description_ar' => 'nullable',
+            'description_ar' => 'nullable',
+            'description_ar' => 'nullable',
+            'address_ar' => 'nullable',
+            'address_en' => 'nullable',
+            'address_gr' => 'nullable',
+            'area' => 'required',
+            'feminizations' => 'nullable',
+            'bedroom' => 'required',
+            'bathroom' => 'required',
+            'status' => 'required',
+            'is_shortterm' => 'required',
+            'offer_type' => 'required',
+            'type' => 'required',
+            'gate' => 'required',
+            'amenities' => 'nullable',
+        ]);
 
         $request->merge([
             'date_added' => Carbon::now(),
@@ -129,6 +158,8 @@ class PropertyController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('properties.update');
+
         $title = 'Edit Property';
         $property = Property::find($id);
         $amenities = Amenity::all();
@@ -177,6 +208,10 @@ class PropertyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Gate::authorize('properties.delete');
+
+        $property = Property::find($id);
+        $property->delete();
+        return redirect()->back();
     }
 }

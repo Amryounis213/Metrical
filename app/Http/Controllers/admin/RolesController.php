@@ -135,7 +135,7 @@ class RolesController extends Controller
 
     public function linkUserRole(Request $request)
     {
-        $roles = Role::get();
+        $roles = Role::where('name', '!=', 'super_admin')->get();
         $users = User::where('type', '3')->get();
         return view('admin.roles.link-user-role', [
             'roles' => $roles,

@@ -2,27 +2,24 @@
 
 use App\Http\Controllers\Admin\CommunitiesController;
 use App\Http\Controllers\Admin\ContactController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\Admin\ContactWithAdminController;
->>>>>>> 93a1258a4c00bc0e581989f9b684acf4415b6e76
 use App\Http\Controllers\Admin\enquiryController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\admin\RentController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\Admin\RolesController;
->>>>>>> 93a1258a4c00bc0e581989f9b684acf4415b6e76
 use App\Http\Controllers\Admin\servicesController;
-use App\Http\Controllers\admin\StopOffers;
-use App\Http\Controllers\API\CommunityController;
+use App\Http\Controllers\Admin\StopOffers;
 use App\Http\Controllers\EventsController;
+use App\Models\Community;
+use App\Models\ContactWithAdmin;
+use App\Models\Enquiry;
+use App\Models\News;
+use App\Models\Offer;
+use App\Models\Property;
 use App\Models\Rent;
-use App\Models\Stopoffer;
-use App\Models\Tenant;
 use App\Models\User;
 use App\Notifications\SendReminderForEventNotification;
 use Illuminate\Support\Carbon;
@@ -39,21 +36,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-<<<<<<< HEAD
-    $events =  Rent::with('tenet')->whereDate('to', Carbon::now()->addDays(7))->get();
-    // return $events[0]->tenet;x
-    foreach ($events as $event) {
-        // return $event->property->name_en;
-        // $user =  $event->tenet;
-        // // return $event[0];
-        // $user->notify(new SendReminderForEventNotification($eventx));
-        // foreach($event->tenet as $user){
-        //     // $user = User::find($user);
-        //     return $user;
-        //     // return $user;
-        // //    return $event->property->name_en;
-=======
+/*Route::get('/', function () {
     $events = Rent::with('tenet')->whereDate('to', Carbon::now()->addDays(7))->get();
     // return $events[0]->tenet;x
     foreach ($events as $event) {
@@ -66,29 +49,39 @@ Route::get('/', function () {
         // return $user;
         // // return $user;
         // // return $event->property->name_en;
->>>>>>> 93a1258a4c00bc0e581989f9b684acf4415b6e76
         // }
 
     }
     return view('welcome');
+});*/
+
+
+
+Route::get('/', function () {
+    return redirect()->route('dashboard');
 });
 
-Route::get('admin-panel', function () {
-    return view('admin.home.index');
-});
-
-
-
-<<<<<<< HEAD
 Route::prefix('admin')->middleware('auth')->group(function () {
-=======
-Route::prefix('admin')->group(function () {
-
+    Route::get('admin-panel', function () {
+        $contact = ContactWithAdmin::count();
+        $enquires = Enquiry::count();
+        return view('admin.home.index', [
+            'contact' => $contact,
+            'enquires' => $enquires,
+            'users' => User::where('type', '!=', 3)->count(),
+            'communities' => Community::count(),
+            'properties' => Property::count(),
+            'offers' => Offer::where('status', '!=', 'stop')->count(),
+            'pending_users' => User::where('status', '0')->where('type', '<>', '0')->count(),
+            'rents' => Rent::with('property')->limit(5)->latest()->get(),
+            'total_price' => Rent::limit(5)->latest()->sum('price'),
+            'events' => News::limit(3)->latest()->get(),
+        ]);
+    })->name('dashboard');
     Route::post('roles/store-user-role', [RolesController::class, 'storeUserRole'])->name('link-user-role.store');
     Route::get('roles/link-user-role', [RolesController::class, 'linkUserRole'])->name('link-user-role');
     Route::get('roles/results', [RolesController::class, 'result'])->name('roles.results');
     Route::resource('/roles', RolesController::class);
->>>>>>> 93a1258a4c00bc0e581989f9b684acf4415b6e76
 
     Route::get('moveins', [servicesController::class, 'moveIns'])->name('moveins');
     Route::put('accept-movein/{id}', [servicesController::class, 'acceptMovein'])->name('accept-movein');
@@ -101,16 +94,12 @@ Route::prefix('admin')->group(function () {
     Route::resource('properties', PropertyController::class);
     Route::resource('offers', OfferController::class);
     Route::get('offers/type/{type}', [OfferController::class, 'type'])->name('offer-type');
-<<<<<<< HEAD
-    Route::resource('events', EventsController::class);
-    Route::resource('news', NewsController::class);
 
 
     Route::get('contact', [ContactController::class, 'index'])->name('contactShow');
     Route::get('enquires', [enquiryController::class, 'index'])->name('enquiresShow');
 
     Route::get('stop-offer', [StopOffers::class, 'index'])->name('offers.stop');
-=======
 
     Route::get('events/results', [EventsController::class, 'result'])->name('events.results');
     Route::resource('events', EventsController::class);
@@ -119,13 +108,9 @@ Route::prefix('admin')->group(function () {
     Route::resource('news', NewsController::class);
 
     Route::get('contacts/results', [ContactWithAdminController::class, 'result'])->name('contacts.results');
-    Route::get('contact', [ContactController::class, 'index']);
 
     Route::get('enquires/results', [enquiryController::class, 'result'])->name('enquires.results');
-    Route::get('enquires', [enquiryController::class, 'index']);
 
-    Route::get('stop-offer', [StopOffers::class, 'index'])->name('offers.index');
->>>>>>> 93a1258a4c00bc0e581989f9b684acf4415b6e76
     Route::get('binding-users', [UsersController::class, 'index'])->name('binding.users');
     Route::get('tenants-users', [UsersController::class, 'tenants'])->name('tenants.users');
     Route::get('owners-users', [UsersController::class, 'owners'])->name('owners.users');
@@ -135,26 +120,5 @@ Route::prefix('admin')->group(function () {
     Route::put('accept-offer/{id}', [OfferController::class, 'acceptOffers'])->name('offers.accept');
     Route::post('rent', [RentController::class, 'store'])->name('renting.store');
 });
-<<<<<<< HEAD
-=======
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
->>>>>>> 93a1258a4c00bc0e581989f9b684acf4415b6e76
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';

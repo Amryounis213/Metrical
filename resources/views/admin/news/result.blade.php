@@ -1,5 +1,7 @@
-<x-admin-layout>
-    @if(Session::has('create'))
+@extends('components.admin-layout')
+@section('content')
+
+@if(Session::has('create'))
     <div class="d-flex flex-column-fluid">
         <div class="container">
             <div class="row">
@@ -305,4 +307,4 @@
             {{ $news->links() }}
         </div>
     </div>
-</x-admin-layout>
+@endsection

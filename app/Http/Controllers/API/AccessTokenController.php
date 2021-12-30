@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class AccessTokenController extends Controller
@@ -20,7 +21,19 @@ class AccessTokenController extends Controller
      */
     public function signUp(Request $request)
     {
-        $request->validate([
+        /* $validation = $request->validate([
+            'first_name' => 'required| string',
+            'last_name' => 'required| string',
+            'email' => 'required|unique:users,email|email',
+            'country' => 'required',
+            'city' => 'required',
+            'mobile_number' => 'required| string ',
+            'password' => [Password::min(8), 'confirmed', 'required'],
+            'password_confirmation',
+            'agree' => 'required',
+        ]);*/
+
+        $validation = Validator::make($request->all(), [
             'first_name' => 'required| string',
             'last_name' => 'required| string',
             'email' => 'required|unique:users,email|email',
@@ -31,25 +44,32 @@ class AccessTokenController extends Controller
             'password_confirmation',
             'agree' => 'required',
         ]);
+        if ($validation->fails()) {
+
+            return  response()->json([
+                'status' => true,
+                'code' => 401,
+                'message' => '',
+                'data' => $validation->errors(),
+            ], 401);
+        }
         $request->merge([
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'code' => mt_rand(1111, 9999),
         ]);
-
-
 
         $user = User::create($request->all());
         return  response()->json([
             'status' => true,
             'code' => 201,
             'message' => 'please send code to database',
-            'data' => ''
+            'data' => $user,
         ], 201);
     }
 
     public function sendCode(Request $request)
     {
         $request->validate([
-            'code' => 'required',
             'email' => 'required'
         ]);
         $email = trim($request->email);
@@ -60,7 +80,7 @@ class AccessTokenController extends Controller
                 [
                     'status' => false,
                     'code' => 404,
-                    'message' => 'user not found',
+                    'message' => 'User not found',
                     'data' => ''
                 ],
                 404
@@ -68,7 +88,7 @@ class AccessTokenController extends Controller
         }
 
         $user->update([
-            'code' => $request->code
+            'code' => mt_rand(1111, 9999),
         ]);
 
         return  response()->json(
@@ -104,7 +124,7 @@ class AccessTokenController extends Controller
                     'status' => true,
                     'code' => 201,
                     'message' => 'Validation code is correct',
-                    'data' => '',
+                    'data' => $user,
                 ],
                 200
             );
@@ -142,13 +162,27 @@ class AccessTokenController extends Controller
         $user = User::where('email', $email)
             ->first();
         //    return $user->password;
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (
+            !$user || !Hash::check($request->password, $user->password)
+        ) {
             // RateLimiter::hit($this->throttleKey());
             return  response()->json(
                 [
                     'status' => false,
                     'code' => 404,
                     'message' => 'your email or password not valid',
+                    'data' => null
+                ],
+                404
+            );
+        }
+
+        if ($user->email_verified_at == null) {
+            return  response()->json(
+                [
+                    'status' => false,
+                    'code' => 404,
+                    'message' => 'Your account is not Verified',
                     'data' => null
                 ],
                 404
@@ -304,6 +338,8 @@ class AccessTokenController extends Controller
         $user1 = User::findOrFail($request->user_id);
         $user1->update([
             'status' => '0',
+
+
         ]);
 
 
@@ -332,7 +368,9 @@ class AccessTokenController extends Controller
             ]);
         }
         $user1->update([
-            'type' => '2',
+            'type' => '0',
+            'request_sent' => '1',
+            'need' => 'tenant',
         ]);
 
         $tenants = Tenant::create($request->all());
@@ -390,13 +428,13 @@ class AccessTokenController extends Controller
             $request->merge([
                 'title_dead_copy' => $title_dead_copy
             ]);
-            $request->merge([
-                'title_dead_copy' => $title_dead_copy
-            ]);
         }
         $user1 = User::findOrFail($request->user_id);
         $user1->update([
-            'type' => '1',
+            'type' => '0',
+            'status' => '0',
+            'request_sent' => '1',
+            'need' => 'owner',
         ]);
 
 
@@ -425,7 +463,8 @@ class AccessTokenController extends Controller
                 'message' => 'terms message',
                 'user' => User::$term_ar
             ]);
-        } if ($value == 'gr') {
+        }
+        if ($value == 'gr') {
             return response()->json([
                 'status' => true,
                 'code' => 200,
@@ -433,7 +472,7 @@ class AccessTokenController extends Controller
                 'user' => User::$term_en
             ]);
         }
-        
+
         return response()->json([
             'status' => true,
             'code' => 200,

@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
     @if(Session::has('create'))
     <div class="d-flex flex-column-fluid">
         <div class="container">
@@ -250,4 +251,4 @@
     </div>
 
 
-</x-admin-layout>
+@endsection

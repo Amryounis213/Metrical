@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -152,10 +153,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group now">
-                                            <label>Abilities</label>
+                                        
+                                    
+                                            <hr>
                                             @foreach(config('abilities') as $key => $value)
-
+                                        {{--
+                                            <div class="form-group now">
                                             <div class="checkbox-list">
                                                 <label class="checkbox">
                                                     <input class="form-check-input" type="checkbox" name="abilities[]"
@@ -166,8 +169,17 @@
                                                 </label>
 
                                             </div>
-                                            @endforeach
                                         </div>
+                                            
+                                            --}}
+                                            <div class="form-group row">
+                                                <label class="col-3 col-form-label">{{$value}}</label>
+                                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                                  <input data-switch="true" type="checkbox" name="abilities[]" value="{{$key}}" @if(in_array($key , $role->abilities ?? [])) checked="checked" @endif />
+                                                </div>
+                                              </div>
+                                            @endforeach
+                                       
                                         <div class="card-footer">
                                             <button type="submit" class="btn btn-primary mr-2">Create</button>
                                             <button type="reset" class="btn btn-secondary">Cancel</button>
@@ -187,4 +199,5 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
-</x-admin-layout>
+@include('components.form-script')
+@endsection

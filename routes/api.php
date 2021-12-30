@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ContactWithAdminController;
 use App\Http\Controllers\API\AccessTokenController;
 use App\Http\Controllers\API\AmenityController;
 use App\Http\Controllers\API\CommunityController;
+use App\Http\Controllers\API\CountriesController;
 use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\NewsController;
@@ -42,6 +43,9 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
     Route::get('properties/type/{offer_type}', [PropertyController::class, 'type']);
     Route::get('properties/shortterm/{short}', [PropertyController::class, 'shortTerm']);
 
+
+
+
     Route::apiResource('rents', RentController::class);
     Route::apiResource('amenities', AmenityController::class);
     Route::apiResource('news', NewsController::class);
@@ -68,19 +72,20 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
     Route::get('home', [UserController::class, 'home']);
 
     //new requests Mohammed Profile
-    Route::get('profile/movein', [ProfileController::class , 'moveIn'])
-    ->middleware('auth:sanctum');
-    Route::get('profile/moveout', [ProfileController::class , 'moveOut'])
-    ->middleware('auth:sanctum');
-    Route::get('profile/work-permit', [ProfileController::class , 'WorkPermit'])
-    ->middleware('auth:sanctum');
-    Route::get('profile/delivery-permit', [ProfileController::class , 'Delivery'])
-    ->middleware('auth:sanctum');
-
+    Route::get('profile/movein', [ProfileController::class, 'moveIn'])
+        ->middleware('auth:sanctum');
+    Route::get('profile/moveout', [ProfileController::class, 'moveOut'])
+        ->middleware('auth:sanctum');
+    Route::get('profile/work-permit', [ProfileController::class, 'WorkPermit'])
+        ->middleware('auth:sanctum');
+    Route::get('profile/delivery-permit', [ProfileController::class, 'Delivery'])
+        ->middleware('auth:sanctum');
 });
 //API (Amr Younis)
 
-
+Route::get('countries', [CountriesController::class, 'showallcountries']);
+Route::get('countries/{id}/cities', [CountriesController::class, 'showCitiesByCountry']);
+Route::get('settings', [CountriesController::class, 'termswithcountries']);
 
 //Auth Request (Mohammed Obaid)
 Route::post('auth/signUp', [AccessTokenController::class, 'signUp']);
