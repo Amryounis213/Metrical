@@ -66,7 +66,7 @@ class AccessTokenController extends Controller
                 404
             );
         }
-
+        
         $user->update([
             'code' => $request->code
         ]);
@@ -149,6 +149,19 @@ class AccessTokenController extends Controller
                     'status' => false,
                     'code' => 404,
                     'message' => 'your email or password not valid',
+                    'data' => null
+                ],
+                404
+            );
+            
+        }
+        
+        if($user->email_verified_at == null){
+            return  response()->json(
+                [
+                    'status' => false,
+                    'code' => 404,
+                    'message' => 'your account not Verified',
                     'data' => null
                 ],
                 404
@@ -333,6 +346,7 @@ class AccessTokenController extends Controller
         }
         $user1->update([
             'type' => '2',
+            'status' => '0'
         ]);
 
         $tenants = Tenant::create($request->all());
@@ -397,6 +411,7 @@ class AccessTokenController extends Controller
         $user1 = User::findOrFail($request->user_id);
         $user1->update([
             'type' => '1',
+            'status' => '0'
         ]);
 
 

@@ -1,5 +1,23 @@
 <?php
 
+use App\Http\Controllers\Admin\CommunitiesController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\enquiryController;
+use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\PropertyController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\admin\RentController;
+use App\Http\Controllers\Admin\servicesController;
+use App\Http\Controllers\admin\StopOffers;
+use App\Http\Controllers\API\CommunityController;
+use App\Http\Controllers\EventsController;
+use App\Models\Rent;
+use App\Models\Stopoffer;
+use App\Models\Tenant;
+use App\Models\User;
+use App\Notifications\SendReminderForEventNotification;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +31,55 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('admin-panel', function () {
+    return view('admin.home.index');
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('admin')->group(function () {
+    
+    require __DIR__.'/auth.php';
+});
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::prefix('admin')
+->middleware(['auth', 'check:3'])
+->group(function () {
+    Route::get('moveins', [servicesController::class, 'moveIns'])->name('moveins');
+    Route::put('accept-movein/{id}', [servicesController::class, 'acceptMovein'])->name('accept-movein');
+    Route::put('refuse-movein/{id}', [servicesController::class, 'refuseMovein'])->name('refuse-movein');
+
+    Route::get('communities/results', [CommunitiesController::class, 'result'])->name('communities.results');
+    Route::resource('communities', CommunitiesController::class);
+
+    Route::post('add-owner', [PropertyController::class, 'addOwner'])->name('properties.addOwner');
+    Route::resource('properties', PropertyController::class);
+    Route::resource('offers', OfferController::class);
+    Route::get('offers/type/{type}', [OfferController::class, 'type'])->name('offer-type');
+    Route::resource('events', EventsController::class);
+    Route::resource('news', NewsController::class);
+
+    Route::get('contact', [ContactController::class, 'index']);
+    Route::get('enquires', [enquiryController::class, 'index']);
+
+    Route::get('stop-offer', [StopOffers::class, 'index'])->name('offers.index');
+    Route::get('binding-users', [UsersController::class, 'index'])->name('binding.users');
+    Route::get('tenants-users', [UsersController::class, 'tenants'])->name('tenants.users');
+    Route::get('owners-users', [UsersController::class, 'owners'])->name('owners.users');
+    Route::get('binding-users/{id}', [UsersController::class, 'showBindingUser'])->name('binding.show');
+    Route::put('binding-users/accept/{id}', [UsersController::class, 'acceptBinding'])->name('binding.accept');
+    Route::put('binding-users/refuse/{id}', [UsersController::class, 'refuseBinding'])->name('binding.refuse');
+    Route::put('accept-offer/{id}', [OfferController::class, 'acceptOffers'])->name('offers.accept');
+    Route::post('rent', [RentController::class, 'store'])->name('renting.store');
+});
+

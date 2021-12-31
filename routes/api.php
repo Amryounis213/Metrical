@@ -110,9 +110,21 @@ Route::post('interested', [EventController::class, 'interested'])
 
 Route::post('contact', [ContactWithAdminController::class, 'store'])
     ->middleware('auth:sanctum');
-
-Route::put('profile', [UserController::class, 'editProfile'])
+// for personal information
+Route::put('profile/person_info', [UserController::class, 'editPersonalProfile'])
     ->middleware('auth:sanctum');
 
-Route::get('profile', [UserController::class, 'showProfile'])
+Route::get('profile/person_info', [UserController::class, 'showPersonalProfile'])
     ->middleware('auth:sanctum');
+
+// for Family info
+Route::put('profile/family_info', [UserController::class, 'editProfile'])
+    ->middleware('auth:sanctum');
+
+Route::get('profile/family_info', [UserController::class, 'showProfile'])
+    ->middleware('auth:sanctum');
+
+
+
+
+

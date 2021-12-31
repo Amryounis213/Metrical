@@ -37,17 +37,20 @@ class UserController extends Controller
         ];
     }
 
-    public function showProfile()
+    // for personal info
+    public function showPersonalProfile()
     {
-        $profile = Auth::guard('sanctum')->user();
+        $profile = Auth::guard('sanctum')->user([
+            'first_name','last_name', 'email ','mobile_number','id_number','nationality','country','city'
+        ]);
         return [
             'status' => 200,
             'message' => __('the profile of user'),
             'data' => $profile,
         ];
     }
-
-    public function editProfile(Request $request)
+    // for personal info
+    public function editPersonalProfile(Request $request)
     {
         $user = Auth::guard('sanctum')->user();
         $request->validate([
@@ -72,6 +75,38 @@ class UserController extends Controller
             ]);
         }
 
+        $user->update($request->all());
+        return  response()->json(
+            [
+                'status' => '201',
+                'message' => __('the profile was updated'),
+                'data' => Auth::guard('sanctum')->user()
+            ],
+            201
+        );
+    }
+
+    // for Family info
+    public function showFamilyProfile()
+    {
+        $profile = Auth::guard('sanctum')->user([
+            'children_number', 'adults_number'
+        ]);
+        return [
+            'status' => 200,
+            'message' => __('the profile of user'),
+            'data' => $profile,
+        ];
+    }
+
+    // edit Family info
+    public function editFamilyProfile(Request $request)
+    {
+        $user = Auth::guard('sanctum')->user();
+        $request->validate([
+            'children_number' => 'required',
+            'adults_number' => 'required'
+        ]);
         $user->update($request->all());
         return  response()->json(
             [
