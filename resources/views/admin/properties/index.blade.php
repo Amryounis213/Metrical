@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
 
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -102,9 +103,9 @@
                 <div class="d-flex align-items-center">
                     <!--begin::Button-->
                     <a href="#" class=""></a>
-                    <!--end::Button-->
+                    <!--end::Button--> 
                     <!--begin::Button-->
-                    <a href="{{route('properties.create')}}" class="btn btn-light-primary font-weight-bold ml-2">Add Property</a>
+                    <a  href="{{route('properties.create')}}" class="btn btn-light-primary font-weight-bold ml-2">Add Property</a>
                     <!--end::Button-->
                   
                 </div>
@@ -114,6 +115,27 @@
             </div>
         </div>
         <!--end::Subheader-->
+        @if(Session::has('rent'))
+        <div class="d-flex flex-column-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                            <div class="alert alert-custom alert-primary fade show" role="alert">
+                                <div class="alert-icon"><i class="flaticon-warning"></i></div>
+                                <div class="alert-text">{{ Session::get('rent') }}</div>
+                                <div class="alert-close">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true"><i class="ki ki-close"></i></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
         <!--begin::Entry-->
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
@@ -155,7 +177,7 @@
                                                         <span class="text-primary text-uppercase font-weight-bold font-size-sm">Options</span>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="#" class="navi-link">
+                                                        <a href="{{route('properties.edit' ,$property->id)}}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="flaticon2-shopping-cart-1"></i>
                                                             </span>
@@ -191,10 +213,7 @@
                                         <span class="d-block font-weight-bold mb-4">Finish Date</span>
                                         <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">{{$rent->to ?? ''}}</span>
                                     </div>
-                                    <div class="mr-12 d-flex flex-column mb-7">
-                                        <span class="d-block font-weight-bold mb-4">Rental Period</span>
-                                        <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">{{ \Carbon\Carbon::parse($rent->to)->diffForHumans(\Carbon\Carbon::parse($rent->from)) }}</span>
-                                    </div>
+                                   
                                     <div class="mr-12 d-flex flex-column mb-7">
                                         <span class="d-block font-weight-bold mb-4">Rent Price </span>
                                         <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">{{$rent->price ?? ''}}</span>
@@ -267,7 +286,7 @@
                                     <!--end::Item-->
 
                                     <div class="d-flex flex-wrap mt-14">
-                                        <div class="mr-12 d-flex flex-column mb-7">
+                                        <div class="mr-2 d-flex flex-column mb-7">
                                             <span class="d-block font-weight-bold mb-4">Amenities</span>
                                             @if ($property->amenities != null)
                                                 
@@ -307,13 +326,12 @@
                                             </svg>
                                             <!--end::Svg Icon-->
                                         </span>
-                                        <a href="#" class="font-weight-bolder text-primary ml-2">500 $</a>
                                     </div>
                                    
                                 </div>
                                 {{-- <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">details</button> --}}
                                 <button data-toggle="modal" data-target="#owner-{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Add Owner</button>
-                                <button data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Make Rent</button>
+                                <button  data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto make-rent">Make Rent</button>
 
                             </div>
                             <!--end::Footer-->
@@ -340,9 +358,9 @@
                                     <div class="form-group row">
                                         <label class="col-form-label text-right col-lg-3 col-sm-12">Start Time</label>
                                         <div class="col-lg-6 col-md-9 col-sm-12">
-                                            <div class="input-group date" id="kt_datetimepicker_7_1" data-target-input="nearest">
-                                                <input name="from" type="text" class="form-control datetimepicker-input" placeholder="Select date &amp; time" data-target="#kt_datetimepicker_7_1" />
-                                                <div class="input-group-append" data-target="#kt_datetimepicker_7_1" data-toggle="datetimepicker">
+                                            <div class="input-group date kt_datetimepicker_7_1" data-target-input="nearest">
+                                                <input name="from" type="text" class="form-control datetimepicker-input" placeholder="Select date &amp; time" data-target=".kt_datetimepicker_7_1" />
+                                                <div class="input-group-append" data-target=".kt_datetimepicker_7_1" data-toggle="datetimepicker">
                                                     <span class="input-group-text">
                                                         <i class="ki ki-calendar"></i>
                                                     </span>
@@ -355,9 +373,9 @@
                                     <div class="form-group row">
                                         <label class="col-form-label text-right col-lg-3 col-sm-12">Last Time</label>
                                         <div class="col-lg-6 col-md-9 col-sm-12">
-                                            <div class="input-group date" id="kt_datetimepicker_7_2" data-target-input="nearest">
-                                                <input name="to" type="text" class="form-control datetimepicker-input" placeholder="Select date &amp; time" data-target="#kt_datetimepicker_7_2" />
-                                                <div class="input-group-append" data-target="#kt_datetimepicker_7_2" data-toggle="datetimepicker">
+                                            <div class="input-group date kt_datetimepicker_7_2"  data-target-input="nearest">
+                                                <input name="to" type="text" class="form-control datetimepicker-input" placeholder="Select date &amp; time" data-target=".kt_datetimepicker_7_2" />
+                                                <div class="input-group-append" data-target=".kt_datetimepicker_7_2" data-toggle="datetimepicker">
                                                     <span class="input-group-text">
                                                         <i class="ki ki-calendar"></i>
                                                     </span>
@@ -380,9 +398,16 @@
                                         <div class="col-lg-6 col-md-9 col-sm-12">
                                             <select name="tenant_id" class="form-control" id="exampleSelectd">
                                                 <option data-dismiss>--Select Name</option>
+                                               
+                                                    
+                                    
                                                 @foreach ($tenants as $tenant)
-                                                <option value="{{$tenant->id}}" >{{$tenant->full_name}}</option>
+                                                @if ($tenant->tenant != null)
+                                                <option value="{{$tenant->tenant->id}}" >{{$tenant->tenant->full_name}}</option>
+                                                @endif
                                                 @endforeach
+
+                                               
                                         </select>                    
                                     
                                         </div>
@@ -412,7 +437,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Make A New Rent</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Add Owner For <strong class="text-success"> {{$property->name_en}}</strong></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <i aria-hidden="true" class="ki ki-close"></i>
                                     </button>
@@ -421,32 +446,26 @@
                                 <div class="modal-body">
                                         @csrf
                                     
-                                    <input hidden  name="property_id" type="number" class="form-control"  value="{{$property->id}}" />
-                    
-                                    <div class="form-group row">
-                                        {{-- <label class="col-form-label text-right col-lg-3 col-sm-12">owner</label>
-                                        <div class="col-lg-6 col-md-9 col-sm-12">
-                                            <select name="owner_id" class="form-control" id="exampleSelectd">
-                                                <option data-dismiss>--Select Name of owner</option>
-                                                @foreach ($owners as $owner)
-                                                <option value="{{$owner->id}}" >{{$owner->full_name}}</option>
-                                                @endforeach
-                                        </select>                    
+                                        <input hidden  name="property_id" type="number" class="form-control"  value="{{$property->id}}" />
+                                       
                                     
-                                        </div> --}}
-                                        <div class="form-group row" data-select2-id="127">
-                                            <label class="col-form-label text-right col-lg-3 col-sm-12">Owner Name</label>
-                                            <div class="col-lg-4 col-md-9 col-sm-12" data-select2-id="126">
-                                                <select class="form-control select2-hidden-accessible" id="kt_select2_1" name="param" data-select2-id="kt_select2_1" tabindex="-1" aria-hidden="true">
-                                                    <option  name="owner_id" data-dismiss>--Select Name of owner</option>
-                                                    @foreach ($owners as $owner)
-                                                    <option value="{{$owner->id}}" >{{$owner->full_name}}</option>
-                                                    @endforeach
-                                                </select>
-                                                <span class="select2 select2-container select2-container--default select2-container--below select2-container--open" dir="ltr" data-select2-id="1" style="width: 308.5px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="true" tabindex="0" aria-disabled="false" aria-labelledby="select2-kt_select2_1-container" aria-owns="select2-kt_select2_1-results" aria-activedescendant="select2-kt_select2_1-result-r1yl-NV"><span class="select2-selection__rendered" id="select2-kt_select2_1-container" role="textbox" aria-readonly="true" title="Alaska">Select Owne For Properity</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                        <div class="form-group row">
+                                            <label class="col-2 col-form-label">Owners</label>
+                                            <div class="col-10">
+                                                <select name="owner_id" class="form-control selectpicker" data-size="7"
+                                                data-live-search="true">
+                                                <option value="">Select</option>
+                                                @foreach ($owners as $owner)
+                                                @if ($owner->owner != null)
+                                                <option value="{{$owner->owner->id}}" >{{$owner->owner->full_name}}</option>
+                                                @endif
+                                                @endforeach
+                                             
+                                             </select>
                                             </div>
                                         </div>
-                                    </div>
+                                        
+                                  
                                        
                                        
                                 </div>
@@ -475,38 +494,8 @@
                 
                 <!--begin::Pagination-->
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div class="d-flex flex-wrap mr-3">
-                        <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
-                            <i class="ki ki-bold-double-arrow-back icon-xs"></i>
-                        </a>
-                        <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
-                            <i class="ki ki-bold-arrow-back icon-xs"></i>
-                        </a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">23</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary active mr-2 my-1">24</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">25</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">26</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">27</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">28</a>
-                        <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
-                        <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
-                            <i class="ki ki-bold-arrow-next icon-xs"></i>
-                        </a>
-                        <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
-                            <i class="ki ki-bold-double-arrow-next icon-xs"></i>
-                        </a>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <select class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light-primary" style="width: 75px;">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                        <span class="text-muted">Displaying 10 of 230 records</span>
-                    </div>
+                    
+                       {{$properties->links()}} 
                 </div>
                 <!--end::Pagination-->
             </div>
@@ -515,5 +504,6 @@
         <!--end::Entry-->
         
     </div>
+
 <x-form-script />
-</x-admin-layout>
+@endsection

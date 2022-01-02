@@ -11,8 +11,8 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $appends =['image_path'];
-  
+    protected $appends = ['image_path'];
+
 
 
     protected $fillable = [
@@ -34,7 +34,9 @@ class User extends Authenticatable
         'code',
         'email_verified_at',
         'nationality',
-        'id_number'
+        'id_number',
+        'request_sent',
+        'need'
     ];
 
 
@@ -52,7 +54,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
     public function tenant()
     {
         return $this->hasOne(Tenant::class, 'user_id');
@@ -97,7 +102,7 @@ class User extends Authenticatable
     BC, making it over 2000 years old. Richard
     McClintock, a Latin professor at Hampden";
 
-    static $term_ar ='خلافا للاعتقاد الشائع ، فإن Lorem Ipsum هو
+    static $term_ar = 'خلافا للاعتقاد الشائع ، فإن Lorem Ipsum هو
     ليس مجرد نص عشوائي. لها جذور في أ
     قطعة من الأدب اللاتيني الكلاسيكي من 45
     قبل الميلاد ، مما يجعلها أكثر من 2000 سنة. ريتشارد
@@ -128,28 +133,90 @@ class User extends Authenticatable
     قبل الميلاد ، مما يجعلها أكثر من 2000 سنة. ريتشارد
     مكلينتوك ، أستاذ لاتيني في هامبدن';
 
+    static $term_gr = '
+    Entgegen der landläufigen Meinung ist Lorem Ipsum
+    nicht einfach zufälliger Text. Es hat Wurzeln in a
+    Stück klassische lateinische Literatur aus 45
+    BC und ist damit über 2000 Jahre alt. Richard
+    McClintock, ein Latein-Professor am Hampden Sydney College in Virginia, suchte einen von
+    die dunkleren lateinischen Wörter consectetur,
+    von einer Lorem-Ipsum-Passage, und gehen
+    durch die Zitate des Wortes in der Klassik
+    Literatur, entdeckte das Unzweifelhafte
+    Quelle. Lorem Ipsum kommt aus Abschnitten
+    1.10.32 und 1.10.33 von „de Finibus Bonorum“
+    et Malorum“ (Die Extreme des Guten und
+    Böse) von Cicero, geschrieben im Jahr 45 v. Dieses Buch ist
+    eine Abhandlung über die Theorie der Ethik, sehr
+    beliebt in der Renaissance. Der Erste
+    Linie von Lorem Ipsum, „Lorem ipsum dolor sit
+    amet..“, stammt aus einer Zeile in Abschnitt 1.10.32.
+    Das Standardstück von Lorem Ipsum verwendet
+    seit 1500 ist unten wiedergegeben für
+    die Interessierten. Abschnitte 1.10.32 und
+    1.10.33 aus „de Finibus Bonorum et
+    Malorum“ von Cicero sind auch in . wiedergegeben
+    ihre genaue Originalform, begleitet von
+    Englische Versionen aus der Übersetzung von 1914
+    von H. Rackham.
+    Entgegen der landläufigen Meinung ist Lorem Ipsum
+    nicht einfach zufälliger Text. Es hat Wurzeln in a
+    Stück klassische lateinische Literatur aus 45
+    BC und ist damit über 2000 Jahre alt. Richard
+    McClintock, ein Latein-Professor in Hampden“;
+    
+    ';
+
+
 
 
     public function toArray()
     {
         $NewUserNews = News::inRandomOrder()->limit(5)->latest()->get();
 
-        $user = User::with('owner.property')->where('id', $this->id)->first();
-        return [
-            'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
-            'email_verified_at' => $this->email_verified_at,
-            'country' => $this->country,
-            'city' => $this->city,
-            'mobile_number' => $this->mobile_number,
-            'image_url' => $this->image_path,
-            'type' => $this->type,
-            'status' => $this->status,
-            'news' => $NewUserNews,
-            'properties' => $user->owner->property ?? [],
-        ];
+        //  $user = User::with('owner.property')->where('id', $this->id)->first();
+        $owners = User::find($this->id)->owner->property ?? null;
+        $tenants = User::find($this->id)->tenant->property ?? null;
+        // return $tenants = User::find($this->id)->tenant->rent()->property;
+        if ($tenants) {
+            return [
+                'id' => $this->id,
+                'code' => $this->code,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email' => $this->email,
+                'email_verified_at' => $this->email_verified_at,
+                'country' => $this->country,
+                'city' => $this->city,
+                'mobile_number' => $this->mobile_number,
+                'image_url' => $this->image_path,
+                'type' => $this->type,
+                'status' => $this->status,
+                'news' => $NewUserNews,
+                'nationalty' => $this->nationalty,
+                'id_number' => $this->id_number,
+                'properties' => $tenants ?? [],
+            ];
+        } else {
+            return [
+                'id' => $this->id,
+                'code' => $this->code,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email' => $this->email,
+                'email_verified_at' => $this->email_verified_at,
+                'country' => $this->country,
+                'city' => $this->city,
+                'mobile_number' => $this->mobile_number,
+                'image_url' => $this->image_path,
+                'type' => $this->type,
+                'status' => $this->status,
+                'news' => $NewUserNews,
+                'nationalty' => $this->nationalty,
+                'id_number' => $this->id_number,
+                'properties' => $owners ?? [],
+            ];
+        }
     }
     public function moveIn()
     {
@@ -158,10 +225,10 @@ class User extends Authenticatable
 
     public function getImagePathAttribute($value)
     {
-        if(!$this->image_url){
+        if (!$this->image_url) {
             return asset('admin/assets/media/users/300_25.jpg');
         }
-        if(stripos($this->image_url , 'http') ===  0){
+        if (stripos($this->image_url, 'http') ===  0) {
             return $this->image_url;
         }
         return asset('uploads/' . $this->image_url);

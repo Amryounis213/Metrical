@@ -5,7 +5,7 @@ var KTBootstrapMaxlength = function () {
     // Private functions
     var demos = function () {
         // minimum setup
-        $('#kt_maxlength_1').maxlength({
+        $('.kt_maxlength_1').maxlength({
             warningClass: "label label-warning label-rounded label-inline",
             limitReachedClass: "label label-success label-rounded label-inline"
         });
@@ -95,7 +95,7 @@ var KTBootstrapMaxlength = function () {
 
         // always show
         // textarea example
-        $('#kt_maxlength_5_modal').maxlength({
+        $('.kt_maxlength_5_modal').maxlength({
             threshold: 5,
             warningClass: "label label-danger label-rounded label-inline",
             limitReachedClass: "label label-primary label-rounded label-inline",
@@ -117,12 +117,12 @@ var KTBootstrapMaxlength = function () {
 
     return {
         // public functions
-        init: function() {
+        init: function () {
             demos();
         }
     };
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     KTBootstrapMaxlength.init();
 });

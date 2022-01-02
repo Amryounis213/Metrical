@@ -19,10 +19,11 @@ class Owner extends Model
         'direct',
         'full_name',
         'email',
-        'mobile'
+        'mobile',
+        'status',
     ];
-    protected $appends =['passport_path','title_dead'];
-    protected $hidden = ['passport_copy','title_dead_copy'];
+    protected $appends = ['passport_path', 'title_dead'];
+    protected $hidden = ['passport_copy', 'title_dead_copy'];
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -34,20 +35,20 @@ class Owner extends Model
     }
     public function getPassportPathAttribute($value)
     {
-        if(!$this->passport_copy){
+        if (!$this->passport_copy) {
             return asset('uploads/palceholder.jpg');
         }
-        if(stripos($this->passport_copy , 'http') ===  0){
+        if (stripos($this->passport_copy, 'http') ===  0) {
             return $this->passport_copy;
         }
         return asset('uploads/' . $this->image);
     }
     public function getTitleDeadAttribute($value)
     {
-        if(!$this->title_dead_copy){
+        if (!$this->title_dead_copy) {
             return asset('uploads/palceholder.jpg');
         }
-        if(stripos($this->title_dead_copy , 'http') ===  0){
+        if (stripos($this->title_dead_copy, 'http') ===  0) {
             return $this->title_dead_copy;
         }
         return asset('uploads/' . $this->title_dead_copy);

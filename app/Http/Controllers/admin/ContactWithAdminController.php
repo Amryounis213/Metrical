@@ -12,6 +12,17 @@ use Illuminate\Support\Facades\Auth;
 
 class ContactWithAdminController extends Controller
 {
+
+    public function result(Request $request)
+    {
+
+        $contacts = ContactWithAdmin::where('name', 'LIKE', '%' . $request->name . '%')->paginate(10);
+
+        return view('admin.contact.result', [
+            'contacts' => $contacts,
+            'title' => 'Show All Results'
+        ]);
+    }
     public function store(Request $request)
     {
         $request->validate([
@@ -20,12 +31,12 @@ class ContactWithAdminController extends Controller
             'email' => 'required',
             'message' => 'required',
         ]);
-        
+
         $user = Auth::guard('sanctum')->user();
         $request->merge([
             'user_id' => $user->id
         ]);
-        
+
         $contact = ContactWithAdmin::create($request->all());
         // notify notification
         event(new SendMessageToAdminEvent($contact));
@@ -34,9 +45,6 @@ class ContactWithAdminController extends Controller
             'status' => 200,
             'message' => __('messages.contact'),
             'data' => $contact,
-        ]; 
-
-
-
+        ];
     }
 }

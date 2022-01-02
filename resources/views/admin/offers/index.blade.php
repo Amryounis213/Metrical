@@ -1,5 +1,5 @@
-<x-admin-layout>
-
+@extends('components.admin-layout')
+@section('content')
     <!--begin::Subheader-->
     <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
         <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
@@ -176,24 +176,7 @@
                                         members</span>
                                 </h3>
                                 <div class="card-toolbar">
-                                    <!--begin::Button-->
-                                    <a href="{{route('events.create')}}" class="btn btn-primary font-weight-bolder">
-                                        <span class="svg-icon svg-icon-md">
-                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
-                                                viewBox="0 0 24 24" version="1.1">
-                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <rect x="0" y="0" width="24" height="24" />
-                                                    <circle fill="#000000" cx="9" cy="15" r="6" />
-                                                    <path
-                                                        d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z"
-                                                        fill="#000000" opacity="0.3" />
-                                                </g>
-                                            </svg>
-                                            <!--end::Svg Icon-->
-                                        </span>New Record
-                                    </a>
-                                    <!--end::Button-->
+                                   
                                 </div>
                             </div>
                             <!--end::Header-->
@@ -258,6 +241,7 @@
                                                 <th style="min-width: 120px">Type</th>
                                                 <th style="min-width: 120px">Price</th>
 												<th style="min-width: 120px">Property</th>
+                                                <th style="min-width: 120px">Status</th>
                                                 <th class="pr-0 text-right" style="min-width: 160px">action</th>
                                             </tr>
                                         </thead>
@@ -295,6 +279,10 @@
                                                         class="text-dark-75 font-weight-bolder d-block font-size-lg">{{  $event->property->name_en}}</span>
                                                 </td>
 
+                                                <td>
+                                                    <span class="label label-lg @if($event->status == "1") label-light-success @else label-light-primary @endif label-inline">{{ $event->status ? 'Accepted' : 'Pending' }}</span>
+                                                    
+                                                </td>
                                          
 
 
@@ -371,36 +359,25 @@
 
                                                         </form>
                                                     </a>
-
-													<a class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
+                                                    @if ($event->status == 0)
+                                                    <a class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
                                                         <form action="{{ route('offers.accept', $event->id) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('put')
                                                             <button type="submit" style="border:none">
-                                                                <span class="svg-icon svg-icon-md svg-icon-primary">
-                                                                    <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                                        width="24px" height="24px" viewBox="0 0 24 24"
-                                                                        version="1.1">
-                                                                        <g stroke="none" stroke-width="1" fill="none"
-                                                                            fill-rule="evenodd">
-                                                                            <rect x="0" y="0" width="24" height="24" />
-                                                                            <path
-                                                                                d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z"
-                                                                                fill="#000000" fill-rule="nonzero" />
-                                                                            <path
-                                                                                d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
-                                                                                fill="#000000" opacity="0.3" />
-                                                                        </g>
-                                                                    </svg>
-                                                                    <!--end::Svg Icon-->
-                                                                </span>
+                                                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:C:\wamp64\www\keenthemes\legacy\metronic\theme\html\demo1\dist/../src/media/svg/icons\Navigation\Check.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                        <polygon points="0 0 24 0 24 24 0 24"/>
+                                                                        <path d="M6.26193932,17.6476484 C5.90425297,18.0684559 5.27315905,18.1196257 4.85235158,17.7619393 C4.43154411,17.404253 4.38037434,16.773159 4.73806068,16.3523516 L13.2380607,6.35235158 C13.6013618,5.92493855 14.2451015,5.87991302 14.6643638,6.25259068 L19.1643638,10.2525907 C19.5771466,10.6195087 19.6143273,11.2515811 19.2474093,11.6643638 C18.8804913,12.0771466 18.2484189,12.1143273 17.8356362,11.7474093 L14.0997854,8.42665306 L6.26193932,17.6476484 Z" fill="#000000" fill-rule="nonzero" transform="translate(11.999995, 12.000002) rotate(-180.000000) translate(-11.999995, -12.000002) "/>
+                                                                    </g>
+                                                                </svg><!--end::Svg Icon--></span>
                                                             </button>
 
                                                         </form>
-                                                    </a>
+                                                    </a> 
+                                                    @endif
+													
 
                                                 </td>
                                             </tr>
@@ -448,4 +425,4 @@
     </div>
 
 
-</x-admin-layout>
+@endsection

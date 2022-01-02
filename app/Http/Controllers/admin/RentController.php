@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Offer;
@@ -23,7 +23,7 @@ class RentController extends Controller
                 'to' => Carbon::parse($request->to)->format('Y-m-d H:m'),
             ]);
         } else {
-            return 'Properties Have Rent';
+            return redirect()->route('properties.index')->with('rent', 'The Proprty has rent now');
         }
 
 

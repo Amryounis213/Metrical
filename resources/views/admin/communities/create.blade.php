@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -9,24 +10,10 @@
                     <!--begin::Page Heading-->
                     <div class="d-flex align-items-baseline flex-wrap mr-5">
                         <!--begin::Page Title-->
-                        <h5 class="text-dark font-weight-bold my-1 mr-5">Default Forms</h5>
+                        <h5 class="text-dark font-weight-bold my-1 mr-5">Create Communities</h5>
                         <!--end::Page Title-->
                         <!--begin::Breadcrumb-->
-                        <ul
-                            class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-                            <li class="breadcrumb-item text-muted">
-                                <a href="" class="text-muted">Crud</a>
-                            </li>
-                            <li class="breadcrumb-item text-muted">
-                                <a href="" class="text-muted">Forms &amp; Controls</a>
-                            </li>
-                            <li class="breadcrumb-item text-muted">
-                                <a href="" class="text-muted">Form Layouts</a>
-                            </li>
-                            <li class="breadcrumb-item text-muted">
-                                <a href="" class="text-muted">Default Forms</a>
-                            </li>
-                        </ul>
+                        
                         <!--end::Breadcrumb-->
                     </div>
                     <!--end::Page Heading-->
@@ -228,7 +215,10 @@
                                                 <input id="kt_maxlength_2" name="readness_percentage"
                                                     class="form-control" type="number"
                                                     value="{{$community->readness_percentage}}"
-                                                    id="readness_percentage" />
+                                                    min="0"
+                                                    max="100"
+                                                    id="readness_percentage"  />
+                                                    
                                             </div>
                                         </div>
 
@@ -259,4 +249,5 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
-</x-admin-layout>
+@include('components.form-script')
+@endsection

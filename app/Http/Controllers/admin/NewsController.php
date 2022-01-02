@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Community;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class NewsController extends Controller
 {
@@ -14,9 +15,22 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function result(Request $request)
+    {
+
+        $news = News::where('title_en', 'LIKE', '%' . $request->name . '%')->paginate(10);
+
+        return view('admin.news.result', [
+            'news' => $news,
+            'title' => 'Show All Results'
+        ]);
+    }
     public function index()
     {
-        $news = News::with('community')->paginate(1);
+        Gate::authorize('news.view');
+
+        $news = News::with('community')->paginate(5);
         // return $news;
         return view('admin.news.index', [
             'news' => $news,
@@ -31,6 +45,7 @@ class NewsController extends Controller
      */
     public function create()
     {
+        Gate::authorize('news.create');
         $new = new News();
         $communities = Community::get();
         return view('admin.news.create', [
@@ -92,6 +107,7 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('news.update');
         $new = News::findOrFail($id);
         // return $new;
         $communities = Community::get();
@@ -144,6 +160,7 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('news.delete');
         $new = News::findOrFail($id);
         $new->delete();
         return redirect()->route('news.index')->with('delete', 'the news is deletes');

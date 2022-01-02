@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -244,7 +245,7 @@
 
                                     </div>
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-primary mr-2">Create</button>
+                                        <button type="submit" class="btn btn-primary mr-2">Update</button>
                                         <button type="reset" class="btn btn-secondary">Cancel</button>
                                     </div>
                                 </div>
@@ -262,4 +263,4 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
-</x-admin-layout>
+@endsection

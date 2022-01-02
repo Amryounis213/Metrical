@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Community;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Searchable\Search;
 
 class CommunitiesController extends Controller
 {
     public function result(Request $request)
     {
-
         $communities = Community::where('name_en', 'LIKE', '%' . $request->name . '%')->get();
 
         return view('admin.communities.result', [
@@ -29,6 +29,7 @@ class CommunitiesController extends Controller
     }
     public function create()
     {
+        Gate::authorize('communities.create');
         $community = new Community();
         return view('admin.communities.create', [
             'community' => $community,
@@ -39,6 +40,7 @@ class CommunitiesController extends Controller
     public function store(Request $request)
     {
         if ($request->hasFile('image_url')) {
+
             $file = $request->file('image_url');
             $image_path = $file->store('/', [
                 'disk' => 'upload',
@@ -53,6 +55,8 @@ class CommunitiesController extends Controller
 
     public function show($id)
     {
+
+
         $community = Community::findOrFail($id);
         return $community;
         // $response = Http::get('http://www.geoplugin.net/extras/forward_place.gp?place=Sohag&country=EG');
@@ -60,6 +64,7 @@ class CommunitiesController extends Controller
     }
     public function edit($id)
     {
+        Gate::authorize('communities.update');
         $community = Community::findOrFail($id);
         return view('admin.communities.edit', [
             'community' => $community,
@@ -83,6 +88,7 @@ class CommunitiesController extends Controller
     }
     public function destroy($id)
     {
+        Gate::authorize('communities.delete');
         $community = Community::findOrFail($id);
         $community->delete();
         return redirect(route('communities.index'));

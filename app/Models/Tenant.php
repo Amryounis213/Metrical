@@ -16,7 +16,8 @@ class Tenant extends Model
         'unit_number',
         'full_name',
         'email',
-        'mobile'
+        'mobile',
+        'status',
     ];
     public function user()
     {

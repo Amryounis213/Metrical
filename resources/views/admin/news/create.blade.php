@@ -1,4 +1,5 @@
-<x-admin-layout>
+@extends('components.admin-layout')
+@section('content')
     <!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
@@ -210,7 +211,8 @@
                                                 data-live-search="true">
                                                 <option value="">Select</option>
                                                 @foreach ($communities as $community)
-                                                <option value="{{$community->id ?? ''}}">{{$community->name_en ?? ''}}</option>
+                                                <option value="{{$community->id ?? ''}}">{{$community->name_en ?? ''}}
+                                                </option>
                                                 @endforeach
                                             </select>
                                             <span class="form-text text-muted">you can select any community </span>
@@ -296,4 +298,4 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
-</x-admin-layout>
+@endsection

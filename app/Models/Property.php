@@ -123,15 +123,15 @@ class Property extends Model
             'bathroom' => $this->bathroom,
             'date_added' => $this->created_at,
             'address' => $this->address,
-            'status' => $this->status,
+            'status' => $this->status ?? 0,
             'offer_type' => $this->offer_type,
             'location_longitude' => $this->location_longitude,
             'location_latitude' => $this->location_latitude,
             'amenities' => $this->amenities,
             'community' => [
                 'name' => $community->$name ?? '',
-                'status' => $community->status ? 'under constraction' : 'ready',
-                'properties_count' => $community->properties->count() ?? 'null',
+                'status' => $community->status ?? 0,
+                'properties_count' => $community->properties->count(),
                 'image' => $community->image_path,
             ],
             'owner' => $this->owner_id ?

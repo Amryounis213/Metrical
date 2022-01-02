@@ -1,4 +1,7 @@
 // Class definition
+$('.make-rent').click(function () {
+    $('.datetimepicker-input').val('');
+});
 
 var KTBootstrapDatetimepicker = function () {
     // Private functions
@@ -35,16 +38,17 @@ var KTBootstrapDatetimepicker = function () {
         });
 
         // Demo 7
-        $('#kt_datetimepicker_7_1').datetimepicker();
-        $('#kt_datetimepicker_7_2').datetimepicker({
+        $('.kt_datetimepicker_7_1').datetimepicker();
+
+        $('.kt_datetimepicker_7_2').datetimepicker({
             useCurrent: false
         });
 
-        $('#kt_datetimepicker_7_1').on('change.datetimepicker', function (e) {
+        $('.kt_datetimepicker_7_1').on('change.datetimepicker', function (e) {
             $('#kt_datetimepicker_7_2').datetimepicker('minDate', e.date);
         });
         $('#kt_datetimepicker_7_2').on('change.datetimepicker', function (e) {
-            $('#kt_datetimepicker_7_1').datetimepicker('maxDate', e.date);
+            $('.kt_datetimepicker_7_1').datetimepicker('maxDate', e.date);
         });
 
         // Demo 8
