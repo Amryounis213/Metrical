@@ -381,14 +381,9 @@ class AccessTokenController extends Controller
             ]);
         }
         $user1->update([
-<<<<<<< HEAD
-            'type' => '2',
-            'status' => '0'
-=======
             'type' => '0',
             'request_sent' => '1',
             'need' => 'tenant',
->>>>>>> 25c4bbeaeab7463f13e843231d4a9337fcbe7ddc
         ]);
 
         $tenants = Tenant::create($request->all());
@@ -449,15 +444,10 @@ class AccessTokenController extends Controller
         }
         $user1 = User::findOrFail($request->user_id);
         $user1->update([
-<<<<<<< HEAD
-            'type' => '1',
-            'status' => '0'
-=======
             'type' => '0',
             'status' => '0',
             'request_sent' => '1',
             'need' => 'owner',
->>>>>>> 25c4bbeaeab7463f13e843231d4a9337fcbe7ddc
         ]);
 
 

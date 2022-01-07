@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->job(new checkRent())->everyFourMinutes();
-        $schedule->job(new InterstedEvent())->dailyAt('21:00');
+        $schedule->job(new InterstedEvent())->everyMinute();
         //  $schedule->job( new SendReminderToTanentJob() )->everyMinute();
     }
 

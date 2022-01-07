@@ -8,6 +8,7 @@ use App\Models\Owner;
 use App\Models\Property;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,87 +38,7 @@ class UserController extends Controller
         ];
     }
 
-    // for personal info
-    public function showPersonalProfile()
-    {
-        $profile = Auth::guard('sanctum')->user([
-            'first_name','last_name', 'email ','mobile_number','id_number','nationality','country','city'
-        ]);
-        return [
-            'status' => 200,
-            'message' => __('the profile of user'),
-            'data' => $profile,
-        ];
-    }
-    // for personal info
-    public function editPersonalProfile(Request $request)
-    {
-        $user = Auth::guard('sanctum')->user();
-        $request->validate([
-            'email' => 'required',
-            'country' => 'required',
-            'city' => 'required',
-            'mobile_number' => 'required',
-            'nationality' => 'required',
-            'id_number' => 'required',
-            'full_name' => 'required'
-        ]);
-        if ($request->hasFile('image')) {
-            if ($user->image_url !== null) {
-
-                unlink(public_path('upload/' . $user->image_url));
-            }
-            $uploadedFile = $request->file('image');
-
-            $image_url = $uploadedFile->store('/', 'upload');
-            $request->merge([
-                'image_url' => $image_url
-            ]);
-        }
-
-        $user->update($request->all());
-        return  response()->json(
-            [
-                'status' => '201',
-                'message' => __('the profile was updated'),
-                'data' => Auth::guard('sanctum')->user()
-            ],
-            201
-        );
-    }
-
-    // for Family info
-    public function showFamilyProfile()
-    {
-        $profile = Auth::guard('sanctum')->user([
-            'children_number', 'adults_number'
-        ]);
-        return [
-            'status' => 200,
-            'message' => __('the profile of user'),
-            'data' => $profile,
-        ];
-    }
-
-    // edit Family info
-    public function editFamilyProfile(Request $request)
-    {
-        $user = Auth::guard('sanctum')->user();
-        $request->validate([
-            'children_number' => 'required',
-            'adults_number' => 'required'
-        ]);
-        $user->update($request->all());
-        return  response()->json(
-            [
-                'status' => '201',
-                'message' => __('the profile was updated'),
-                'data' => Auth::guard('sanctum')->user()
-            ],
-            201
-        );
-    }
-
+   
     /**
      * Store a newly created resource in storage.
      *
