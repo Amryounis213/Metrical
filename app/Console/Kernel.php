@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->job(new checkRent())->everyFourMinutes();
+        $schedule->job(new checkRent())->everyMinute();
         $schedule->job(new InterstedEvent())->dailyAt('21:00');
         //  $schedule->job( new SendReminderToTanentJob() )->everyMinute();
     }

@@ -20,7 +20,7 @@ class MoveIn extends Model
         'mobile',
         'emirate_id',
         'children_number',
-        'data',
+        'date',
         'start_time',
         'end_time',
         'tenancy_contract',
@@ -37,8 +37,10 @@ class MoveIn extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+
     public function getStartTimeAttribute($value)
     {
         # code...

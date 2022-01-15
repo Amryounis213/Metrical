@@ -176,51 +176,56 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
-                                            <label class="col-2 col-form-label">Arabic Name</label>
-                                            <div class="col-10">
-                                                <input id="kt_maxlength_1" name="name_ar" class="form-control"
-                                                    type="text" maxlength="25" value="{{$community->name}}"
-                                                    id="example-text-input" />
+                                        <div class="form-group row ">
+                                            <label class="col-2 col-form-label">Name</label>
+                                            <div class="col-lg-3">
+                                                <input id="kt_maxlength_1"  name="name_ar" value="{{$community->name_ar}}" type="text" class="form-control" placeholder="Arabic" />
+                                                
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-2 col-form-label">Germany Name</label>
-                                            <div class="col-10">
-                                                <input id="kt_maxlength_1" name="name_gr" class="form-control"
-                                                    type="text" maxlength="25" value="{{$community->name}}"
-                                                    id="example-text-input" />
+                                            <div class="col-lg-3">
+                                                <input id="kt_maxlength_1" name="name_gr" value="{{$community->name_gr}}" type="text" class="form-control" placeholder="Germany" />
+                                                
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-2 col-form-label">English Name</label>
-                                            <div class="col-10">
-                                                <input id="kt_maxlength_1" name="name_en" class="form-control"
-                                                    type="text" maxlength="25" value="{{$community->name}}"
-                                                    id="example-text-input" />
+
+                                            <div class="col-lg-4">
+                                                <input id="kt_maxlength_1" name="name_en" value="{{$community->name_en}}" type="text" class="form-control" placeholder="English" />
+                                                
                                             </div>
+
+                                          
                                         </div>
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Area</label>
                                             <div class="col-10">
                                                 <input id="kt_maxlength_2" name="area" class="form-control"
-                                                    type="number" value="{{$community->area}}"
-                                                    id="example-search-input" />
+                                                    type="any" value="{{$community->area}}"
+                                                    id="example-search-input" placeholder="Ex : 50000 mm" />
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="readness_percentage" class="col-2 col-form-label">Readness
-                                                Percentage</label>
-                                            <div class="col-10">
-                                                <input id="kt_maxlength_2" name="readness_percentage"
-                                                    class="form-control" type="number"
-                                                    value="{{$community->readness_percentage}}"
-                                                    min="0"
-                                                    max="100"
-                                                    id="readness_percentage"  />
-                                                    
-                                            </div>
-                                        </div>
+                                        
+                                        <input id="percantage" name="readness_percentage"
+                                        class="form-control" type="number"
+                                        value="{{$community->readness_percentage}}"
+                                        id="readness_percentage" hidden />
+                                
+                           
+
+
+
+                            <div class="form-group row">
+                                <label for="readness_percentage" class="col-2 col-form-label">Readness
+                                    Percentage</label>
+                                <div class="col-10">
+                                  <div class="row align-items-center">
+                                   <div class="col-4">
+                                    <input type="number"  value="{{$community->readness_percentage}}" class="form-control" id="kt_nouislider_1_input" />
+                                   </div>
+                                   <div class="col-8">
+                                    <div id="kt_nouislider_1" class="nouislider-drag-danger"></div>
+                                   </div>
+                                  </div>
+                                  </div>
+                                </div>
 
 
 
@@ -250,4 +255,7 @@
     </div>
     <!--end::Content-->
 @include('components.form-script')
+@endsection
+@section('scripts')
+<script src="{{asset('admin/assets/js/pages/crud/forms/widgets/nouislider.js')}}"></script>
 @endsection

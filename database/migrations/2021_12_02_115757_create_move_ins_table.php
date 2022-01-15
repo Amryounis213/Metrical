@@ -17,7 +17,7 @@ class CreateMoveInsTable extends Migration
             $table->id();
             //step 1
             $table->string('full_name');
-            $table->string('country');
+            $table->integer('country')->constrained('countries', 'id')->cascadeOnDelete();;
             $table->string('email');
             $table->string('aduls');
             $table->string('passport_number')->nullable();
@@ -45,7 +45,7 @@ class CreateMoveInsTable extends Migration
 
             $table->json('registration_number_vehicle');
 
-            $table->boolean('agree');
+            $table->boolean('agree')->default(0);
 
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('property_id')->constrained('properties')->cascadeOnDelete();

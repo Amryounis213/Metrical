@@ -20,4 +20,14 @@ class ContactController extends Controller
             'title' => $title
         ]);
     }
+
+
+    public function delete($id)
+    {
+        Gate::authorize('contact.view');
+
+        $contacts = ContactWithAdmin::find($id);
+        $contacts->delete();
+        return redirect()->back();
+    }
 }

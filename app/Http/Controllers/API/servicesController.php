@@ -16,14 +16,63 @@ class servicesController extends Controller
     public function moveIn(Request $request)
     {
         $user_id = Auth::guard('sanctum')->id();
+        $request->validate([
+            'property_id' => 'required|exists:properties,id'
+        ]);
         $request->merge([
             'user_id' => $user_id
         ]);
 
-        $request->validate([
-            'property_id' => 'required|exists:properties,id'
-        ]);
-        $moveIn = MoveIn::create($request->all());
+
+        $input = $request->all();
+        if ($request->hasFile('passport')) {
+            $file = $request->file('passport'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'passport' => $image_path,
+            ]);
+            $input['passport'] = $image_path;
+        }
+        if ($request->hasFile('title_dead')) {
+            $file = $request->file('title_dead'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'title_dead' => $image_path,
+            ]);
+            $input['title_dead'] = $image_path;
+        }
+
+        if ($request->hasFile('emirateId_image')) {
+            $file = $request->file('emirateId_image'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'emirateId_image' => $image_path,
+            ]);
+            $input['emirateId_image'] = $image_path;
+        }
+
+        if ($request->hasFile('tenancy_contract')) {
+            $file = $request->file('tenancy_contract'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'tenancy_contract' => $image_path,
+            ]);
+            $input['tenancy_contract'] = $image_path;
+        }
+
+        $moveIn = MoveIn::create($input);
         if ($moveIn) {
             return response()->json([
                 'status' => true,
@@ -43,12 +92,12 @@ class servicesController extends Controller
 
 
     public function moveOut(Request $request)
-    {   
+    {
         $user_id = Auth::guard('sanctum')->id();
         $request->merge([
             'user_id' => $user_id
         ]);
-        
+
         $request->validate([
             // 'user_id' => 'required|exists:users,id',
             'property_id' => 'required|exists:properties,id'
@@ -75,15 +124,62 @@ class servicesController extends Controller
     public function workPermit(Request $request)
     {
         $user_id = Auth::guard('sanctum')->id();
+
+        $request->validate([
+            'property_id' => 'required|exists:properties,id'
+        ]);
         $request->merge([
             'user_id' => $user_id
         ]);
-        
-        $request->validate([
-            // 'user_id' => 'required|exists:users,id',
-            'property_id' => 'required|exists:properties,id'
-        ]);
-        $WorkPermit = WorkPermit::create($request->all());
+        $input = $request->all();
+        if ($request->hasFile('passport')) {
+            $file = $request->file('passport'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'passport' => $image_path,
+            ]);
+            $input['passport'] = $image_path;
+        }
+        if ($request->hasFile('title_dead')) {
+            $file = $request->file('title_dead'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'title_dead' => $image_path,
+            ]);
+            $input['title_dead'] = $image_path;
+        }
+
+        if ($request->hasFile('emirateId_image')) {
+            $file = $request->file('emirateId_image'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'emirateId_image' => $image_path,
+            ]);
+            $input['emirateId_image'] = $image_path;
+        }
+
+        if ($request->hasFile('tenancy_contract')) {
+            $file = $request->file('tenancy_contract'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'tenancy_contract' => $image_path,
+            ]);
+            $input['tenancy_contract'] = $image_path;
+        }
+
+        $WorkPermit = WorkPermit::create($input);
         if ($WorkPermit) {
             return response()->json([
                 'status' => true,
@@ -107,12 +203,62 @@ class servicesController extends Controller
         $request->merge([
             'user_id' => $user_id
         ]);
-        
+
         $request->validate([
             // 'user_id' => 'required|exists:users,id',
             'property_id' => 'required|exists:properties,id'
         ]);
-        $DeliveryPermit = DeliveryPermit::create($request->all());
+
+
+        $input = $request->all();
+        if ($request->hasFile('passport')) {
+            $file = $request->file('passport'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'passport' => $image_path,
+            ]);
+            $input['passport'] = $image_path;
+        }
+        if ($request->hasFile('title_dead')) {
+            $file = $request->file('title_dead'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'title_dead' => $image_path,
+            ]);
+            $input['title_dead'] = $image_path;
+        }
+
+        if ($request->hasFile('emirateId_image')) {
+            $file = $request->file('emirateId_image'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'emirateId_image' => $image_path,
+            ]);
+            $input['emirateId_image'] = $image_path;
+        }
+
+        if ($request->hasFile('tenancy_contract')) {
+            $file = $request->file('tenancy_contract'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'tenancy_contract' => $image_path,
+            ]);
+            $input['tenancy_contract'] = $image_path;
+        }
+
+        $DeliveryPermit = DeliveryPermit::create($input);
         if ($DeliveryPermit) {
             return response()->json([
                 'status' => true,

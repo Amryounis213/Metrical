@@ -104,6 +104,15 @@
             </div>
         </div>
         <!--end::Subheader-->
+        @if ($errors->any())
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+        @endif
         <!--begin::Entry-->
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
@@ -126,7 +135,21 @@
                                     <div class="card-body">
 
 
-
+                                        <div class="form-group row">
+                                            <div class="image-input image-input-outline" id="kt_image_1">
+                                                <div class="image-input-wrapper" style="background-image: url({{asset('admin/assets/media/stock-600x400/img-72.jpg')}})"></div>
+                                               
+                                                <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                                                 <i class="fa fa-pen icon-sm text-muted"></i>
+                                                 <input type="file" name="image_url" accept=".png, .jpg, .jpeg"/>
+                                                 <input type="hidden" name="profile_avatar_remove"/>
+                                                </label>
+                                               
+                                                <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                                                 <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                                </span>
+                                               </div>
+                                            </div>   
                                         <div class="form-group row">
                                             <label class="col-2 col-form-label">Community</label>
                                             <div class="col-10">
@@ -170,27 +193,23 @@
 
 
                                         <div class="form-group row">
-                                            <label class="col-2 col-form-label">Arabic Description</label>
-                                            <div class="col-10">
-                                                <input id="kt_maxlength_1" name="description_ar" class="form-control"
-                                                    type="text" maxlength="25" value="{{$event->description_ar}}"
-                                                    id="example-text-input" />
+                                            <label for="example-search-input" class="col-2 col-form-label">Description (Arabic)</label>
+                                            <div class="col-10" style="position: relative;">
+                                                <textarea name="description_ar" value="{{ old('description_ar') }}" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6"></textarea>
                                             </div>
                                         </div>
+    
                                         <div class="form-group row">
-                                            <label class="col-2 col-form-label">Germany Description</label>
-                                            <div class="col-10">
-                                                <input id="kt_maxlength_1" name="description_gr" class="form-control"
-                                                    type="text" maxlength="25" value="{{$event->description_gr}}"
-                                                    id="example-text-input" />
+                                            <label for="example-search-input" class="col-2 col-form-label">Description (Germany)</label>
+                                            <div class="col-10" style="position: relative;">
+                                                <textarea name="description_gr" value="{{ old('description_gr') }}" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6"></textarea>
                                             </div>
                                         </div>
+    
                                         <div class="form-group row">
-                                            <label class="col-2 col-form-label">English Description</label>
-                                            <div class="col-10">
-                                                <input id="kt_maxlength_1" name="description_en" class="form-control"
-                                                    type="text" maxlength="25" value="{{$event->description_en}}"
-                                                    id="example-text-input" />
+                                            <label for="example-search-input" class="col-2 col-form-label">Description (English)</label>
+                                            <div class="col-10" style="position: relative;">
+                                                <textarea name="description_en" value="{{ old('description_en') }}" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row">

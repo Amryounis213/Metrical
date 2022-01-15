@@ -40,7 +40,7 @@ class CreateDeliveryPermitsTable extends Migration
 
             $table->json('registration_number_vehicle');
 
-            $table->boolean('agree');
+            $table->boolean('agree')->default(0);
 
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('property_id')->constrained('properties')->cascadeOnDelete();

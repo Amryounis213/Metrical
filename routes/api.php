@@ -33,16 +33,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::apiResource('communities', CommunityController::class);
 
 Route::middleware(['localization', 'auth:sanctum'])->group(function () {
     Route::resource('users', UserController::class);
     Route::get('new-user-with-news', [UserController::class, 'withNews']);
-    Route::apiResource('communities', CommunityController::class);
     Route::apiResource('properties', PropertyController::class);
     Route::get('properties/status/{status}', [PropertyController::class, 'Status']);
     Route::get('properties/type/{offer_type}', [PropertyController::class, 'type']);
     Route::get('properties/shortterm/{short}', [PropertyController::class, 'shortTerm']);
-
 
 
 
@@ -68,6 +67,7 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
         Route::post('delivery-permit', [servicesController::class, 'deliveryPermit']);
     });
 
+    Route::post('properties/filter/search', [PropertyController::class, 'propertiesfilter']);
 
     Route::get('home', [UserController::class, 'home']);
 

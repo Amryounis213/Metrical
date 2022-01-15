@@ -30,4 +30,12 @@ class enquiryController extends Controller
             'title ' => $title,
         ]);
     }
+
+
+    public function delete($id)
+    {
+        $enquiry = Enquiry::find($id);
+        $enquiry->delete();
+        return redirect()->back();
+    }
 }

@@ -15,7 +15,9 @@ class News extends Model
         'description_ar',
         'description_en',
         'description_gr',
-        'image_url', 'images', 'community_id'
+        'image_url',
+        'images',
+        'community_id'
     ];
 
     protected $appends = ['image_path'];

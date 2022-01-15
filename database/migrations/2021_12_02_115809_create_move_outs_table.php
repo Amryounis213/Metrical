@@ -16,15 +16,15 @@ class CreateMoveOutsTable extends Migration
         Schema::create('move_outs', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
-            $table->string('country');
+            $table->foreignId('country')->constrained('countries', 'id')->cascadeOnDelete();
             $table->string('email');
             $table->string('mobile');
-            $table->date('data');
+            $table->date('date');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
-            $table->boolean('agree');
+            $table->boolean('agree')->default(0);
 
-            
+
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('property_id')->constrained('properties')->cascadeOnDelete();
 

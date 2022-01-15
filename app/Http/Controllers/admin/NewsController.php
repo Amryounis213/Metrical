@@ -63,6 +63,16 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title_ar' => 'required',
+            'title_en' => 'required',
+            'title_gr' => 'required',
+            'description_ar' => 'required',
+            'description_en' => 'required',
+            'description_gr' => 'required',
+            'image_url' => 'required',
+            'community_id' => 'required',
+        ]);
         // return $request->all();
         if ($request->hasFile('image')) {
             $file = $request->file('image'); // UplodedFile Object
@@ -127,6 +137,16 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $request->validate([
+            'title_ar' => 'required',
+            'title_en' => 'required',
+            'title_gr' => 'required',
+            'description_ar' => 'required',
+            'description_en' => 'required',
+            'description_gr' => 'required',
+            'community_id' => 'required',
+        ]);
         $new = News::findOrFail($id);
         if ($request->hasFile('image')) {
             $file = $request->file('image'); // UplodedFile Object

@@ -35,6 +35,8 @@ class PropertyController extends Controller
         $tenants = User::with('tenant')->where('type', '3')->orWhere('type', '2')->get();
         $owners = User::with('owner')->where('type', '3')->orWhere('type', '1')->get();
 
+
+
         // return $owners[0]->user;
         return view('admin.properties.index', [
             'properties' => $properties,
@@ -54,6 +56,7 @@ class PropertyController extends Controller
         $properties->update([
             'owner_id' => $request->owner_id,
             'ownership_date' => Carbon::now(),
+            'offer_type' => 'stop',
         ]);
 
         return back();
@@ -89,7 +92,11 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
+            'name_en' => 'required',
+            'name_ar' => 'required',
+            'name_gr' => 'required',
             'image_url' => 'nullable',
             'images' => 'nullable|max:10240',
             'community_id' => 'required|exists:communities,id',
@@ -162,8 +169,14 @@ class PropertyController extends Controller
 
         $title = 'Edit Property';
         $property = Property::find($id);
+        $communities = Community::all();
         $amenities = Amenity::all();
-        return view('admin.properties.edit', ['property' => $property, 'title' => $title, 'amenities' => $amenities]);
+        return view('admin.properties.edit', [
+            'property' => $property,
+            'title' => $title,
+            'amenities' => $amenities,
+            'communities' => $communities,
+        ]);
     }
 
     /**
@@ -175,6 +188,33 @@ class PropertyController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
+        $request->validate([
+            'name_en' => 'required',
+            'name_ar' => 'required',
+            'name_gr' => 'required',
+            'image_url' => 'nullable',
+            'images' => 'nullable|max:10240',
+            'community_id' => 'required|exists:communities,id',
+            'description_ar' => 'nullable',
+            'description_ar' => 'nullable',
+            'description_ar' => 'nullable',
+            'address_ar' => 'nullable',
+            'address_en' => 'nullable',
+            'address_gr' => 'nullable',
+            'area' => 'required',
+            'feminizations' => 'nullable',
+            'bedroom' => 'required',
+            'bathroom' => 'required',
+            'status' => 'required',
+            'is_shortterm' => 'required',
+            'offer_type' => 'required',
+            'type' => 'required',
+            'gate' => 'required',
+            'amenities' => 'nullable',
+        ]);
+
+
         $property = Property::findOrfail($id);
 
         $input = $request->all();

@@ -21,7 +21,6 @@ class CreatePropertiesTable extends Migration
             $table->unsignedFloat('area');
             $table->string('reference');
             $table->string('feminizations');
-
             $table->boolean('is_shortterm');
             $table->unsignedInteger('bedroom')->default(0);
             $table->unsignedInteger('bathroom')->default(0);
@@ -33,7 +32,7 @@ class CreatePropertiesTable extends Migration
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
             $table->text('description_gr')->nullable();
-            $table->string('city')->nullable();
+            $table->unsignedInteger('city')->nullable();
             $table->string('location_latitude');
             $table->string('location_longitude');
             $table->json('amenities')->nullable();

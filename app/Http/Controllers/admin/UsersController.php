@@ -26,12 +26,13 @@ class UsersController extends Controller
     {
 
         $user = User::with('tenant', 'owner')->where('id', $id)->first();
+
         return view('admin.users.show', [
             'user' => $user
         ]);
     }
 
-    public function acceptBinding(Request $request, $id)
+    public function acceptBinding($id)
     {
 
         $user = User::findOrFail($id);
@@ -60,7 +61,7 @@ class UsersController extends Controller
 
 
 
-        $success = $request->session()->flash('success', 'The user was Accepted');
+        $success = session()->flash('success', 'The user was Accepted');
         return redirect()->route('binding.users');
     }
 
@@ -97,6 +98,16 @@ class UsersController extends Controller
         $users = User::with('owner')->where('type', '1')->get();
         return view('admin.users.index', [
             'title' => 'All Owners Here',
+            'users' => $users
+        ]);
+    }
+
+
+    public function AllUser()
+    {
+        $users = User::orderBy('first_name', 'ASC')->paginate(10);
+        return view('admin.users.index', [
+            'title' => 'All Users Here',
             'users' => $users
         ]);
     }

@@ -40,8 +40,7 @@ class Property extends Model
         'owner_id',
         'amenities',
         'ownership_date',
-
-
+        'tenant_id',
 
     ];
     protected $appends = ['image_path'];
@@ -74,7 +73,10 @@ class Property extends Model
     {
         return $this->belongsTo(Owner::class, 'owner_id', 'id');
     }
-
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id', 'id');
+    }
     public function enquires()
     {
         return $this->hasMany(Enquiry::class, 'property_id', 'id');
@@ -84,6 +86,11 @@ class Property extends Model
     public function contact()
     {
         return $this->hasMany(ContactWithAdmin::class, 'property_id', 'id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Images::class, 'property_id', 'id');
     }
     /**
      * 
@@ -105,16 +112,25 @@ class Property extends Model
     {
         $name = 'name_' . strval($this->name . app()->getLocale());
         $description = 'description_' . strval($this->name . app()->getLocale());
+
+        $address = 'address_' . strval($this->name . app()->getLocale());
         $community = Community::find($this->community_id);
         $rentNow = Rent::where('property_id', $this->id)->where('status', 1)->exists();
         $owner = Owner::find($this->owner_id);
+        $images = Images::where('property_id', $this->id)->get('path');
+
+        foreach ($images as $img) {
+            $data[] = asset('uploads/' . $img->path);
+        }
+
+
         return [
             'id' => $this->id,
             'name' => $this->$name,
             'description' => $this->$description,
             'area' => $this->area,
             'main_image' => $this->image_path,
-            'images' => $this->images ?? [],
+            'images' => $data ?? [],
             'reference' => $this->reference,
             'feminizations' => $this->feminizations,
             'type' => $this->type,
@@ -122,7 +138,7 @@ class Property extends Model
             'bedroom' => $this->bedroom,
             'bathroom' => $this->bathroom,
             'date_added' => $this->created_at,
-            'address' => $this->address,
+            'address' => $this->$address,
             'status' => $this->status ?? 0,
             'offer_type' => $this->offer_type,
             'location_longitude' => $this->location_longitude,

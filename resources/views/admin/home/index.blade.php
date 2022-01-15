@@ -137,15 +137,25 @@
                             <div class="card-body d-flex flex-column">
                                 @foreach ($events as $event)
                             <div class="d-flex align-items-center">
-                                <div class="symbol symbol-50 symbol-light mr-4 ">
+
+
+                                <div class="symbol mr-5 pt-1">
+                                    <div class="symbol-label min-w-80px min-h-100px" style="background-image: url({{asset($event->image_path)}})"></div>
+                                </div>
+                                
+                               {{--
+                                 <div class="symbol symbol-50 symbol-light mr-4 ">
                                     <span class="symbol-label">
                                         <img src="{{asset($event->image_path)}}"
                                             class="h-75 align-self-end" alt="" />
                                     </span>
                                 </div>
+                                
+                                
+                                --}}
                                 <div class="pt-5">
                                     <p class="text-center font-weight-normal font-size-lg pb-7"><strong class="text-primary"> {{$event->title_en}}</strong>
-                                        <br />{{$event->description_en}}
+                                        <br />{{ Str::limit($event->description_en, 100,'...') }} 
                                     </p>
                                   
                                 </div>  
@@ -195,12 +205,19 @@
                                                 <tr>
                                                     <td class="pl-0 py-8">
                                                         <div class="d-flex align-items-center">
-                                                            <div class="symbol symbol-50 symbol-light mr-4">
+
+                                                            <div class="symbol mr-5 pt-1">
+                                                                <div class="symbol-label min-w-80px min-h-100px" style="background-image: url({{asset($rent->property->image_path ?? '')}})"></div>
+                                                            </div>
+                                                            {{--
+                                                                <div class="symbol symbol-50 symbol-light mr-4">
                                                                 <span class="symbol-label">
                                                                     <img src="{{asset($rent->property->image_path ?? '')}}"
                                                                         class="h-75 align-self-end" alt="" />
                                                                 </span>
                                                             </div>
+                                                                --}}
+                                                            
                                                             <div>
                                                                 <a href="#"
                                                                     class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{$rent->property->name_en}}</a>

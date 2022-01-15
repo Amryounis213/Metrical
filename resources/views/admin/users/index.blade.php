@@ -109,7 +109,6 @@
             <div class="card-header border-0 py-5">
                 <h3 class="card-title align-items-start flex-column">
                     <span class="card-label font-weight-bolder text-dark">{{$title}}</span>
-                    <span class="text-muted mt-3 font-weight-bold font-size-sm">More than 400+ new members</span>
                 </h3>
                 <div class="card-toolbar">
 
@@ -181,7 +180,7 @@
                                 <th class="pl-0" style="min-width: 100px">#</th>
                                 <th style="min-width: 120px">Image</th>
                                 <th style="min-width: 120px">Name</th>
-                                <th style="min-width: 120px">Contry</th>
+                                <th style="min-width: 120px">Joined</th>
                                 <th style="min-width: 120px">City</th>
                                 <th style="min-width: 120px">Mobile Number</th>
                                 <th style="min-width: 130px">Request type</th>
@@ -201,7 +200,10 @@
                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$user->id}}</a>
                                 </td>
                                 <td>
-                                    <span style="border-radius: 3px;" class="text-dark-75 font-weight-bolder d-block font-size-lg"><img style="width: 80px; height:60px; overflow:hidden;" src="{{ asset($user->image_path)}}" alt=""></span>
+
+                                    <div class="symbol mr-5 pt-1">
+                                        <div class="symbol-label min-w-65px min-h-100px" style="background-image: url({{ asset($user->image_path)}})"></div>
+                                    </div>
 
                                 </td>
                                 <td>
@@ -209,7 +211,9 @@
 
                                 </td>
                                 <td>
-                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$user->country}}</span>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg text-primary">{{ Carbon\Carbon::parse($user->created_at)->format('d-m-Y') }}
+
+                                    </span>
 
                                 </td>
                                 <td>
@@ -217,14 +221,20 @@
 
                                 </td>
                                 <td>
-                                    <span class="label label-lg label-light-success label-inline">
-                                        {{ $user->mobile_number }}</span>
+                                    
+
+                                        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $user->mobile_number }}</span>
+
+                                        
                                 </td>
                                 <td>
-                                    <span class="label label-lg label-light-success label-inline">@if($user->need == 'normal')
-                                        normal @elseif($user->need == 'owner')
-                                        Owner @elseif($user->need == 'tenant')
-                                        Tenant @endif</span>
+                                    @if($user->need == 'normal')
+                                    <span class="label label-lg label-warning label-inline">Normal</span>
+                                    @elseif($user->need == 'owner')
+                                    <span class="label label-lg label-light-success label-inline">Owner</span>
+                                    @else
+                                    <span class="label label-lg label-light-primary label-inline">Tenant</span>
+                                    @endif
                                 </td>
                                 <td class="pr-0 text-right">
                                     <a href="{{route('binding.show', $user->id)}}" class="btn btn-icon btn-light btn-hover-primary btn-sm">
@@ -241,6 +251,13 @@
                                         </span>
                                     </a>
 
+
+
+                                   
+
+
+
+                                  
 
                                 </td>
                             </tr>
