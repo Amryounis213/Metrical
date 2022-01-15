@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCitiesTable extends Migration
+class AddFamilyInfoToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateCitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->foreignId('country_id')->constrained('countries', 'id')->nullOnDelete();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedSmallInteger('children_number')->default(0);
+            
         });
     }
 
@@ -28,6 +26,8 @@ class CreateCitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

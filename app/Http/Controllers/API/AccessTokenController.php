@@ -86,7 +86,7 @@ class AccessTokenController extends Controller
                 404
             );
         }
-
+        
         $user->update([
             'code' => mt_rand(1111, 9999),
         ]);
@@ -173,6 +173,19 @@ class AccessTokenController extends Controller
                     'status' => false,
                     'code' => 404,
                     'message' => 'your email or password not valid',
+                    'data' => null
+                ],
+                404
+            );
+            
+        }
+        
+        if($user->email_verified_at == null){
+            return  response()->json(
+                [
+                    'status' => false,
+                    'code' => 404,
+                    'message' => 'your account not Verified',
                     'data' => null
                 ],
                 404

@@ -15,6 +15,7 @@ use App\Http\Controllers\API\RentController;
 use App\Http\Controllers\API\servicesController;
 use App\Http\Controllers\API\StopOfferController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\ApI\UserProfileInfoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -115,9 +116,33 @@ Route::post('interested', [EventController::class, 'interested'])
 
 Route::post('contact', [ContactWithAdminController::class, 'store'])
     ->middleware('auth:sanctum');
-
-Route::put('profile', [UserController::class, 'editProfile'])
+// for personal information
+Route::put('profile/person_info', [UserProfileInfoController::class, 'editPersonalProfile'])
     ->middleware('auth:sanctum');
 
-Route::get('profile', [UserController::class, 'showProfile'])
+Route::get('profile/person_info', [UserProfileInfoController::class, 'showPersonalProfile'])
     ->middleware('auth:sanctum');
+
+// for Family info
+Route::put('profile/family_info', [UserProfileInfoController::class, 'editFamilyProfile'])
+    ->middleware('auth:sanctum');
+
+Route::get('profile/family_info', [UserProfileInfoController::class, 'showFamilyProfile'])
+    ->middleware('auth:sanctum');
+// for Docs info
+
+Route::post('profile/Docs_info', [UserProfileInfoController::class, 'editDocsProfile'])
+    ->middleware('auth:sanctum');
+
+    //EmergencyContacts
+Route::get('profile/emergency_contacts', [UserProfileInfoController::class, 'ShowEmergencyContacts'])
+    ->middleware('auth:sanctum');
+// for EmergencyContacts
+
+Route::post('profile/emergency_contacts', [UserProfileInfoController::class, 'AddEmergencyContacts'])
+    ->middleware('auth:sanctum');
+
+
+
+
+

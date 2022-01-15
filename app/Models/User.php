@@ -36,14 +36,16 @@ class User extends Authenticatable
         'nationality',
         'id_number',
         'request_sent',
-        'need'
+        'need',
+        'member_family_number',
+        'children_number',
+        'adults_number'
     ];
 
 
     protected $hidden = [
         'password',
         'remember_token',
-        'code',
         'image_url'
     ];
 
@@ -250,5 +252,14 @@ class User extends Authenticatable
             return $this->image_url;
         }
         return asset('uploads/' . $this->image_url);
+    }
+
+    public function profile()
+    {
+        return  $this->hasOne(UserProfile::class);
+    }
+    public function EmergencyContacts()
+    {
+        return  $this->hasMany(EmergencyContact::class);
     }
 }

@@ -37,24 +37,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
-    $events = Rent::with('tenet')->whereDate('to', Carbon::now()->addDays(7))->get();
-    // return $events[0]->tenet;x
-    foreach ($events as $event) {
-        // return $event->property->name_en;
-        // $user = $event->tenet;
-        // // return $event[0];
-        // $user->notify(new SendReminderForEventNotification($eventx));
-        // foreach($event->tenet as $user){
-        // // $user = User::find($user);
-        // return $user;
-        // // return $user;
-        // // return $event->property->name_en;
-        // }
 
-    }
-    return view('welcome');
-});*/
+Route::get('admin-panel', function () {
+    return view('admin.home.index');
+});
+
+
+
 
 
 
