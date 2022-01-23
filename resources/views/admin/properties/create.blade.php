@@ -1,4 +1,7 @@
 @extends('components.admin-layout')
+@section('stylesheet')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css">
+@endsection
 @section('content')
   
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -48,8 +51,8 @@
                                 </div>
                             </div>
                             <!--begin::Form-->
-                            <form  class="form" action="{{ route('properties.store')}}" method="POST"
-                                enctype="multipart/form-data">
+                            <form class="form" action="{{ route('properties.store')}}" method="POST"
+                                enctype="multipart/form-data"  class="dropzone" id="dropzone">
                                 @csrf
                                 <div class="card-body">
                                     <div id='parent' class="card-body">
@@ -90,42 +93,7 @@
 
                                        
 
-                                        <div class="form-group row">
 
-                                            <label class="col-2 col-form-label">Multiple Images Upload</label>
-                                            <div class="col-lg-9 col-xl-6">
-                                                <div class="image-input image-input-empty image-input-outline"
-                                                    id="kt_image_4"
-                                                    style="background-image: url({{asset('media/users/blank.png')}})">
-                                                    <div class="image-input-wrapper"></div>
-                                                    <label
-                                                        class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                                                        data-action="change" data-toggle="tooltip" title=""
-                                                        data-original-title="Change avatar">
-                                                        <i class="fa fa-pen icon-sm text-muted"></i>
-                                                        <input multiple name="images[]" type="file" name="profile_avatar"
-                                                            accept=".png, .jpg, .jpeg" />
-                                                        <input type="hidden" name="profile_avatar_remove" />
-                                            </label>
-                                                    <span
-                                                        class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                                                        data-action="cancel" data-toggle="tooltip"
-                                                        title="Cancel avatar">
-                                                        <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                                    </span>
-                                                    <span
-                                                        class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
-                                                        data-action="remove" data-toggle="tooltip"
-                                                        title="Remove avatar">
-                                                        <i class="ki ki-bold-close icon-xs text-muted"></i>
-                                                    </span>
-                                                </div>
-                                                <span class="form-text text-muted">Default empty input with blank
-                                                    image</span>
-                                            </div>
-                                        </div>
-
-                                      
                                         <div class="form-group row">
                                             <label class="col-2 col-form-label">Community</label>
                                             <div class="col-10">
@@ -163,60 +131,44 @@
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (Arabic)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_ar" value="{{ old('description_ar') }}" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6">{{$property->description_ar}}</textarea>
+                                                <textarea name="description_ar" value="{{ old('description_ar') }}" class="form-control kt_maxlength_5_modal" minlength="200"   maxlength="1500" placeholder="" rows="6">{{$property->description_ar}}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (Germany)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_gr" value="{{ old('description_gr') }}" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6">{{$property->description_gr}}</textarea>
+                                                <textarea name="description_gr" value="{{ old('description_gr') }}" class="form-control kt_maxlength_5_modal" minlength="200"  maxlength="1500" placeholder="" rows="6">{{$property->description_gr}}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (English)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_en" value="{{ old('description_en') }}" class="form-control kt_maxlength_5_modal"  maxlength="200" placeholder="" rows="6">{{$property->description_en}}</textarea>
+                                                <textarea name="description_en" value="{{ old('description_en') }}" class="form-control kt_maxlength_5_modal" minlength="200"  maxlength="1500" placeholder="" rows="6">{{$property->description_en}}</textarea>
                                             </div>
                                         </div>
 
 
 
-                                        <div class="form-group row">
-                                            <label for="address_ar" class="col-2 col-form-label">Address (Arabic)</label>
-                                            <div class="col-10">
-                                                <input  name="address_ar"
-                                                    class="form-control kt_maxlength_1" type="text"
-                                                    value="{{$property->address_ar}}"
-                                                    maxlength="100"
-                                                    value="{{ old('address_ar') }}"
-                                                    id="readness_percentage" />
+                                        <div class="form-group row ">
+                                            <label class="col-2 col-form-label">Address</label>
+                                            <div class="col-lg-3">
+                                                <input  maxlength="75"  name="address_ar" value="{{ old('address_ar') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
+                                                
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="address_ar" class="col-2 col-form-label">Address (Germany)</label>
-                                            <div class="col-10">
-                                                <input  name="address_gr"
-                                                    class="form-control kt_maxlength_1" type="text"
-                                                    value="{{$property->address_gr}}"
-                                                    maxlength="100"
-                                                    value="{{ old('address_gr') }}"
-                                                    id="readness_percentage" />
+                                            <div class="col-lg-3">
+                                                <input maxlength="75"  name="address_gr" value="{{ old('address_gr') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
+                                                
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="address_ar" class="col-2 col-form-label">Address (English)</label>
-                                            <div class="col-10">
-                                                <input  name="address_en"
-                                                    class="form-control kt_maxlength_1" type="text"
-                                                    value="{{$property->address_en}}"
-                                                    maxlength="100"
-                                                    value="{{ old('address_en') }}"
-                                                    id="readness_percentage" />
-                                            </div>
-                                        </div>
 
+                                            <div class="col-lg-4">
+                                                <input maxlength="75"  name="address_en" value="{{ old('address_en') }}"  type="text" class="form-control kt_maxlength_1" placeholder="English" />
+                                                
+                                            </div>
+
+                                          
+                                        </div>
 
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Area (mm)</label>
@@ -244,7 +196,9 @@
                                                 <input  name="feminizations"
                                                     class="form-control" type="text"
                                                     value="{{ old('feminizations') }}"
-                                                    id="readness_percentage" />
+                                                    id="readness_percentage"
+                                                    placeholder="Ex : Yes , No , Soon ...."
+                                                    />
                                             </div>
                                         </div>
 
@@ -397,7 +351,31 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
-
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
+<script type="text/javascript">
+    Dropzone.options.dropzone =
+     {
+        maxFilesize: 12,
+        renameFile: function(file) {
+            var dt = new Date();
+            var time = dt.getTime();
+           return time+file.name;
+        },
+        acceptedFiles: ".jpeg,.jpg,.png,.gif",
+        addRemoveLinks: true,
+        timeout: 5000,
+        success: function(file, response) 
+        {
+            console.log(response);
+        },
+        error: function(file, response)
+        {
+           return false;
+        }
+};
+</script>
+@endsection
 @include('components.form-script');
 @endsection
 

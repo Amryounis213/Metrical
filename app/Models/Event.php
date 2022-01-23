@@ -19,7 +19,8 @@ class Event extends Model
         'address',
         'start_date',
         'end_date',
-        'community_id'
+        'community_id',
+        'image_url'
     ];
     public function community()
     {
@@ -40,8 +41,7 @@ class Event extends Model
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'community_id' => $this->community_id,
-            'main_image' => $this->image_url,
-            'images' => $this->images,
+            'main_image' => asset('uploads/' . $this->image_url),
         ];
     }
     public function users()

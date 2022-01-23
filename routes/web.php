@@ -4,15 +4,12 @@ use App\Http\Controllers\Admin\CommunitiesController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ContactWithAdminController;
 use App\Http\Controllers\Admin\enquiryController;
+use App\Http\Controllers\Admin\ImageUploadController;
 use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\NewsController;
-use App\Http\Controllers\admin\RentController;
-use App\Http\Controllers\API\CommunityController;
-use App\Models\Rent;
-use App\Models\Stopoffer;
-use App\Models\Tenant;
+use App\Http\Controllers\Admin\RentController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\servicesController;
 use App\Http\Controllers\Admin\StopOffers;
@@ -23,7 +20,7 @@ use App\Models\Enquiry;
 use App\Models\News;
 use App\Models\Offer;
 use App\Models\Property;
-
+use App\Models\Rent;
 use App\Models\User;
 use App\Notifications\SendReminderForEventNotification;
 use Illuminate\Support\Carbon;
@@ -77,11 +74,36 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('roles/results', [RolesController::class, 'result'])->name('roles.results');
     Route::resource('/roles', RolesController::class);
 
+
+    Route::get('moveins/results', [servicesController::class, 'moveinResult'])->name('moveins.results');
     Route::get('moveins', [servicesController::class, 'moveIns'])->name('moveins');
+    Route::get('accepted-moveins', [servicesController::class, 'acceptedMoveIns'])->name('accepted.moveins');
     Route::put('accept-movein/{id}', [servicesController::class, 'acceptMovein'])->name('accept-movein');
     Route::put('refuse-movein/{id}', [servicesController::class, 'refuseMovein'])->name('refuse-movein');
+    Route::get('deliveries/results', [servicesController::class, 'deliveryResult'])->name('deliveries.results');
+    Route::get('deliveries', [servicesController::class, 'deliveries'])->name('deliveries');
+    Route::get('accepted-deliveries', [servicesController::class, 'acceptedDeliveries'])->name('accepted.deliveries');
+    Route::get('accept-delivery/{id}', [servicesController::class, 'acceptDelivery'])->name('accept-delivery');
+    Route::get('refuse-delivery/{id}', [servicesController::class, 'refuseDelivery'])->name('refuse-delivery');
 
+
+
+
+    Route::get('work-permits', [servicesController::class, 'WorkPermits'])->name('WorkPermits');
+    Route::get('accept-work-permits/{id}', [servicesController::class, 'acceptWorkPermits'])->name('accept-work');
+    Route::get('refuse-work-permits/{id}', [servicesController::class, 'refuseWorkPermits'])->name('refuse-work');
+
+    Route::get('moveouts/results', [servicesController::class, 'moveoutResult'])->name('moveouts.results');
+    Route::get('moveouts', [servicesController::class, 'moveouts'])->name('moveouts');
+
+    Route::get('accepted-moveouts', [servicesController::class, 'acceptedMoveouts'])->name('accepted.moveouts');
+    Route::get('accept-moveout/{id}', [servicesController::class, 'acceptMoveout'])->name('accept-moveout');
+    Route::get('refuse-moveout/{id}', [servicesController::class, 'refuseMoveout'])->name('refuse-moveout');
+    Route::get('accept-movein/{id}', [servicesController::class, 'acceptMovein'])->name('accept-movein');
+    Route::get('refuse-movein/{id}', [servicesController::class, 'refuseMovein'])->name('refuse-movein');
+    Route::get('show-full-request/{id}/{type}', [servicesController::class, 'ShowFullRequest'])->name('ShowFullRequest');
     Route::get('communities/results', [CommunitiesController::class, 'result'])->name('communities.results');
+    Route::get('communities/{id}/properties', [CommunitiesController::class, 'showPropertiesByCommunity'])->name('showPropertiesByCommunity');
     Route::resource('communities', CommunitiesController::class);
 
     Route::post('add-owner', [PropertyController::class, 'addOwner'])->name('properties.addOwner');
@@ -89,9 +111,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('offers', OfferController::class);
     Route::get('offers/type/{type}', [OfferController::class, 'type'])->name('offer-type');
 
+    Route::get('upload-images/{propertyId}', [ImageUploadController::class, 'index'])->name('show-properties-image');
+    Route::post('upload-images', [ImageUploadController::class, 'store'])->name('store-properties-image');
 
     Route::get('contact', [ContactController::class, 'index'])->name('contactShow');
+    Route::delete('contact/{id}', [ContactController::class, 'delete'])->name('contacts.destroy');
+
     Route::get('enquires', [enquiryController::class, 'index'])->name('enquiresShow');
+    Route::delete('enquires/{id}', [enquiryController::class, 'delete'])->name('enquires.delete');
+
 
     Route::get('stop-offer', [StopOffers::class, 'index'])->name('offers.stop');
 
@@ -109,10 +137,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('tenants-users', [UsersController::class, 'tenants'])->name('tenants.users');
     Route::get('owners-users', [UsersController::class, 'owners'])->name('owners.users');
     Route::get('binding-users/{id}', [UsersController::class, 'showBindingUser'])->name('binding.show');
-    Route::put('binding-users/accept/{id}', [UsersController::class, 'acceptBinding'])->name('binding.accept');
+    Route::get('binding-users/accept/{id}', [UsersController::class, 'acceptBinding'])->name('binding.accept');
     Route::put('binding-users/refuse/{id}', [UsersController::class, 'refuseBinding'])->name('binding.refuse');
     Route::put('accept-offer/{id}', [OfferController::class, 'acceptOffers'])->name('offers.accept');
     Route::post('rent', [RentController::class, 'store'])->name('renting.store');
     Route::post('import-prop', [PropertyController::class , 'import'])->name('importProp');
+    Route::get('users/all', [UsersController::class, 'AllUser'])->name('AllUsers');
+
+    Route::get('stop-rent/{id}', [RentController::class, 'StopRent'])->name('StopRent');
 });
 require __DIR__ . '/auth.php';

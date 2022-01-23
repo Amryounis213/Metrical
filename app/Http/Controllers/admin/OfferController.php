@@ -94,12 +94,15 @@ class OfferController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $offers = Offer::find($id);
+        $offers->delete();
+        return redirect()->back();
     }
 
     public function acceptOffers($id)
     {
         Gate::authorize('offers.accept');
+        
         $offers = Offer::find($id);
         $offers->update([
             'status' => "1",

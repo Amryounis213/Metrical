@@ -3,21 +3,24 @@
 
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
-        <form action="importProp">
+        <form action="{{route('importProp')}}" method="POST" enctype="multipart/form-data" >
+            @csrf
+            <div class="card-body">
             <div class="form-group row">
-                <label for="excel" class="col-2 col-form-label">excel</label>
-                <div class="col-10">
-                    <input  name="excel"
-                        class="form-control" type="file"
-                        value="{{ old('excel') }}"
-                        id="readness_percentage" />
-                </div>
+                <label class="col-form-label col-lg-3 col-sm-12 text-lg-right">Excel Upload</label>
+                <input type="file" name="excel">
+                {{-- <div class="col-lg-4 col-md-9 col-sm-12">
+                    <div class="dropzone dropzone-default" id="kt_dropzone_1">
+                        <div class="dropzone-msg dz-message needsclick">
+                            <h3 class="dropzone-msg-title">Drop files here or click to upload.</h3>
+                            <span class="dropzone-msg-desc">This is just a demo dropzone. Selected files are
+                            <strong>not</strong>actually uploaded.</span>
+                        </div>
+                    </div>
+                </div> --}}
+                <button type="submit" class="btn btn-primary mr-2">Create</button>
+
             </div>
-            <div class="form-group row">
-                
-                <div class="col-10">
-                    <button type="submit">Add</button>
-                </div>
             </div>
         </form>
         <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
@@ -32,7 +35,7 @@
                     <!--end::Separator-->
                     <!--begin::Search Form-->
                     <div class="d-flex align-items-center" id="kt_subheader_search">
-                        <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{$properties_count}} Total</span>
+                        <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{$properties_count ?? $properties->count()}} Total</span>
 
                         <form class="ml-5">
                             <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
@@ -106,6 +109,8 @@
                     </div>
                     <!--end::Group Actions-->
                 </div>
+                @if ($percentage > 0)
+                    
                 <div class="flex-row-fluid">
                     <div class="d-flex align-items-center pt-2">
                         <span class="ml-3 mr-3 font-weight-bolder">Rental Properties</span>
@@ -115,6 +120,8 @@
                         <span class="ml-3 font-weight-bolder">% {{$percentage}}</span>
                     </div>
                 </div>
+                @endif
+
                 <!--end::Details-->
                 <!--begin::Toolbar-->
                 <div class="d-flex align-items-center">
@@ -170,7 +177,7 @@
                                 <div class="d-flex align-items-center">
                                     <!--begin::Pic-->
                                     <div class="flex-shrink-0 mr-4 symbol symbol-65 symbol-circle">
-                                        <img src="{{asset('admin/assets/media/project-logos/3.png')}}" alt="image" />
+                                        <img src="{{asset('uploads/'. $property->image_url)}}" alt="image" />
                                     </div>
                                     <!--end::Pic-->
                                     <!--begin::Info-->
@@ -194,23 +201,29 @@
                                                         <span class="text-primary text-uppercase font-weight-bold font-size-sm">Options</span>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="{{route('properties.edit' ,$property->id)}}" class="navi-link">
+                                                        <a  href="{{route('properties.edit' ,$property->id)}}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="flaticon2-shopping-cart-1"></i>
                                                             </span>
                                                             <span class="navi-text">Edit </span>
                                                         </a>
                                                     </li>
-
+                                                    <form id="form{{$property->id}}" class="delete" action="{{route('properties.destroy',$property->id)}}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
                                                     <li class="navi-item">
-                                                        <a href="#" class="navi-link">
+                                                       
+                                                        <a href="" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="flaticon2-shopping-cart-1"></i>
                                                             </span>
-                                                            <span class="navi-text">Delete </span>
+
+                            
+                                                           <span class="delete navi-text">Delete</span>
                                                         </a>
+                                                        
                                                     </li>
-                                                   
+                                                </form>
                                                 </ul>
                                                 <!--end::Navigation-->
                                             </div>
@@ -251,10 +264,37 @@
                                 
                                 <!--end::Content-->
 
+                              
+                                <div class="accordion accordion-light accordion-light-borderless accordion-svg-toggle" id="faq">
+                                    <!--begin::Card-->
+                                    <div class="card">
+                                        <div class="card-header" id="faqHeading{{$property->id}}">
+                                            <div class="card-title text-dark collapsed" data-toggle="collapse" data-target="#faq{{$property->id}}" aria-expanded="false" aria-controls="faq1" role="button">
+                                                <span class="svg-icon svg-icon-primary">
+                                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-right.svg-->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                            <polygon points="0 0 24 0 24 24 0 24"></polygon>
+                                                            <path d="M12.2928955,6.70710318 C11.9023712,6.31657888 11.9023712,5.68341391 12.2928955,5.29288961 C12.6834198,4.90236532 13.3165848,4.90236532 13.7071091,5.29288961 L19.7071091,11.2928896 C20.085688,11.6714686 20.0989336,12.281055 19.7371564,12.675721 L14.2371564,18.675721 C13.863964,19.08284 13.2313966,19.1103429 12.8242777,18.7371505 C12.4171587,18.3639581 12.3896557,17.7313908 12.7628481,17.3242718 L17.6158645,12.0300721 L12.2928955,6.70710318 Z" fill="#000000" fill-rule="nonzero"></path>
+                                                            <path d="M3.70710678,15.7071068 C3.31658249,16.0976311 2.68341751,16.0976311 2.29289322,15.7071068 C1.90236893,15.3165825 1.90236893,14.6834175 2.29289322,14.2928932 L8.29289322,8.29289322 C8.67147216,7.91431428 9.28105859,7.90106866 9.67572463,8.26284586 L15.6757246,13.7628459 C16.0828436,14.1360383 16.1103465,14.7686056 15.7371541,15.1757246 C15.3639617,15.5828436 14.7313944,15.6103465 14.3242754,15.2371541 L9.03007575,10.3841378 L3.70710678,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(9.000003, 11.999999) rotate(-270.000000) translate(-9.000003, -11.999999)"></path>
+                                                        </g>
+                                                    </svg>
+                                                    <!--end::Svg Icon-->
+                                                </span>
+                                                <div class="card-label text-dark pl-4">Description</div>
+                                            </div>
+                                        </div>
+                                        <div id="faq{{$property->id}}" class="collapse" aria-labelledby="faqHeading1" data-parent="#faq" style="">
+                                            <div class="card-body text-dark-50 line-height-lg pl-12">{{$property->description_en}}</div>
+                                        </div>
+                                    </div>
                                
-                                <!--begin::Text-->
-                                <p class="mb-7 mt-3">{{$property->description_en}}</p>
-                                <!--end::Text-->
+                                <!--begin::Card-->
+                                
+                                <!--end::Card-->
+                            </div>
+
+                            <hr>
                                 <!--begin::Blog-->
                                 <div class="d-flex flex-wrap">
                                     <!--begin: Item-->
@@ -270,10 +310,18 @@
                                         <span class="font-weight-bolder font-size-h5 pt-1">
                                         <span class="font-weight-bold text-dark-50"></span>{{$property->bedroom}}</span>
                                     </div>
+
                                     <div class="mr-12 d-flex flex-column mb-7">
                                         <span class="font-weight-bolder mb-4">Bathroom</span>
                                         <span class="font-weight-bolder font-size-h5 pt-1">
                                         <span class="font-weight-bold text-dark-50"></span>{{$property->bathroom}}</span>
+                                    </div>
+
+
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="font-weight-bolder mb-4">Offer Type</span>
+                                        <span class="font-weight-bolder font-size-h5 pt-1">
+                                        <span class="font-weight-bold text-dark-50"></span>{{$property->offer_type}}</span>
                                     </div>
                                     <!--end::Item-->
                                     <!--begin::Item-->
@@ -301,8 +349,8 @@
                                         </div>
                                     </div>
                                     <!--end::Item-->
-
-                                    <div class="d-flex flex-wrap mt-14">
+                              
+                                    <div class="d-flex flex-column flex-lg-fill float-left mb-7">
                                         <div class="mr-2 d-flex flex-column mb-7">
                                             <span class="d-block font-weight-bold mb-4">Amenities</span>
                                             @if ($property->amenities != null)
@@ -347,8 +395,36 @@
                                    
                                 </div>
                                 {{-- <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">details</button> --}}
-                                <button data-toggle="modal" data-target="#owner-{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Add Owner</button>
-                                <button  data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto make-rent">Make Rent</button>
+                                <button data-toggle="modal" data-target="#owner-{{$property->id}}" type="button" class="btn btn-success btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                                        <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+                                      </svg>
+                                    Add Owner
+                                </button>
+
+                                @if($property->tenant_id == null)
+                                <button  data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-success btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto make-rent">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+                                        <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
+                                        <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
+                                      </svg>
+                                     Make Rent
+                                </button>
+                                @else
+                                <a href="{{route('StopRent' , $property->id)}}" class="btn btn-warning btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+                                        <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
+                                        <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
+                                      </svg>
+                                     Close Rent Now  </a>
+                                @endif
+                                <a href="{{route('show-properties-image' , $property->id)}}"  type="button" class="btn btn-success btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto make-rent">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                      </svg>
+                                    Upload Images
+                                </a>
 
                             </div>
                             <!--end::Footer-->
@@ -364,7 +440,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Make A New Rent</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Make A property Rent</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <i aria-hidden="true" class="ki ki-close"></i>
                                     </button>
@@ -523,4 +599,18 @@
     </div>
 
 <x-form-script />
+
+@endsection
+@section('scripts')
+<script src="{{asset('admin/assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
+<script src="{{asset('admin/assets/js/sweettost/alert.js')}}"></script>
+<script src="{{asset('assets/js/pages/crud/file-upload/dropzonejs.js')}}"></script>
+<script src="{{asset('assets/plugins/global/plugins.bundle.js')}}"></script>
+<script src="{{asset('assets/plugins/custom/prismjs/prismjs.bundle.js')}}"></script>
+<script src="{{asset('assets/js/scripts.bundle.js')}}"></script>
+<script src="https://keenthemes.com/metronic/assets/js/engage_code.js"></script>
+<script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
+		<!--begin::Global Config(global config for global JS scripts)-->
+<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#3699FF", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#E4E6EF", "dark": "#181C32" }, "light": { "white": "#ffffff", "primary": "#E1F0FF", "secondary": "#EBEDF3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#3F4254", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#EBEDF3", "gray-300": "#E4E6EF", "gray-400": "#D1D3E0", "gray-500": "#B5B5C3", "gray-600": "#7E8299", "gray-700": "#5E6278", "gray-800": "#3F4254", "gray-900": "#181C32" } }, "font-family": "Poppins" };</script>
+
 @endsection

@@ -263,11 +263,11 @@
                                                 <td class="pr-0 text-right">
                                                    
                                                     <a class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
-                                                        <form action="{{-- route('enquiry.destroy', $enquiry->id) --}}"
+                                                        <form class="delete" action="{{route('enquires.delete', $enquiry->id)}}"
                                                             method="POST">
                                                             @csrf
                                                             @method('delete')
-                                                            <button type="submit" style="border:none">
+                                                            <button class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
                                                                 <span class="svg-icon svg-icon-md svg-icon-primary">
                                                                     <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -336,4 +336,8 @@
 
         </div>
     </div>
+@endsection
+@section('scripts')
+<script src="{{asset('admin/assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
+<script src="{{asset('admin/assets/js/sweettost/alert.js')}}"></script>
 @endsection

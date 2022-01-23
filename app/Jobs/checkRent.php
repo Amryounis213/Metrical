@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Property;
 use App\Models\Rent;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -34,10 +35,17 @@ class checkRent implements ShouldQueue
     public function handle()
     {
 
-        Rent::where('to', '<=', Carbon::now()->format('Y-m-d H:m'))
-            ->where('status', 'active')
-            ->update([
+        $rent = Rent::where('to', '<=', Carbon::now()->format('Y-m-d H:i'))->where('status', 'active')->get();
+
+        foreach ($rent as $rent) {
+            $rent->update([
                 'status' => 'finished'
             ]);
+
+            $property = Property::where('id', $rent->property_id)->first();
+            $property->update([
+                'tenant_id' => null,
+            ]);
+        }
     }
 }

@@ -44,8 +44,34 @@ class EventsController extends Controller
 
     public function store(Request $request)
     {
-        $event = Event::create($request->all());
-        return redirect()->route('events.index')->with('create', 'the event is created');
+
+        $request->validate([
+            'title_ar' => 'required',
+            'title_en' => 'required',
+            'title_gr' => 'required',
+            'description_ar' => 'required',
+            'description_en' => 'required',
+            'description_gr' => 'required',
+            'address' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'community_id' => 'required',
+            'image_url' => 'required'
+        ]);
+        $input = $request->all();
+        if ($request->hasFile('image_url')) {
+            $file = $request->file('image_url'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'image_url' => $image_path,
+            ]);
+            $input['image_url'] = $image_path;
+        }
+        $event = Event::create($input);
+        return redirect()->route('events.index')->with('create', 'the Event is created Successfully');
     }
 
     public function show($id)
@@ -63,8 +89,34 @@ class EventsController extends Controller
     }
     public function update(Request $request, $id)
     {
+        dd($request->all());
+        $request->validate([
+            'title_ar' => 'required',
+            'title_en' => 'required',
+            'title_gr' => 'required',
+            'description_ar' => 'required',
+            'description_en' => 'required',
+            'description_gr' => 'required',
+            'address' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
+            'community_id' => 'required',
+        ]);
         $event = Event::findOrFail($id);
-        $event->update($request->all());
+        $input = $request->all();
+        if ($request->hasFile('image_url')) {
+            $file = $request->file('image_url'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $request->merge([
+                'image_url' => $image_path,
+            ]);
+            $input['image_url'] = $image_path;
+        }
+
+        $event->update($input);
         return redirect()->route('events.index')->with('edit', 'The event  ( ' . $event->title_en . ') is updated');
     }
     public function destroy($id)

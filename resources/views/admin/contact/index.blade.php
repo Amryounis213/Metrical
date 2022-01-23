@@ -38,52 +38,7 @@
                 </form>
             </div>
             <!--end::Search Form-->
-            <!--begin::Group Actions-->
-            <div class="d-flex- align-items-center flex-wrap mr-2 d-none" id="kt_subheader_group_actions">
-                <div class="text-dark-50 font-weight-bold">
-                <span id="kt_subheader_group_selected_rows">23</span>Selected:</div>
-                <div class="d-flex ml-6">
-                    <div class="dropdown mr-2" id="kt_subheader_group_actions_status_change">
-                        <button type="button" class="btn btn-light-primary font-weight-bolder btn-sm dropdown-toggle" data-toggle="dropdown">Update Status</button>
-                        <div class="dropdown-menu p-0 m-0 dropdown-menu-sm">
-                            <ul class="navi navi-hover pt-3 pb-4">
-                                <li class="navi-header font-weight-bolder text-uppercase text-primary font-size-lg pb-0">Change status to:</li>
-                                <li class="navi-item">
-                                    <a href="#" class="navi-link" data-toggle="status-change" data-status="1">
-                                        <span class="navi-text">
-                                            <span class="label label-light-success label-inline font-weight-bold">Approved</span>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="navi-item">
-                                    <a href="#" class="navi-link" data-toggle="status-change" data-status="2">
-                                        <span class="navi-text">
-                                            <span class="label label-light-danger label-inline font-weight-bold">Rejected</span>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="navi-item">
-                                    <a href="#" class="navi-link" data-toggle="status-change" data-status="3">
-                                        <span class="navi-text">
-                                            <span class="label label-light-warning label-inline font-weight-bold">Pending</span>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="navi-item">
-                                    <a href="#" class="navi-link" data-toggle="status-change" data-status="4">
-                                        <span class="navi-text">
-                                            <span class="label label-light-info label-inline font-weight-bold">On Hold</span>
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <button class="btn btn-light-success font-weight-bolder btn-sm mr-2" id="kt_subheader_group_actions_fetch" data-toggle="modal" data-target="#kt_datatable_records_fetch_modal">Fetch Selected</button>
-                    <button class="btn btn-light-danger font-weight-bolder btn-sm mr-2" id="kt_subheader_group_actions_delete_all">Delete All</button>
-                </div>
-            </div>
-            <!--end::Group Actions-->
+           
         </div>
         <!--end::Details-->
         <!--begin::Toolbar-->
@@ -255,10 +210,10 @@
                                                   
 
                                                     <a class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
-                                                        <form action="{{-- route('contacts.destroy', $contact->id) --}}" method="POST">
+                                                        <form class="delete" action="{{route('contacts.destroy', $contact->id)}}" method="POST">
                                                             @csrf
                                                             @method('delete')
-                                                            <button type="submit" style="border:none">
+                                                            <button class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
                                                                 <span class="svg-icon svg-icon-md svg-icon-primary">
                                                                     <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
                                                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -317,4 +272,8 @@
             {{ $contacts->links() }}
         </div>
     </div>
+@endsection
+@section('scripts')
+<script src="{{asset('admin/assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
+<script src="{{asset('admin/assets/js/sweettost/alert.js')}}"></script>
 @endsection

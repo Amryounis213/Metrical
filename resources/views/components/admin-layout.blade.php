@@ -35,10 +35,22 @@ License: You must have a valid license purchased only from themeforest(the above
 		<link href="{{asset('admin/assets/css/themes/layout/aside/dark.css')}}" rel="stylesheet" type="text/css" />
 		<!--end::Layout Themes-->
 		<link rel="shortcut icon" href="{{asset('admin/assets/media/logos/Metrical.png')}}" />
+        <link href="{{asset('admin/assets/plugins/custom/uppy/uppy.bundle.css')}}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{asset('admin/assets/css/lity/lity.css')}}" >
+        <style>
+            body {
+                zoom:80%;
+            }
+
+            #kt_aside_menu {
+                height: 700px !important;
+            }
+        </style>
+
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->
-	<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+	<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading ">
 		<!--begin::Main-->
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
@@ -259,7 +271,15 @@ License: You must have a valid license purchased only from themeforest(the above
                                             <div class="menu-submenu">
                                                 <i class="menu-arrow"></i>
                                                 <ul class="menu-subnav">
-                                                   
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="{{ route('AllUsers') }}" class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span class="menu-text">All Users</span>
+                                                        </a>
+                                                    </li>  
+
                                                     <li class="menu-item" aria-haspopup="true">
                                                         <a href="{{ route('owners.users') }}" class="menu-link">
                                                             <i class="menu-bullet menu-bullet-dot">
@@ -286,7 +306,6 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                 <span></span>
                                                             </i>
                                                             <span class="menu-text">Pending Users</span>
-                                                            <span class="label label-rounded label-primary">1</span>
 
                                                         </a>
                                                     </li>
@@ -491,7 +510,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                         @endcan 
                                            
                                             @can('enquires.view')
-                                            <li class="menu-item menu-item-submenu" aria-haspopup="true"
+                                         <li class="menu-item menu-item-submenu" aria-haspopup="true"
                                             data-menu-toggle="hover">
                                             <a href="javascript:;" class="menu-link menu-toggle">
                                                 <i class="menu-bullet menu-bullet-line">
@@ -526,7 +545,62 @@ License: You must have a valid license purchased only from themeforest(the above
                                             </div>
                                         </li>
                                             @endcan
-											
+
+                                            <li class="menu-item menu-item-submenu" aria-haspopup="true"
+                                            data-menu-toggle="hover">
+                                            <a href="javascript:;" class="menu-link menu-toggle">
+                                                <i class="menu-bullet menu-bullet-line">
+                                                    <span></span>
+                                                </i>
+                                                <span class="menu-text">Services</span>
+                                                <i class="menu-arrow"></i>
+                                            </a>
+                                            <div class="menu-submenu">
+                                                <i class="menu-arrow"></i>
+                                                <ul class="menu-subnav">
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="{{route('deliveries')}}"
+                                                            class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span class="menu-text">Delivery Permits</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="{{route('moveins')}}"
+                                                            class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span class="menu-text">MoveIn</span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="{{route('moveouts')}}"
+                                                            class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span class="menu-text">MoveOut</span>
+                                                        </a>
+                                                    </li>
+
+
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="{{route('WorkPermits')}}"
+                                                            class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span class="menu-text">Work Permits</span>
+                                                        </a>
+                                                    </li>
+                                                  
+                                                </ul>
+                                            </div>
+                                        </li>
                                         </ul>
                                     </div>
                                 </li>
@@ -1400,7 +1474,6 @@ License: You must have a valid license purchased only from themeforest(the above
 		<script src="{{asset('admin/assets/plugins/global/plugins.bundle.js')}}"></script>
 		<script src="{{asset('admin/assets/plugins/custom/prismjs/prismjs.bundle.js')}}"></script>
 		<script src="{{asset('admin/assets/js/scripts.bundle.js')}}"></script>
-		<script src="https://keenthemes.com/metronic/assets/js/engage_code.js"></script>
 		<!--end::Global Theme Bundle-->
 		<!--begin::Page Scripts(used by this page)-->
 		<script src="{{asset('admin/assets/js/pages/crud/forms/widgets/select2.js')}}"></script>

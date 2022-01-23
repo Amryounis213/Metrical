@@ -73,6 +73,22 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Event::class, 'interested_users');
     }
+    public function workpermit()
+    {
+        return $this->hasMany(WorkPermit::class, 'user_id', 'id');
+    }
+    public function deliverypermit()
+    {
+        return $this->hasMany(DeliveryPermit::class, 'user_id', 'id');
+    }
+    public function moveout()
+    {
+        return $this->hasMany(MoveOut::class, 'user_id', 'id');
+    }
+    public function MoveIns()
+    {
+        return $this->hasMany(MoveIn::class, 'user_id', 'id');
+    }
 
     static $term_en = "Contrary to popular belief, Lorem Ipsum is
     not simply random text. It has roots in a
@@ -177,10 +193,11 @@ class User extends Authenticatable
     {
         $NewUserNews = News::inRandomOrder()->limit(5)->latest()->get();
 
-        //  $user = User::with('owner.property')->where('id', $this->id)->first();
+
         $owners = User::find($this->id)->owner->property ?? null;
         $tenants = User::find($this->id)->tenant->property ?? null;
-        // return $tenants = User::find($this->id)->tenant->rent()->property;
+
+
         if ($tenants) {
             return [
                 'id' => $this->id,

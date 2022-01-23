@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Community;
+use App\Models\Property;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Searchable\Search;
@@ -12,6 +14,7 @@ class CommunitiesController extends Controller
 {
     public function result(Request $request)
     {
+        dd($request->name);
         $communities = Community::where('name_en', 'LIKE', '%' . $request->name . '%')->get();
 
         return view('admin.communities.result', [
@@ -21,7 +24,7 @@ class CommunitiesController extends Controller
     }
     public function index()
     {
-        $communities = Community::get();
+        $communities = Community::withCount('properties')->get();
         return view('admin.communities.index', [
             'communities' => $communities,
             'title' => 'Show All Communities'
@@ -39,6 +42,15 @@ class CommunitiesController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name_ar' => 'required',
+            'name_en' => 'required',
+            'name_gr' => 'required',
+            'area' => 'required',
+            'image' => 'required',
+            'status' => 'required',
+            'readness_percentage' => 'required|min:0|max:100',
+        ]);
         if ($request->hasFile('image_url')) {
 
             $file = $request->file('image_url');
@@ -73,6 +85,15 @@ class CommunitiesController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name_ar' => 'required',
+            'name_en' => 'required',
+            'name_gr' => 'required',
+            'area' => 'required',
+            'image' => 'required',
+            'status' => 'required',
+            'readness_percentage' => 'required|min:0|max:100',
+        ]);
         $community = Community::findOrFail($id);
         if ($request->hasFile('image_url')) {
             $file = $request->file('image_url');
@@ -92,5 +113,22 @@ class CommunitiesController extends Controller
         $community = Community::findOrFail($id);
         $community->delete();
         return redirect(route('communities.index'));
+    }
+
+    public function showPropertiesByCommunity($id)
+    {
+        $title = 'All Properties';
+        $properties = Property::with(['community', 'owner', 'rent' => function ($query) {
+            $query->where('status', 'active');
+        }])->where('community_id', $id)->paginate(6);
+        $tenants = User::with('tenant')->where('type', '3')->orWhere('type', '2')->get();
+        $owners = User::with('owner')->where('type', '3')->orWhere('type', '1')->get();
+        return view('admin.properties.index', [
+            'properties' => $properties,
+            'percentage' => 0,
+            'title' => $title,
+            'tenants' => $tenants,
+            'owners' => $owners
+        ]);
     }
 }

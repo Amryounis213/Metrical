@@ -10,7 +10,17 @@ use Spatie\Searchable\SearchResult;
 class Community extends Model /*implements Searchable*/
 {
     use HasFactory;
-    protected $fillable = ['name_ar', 'name_en', 'name_gr', 'area', 'location_longitude', 'location_latitude', 'image', 'status', 'readness_percentage'];
+    protected $fillable = [
+        'name_ar',
+        'name_en',
+        'name_gr',
+        'area',
+        'location_longitude',
+        'location_latitude',
+        'image',
+        'status',
+        'readness_percentage'
+    ];
 
     protected $appends = ['image_path'];
     protected $hidden = ['image'];

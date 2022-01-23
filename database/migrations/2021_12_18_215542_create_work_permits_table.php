@@ -18,7 +18,7 @@ class CreateWorkPermitsTable extends Migration
             //step 1
             $table->string('contractor_name');
             $table->string('contractor_contact_name');
-            $table->string('country');
+            $table->foreignId('country')->constrained('countries', 'id')->cascadeOnDelete();
             $table->string('mobile');
             $table->integer('number_of_staff');
             $table->dateTime('start_time');
@@ -58,7 +58,7 @@ class CreateWorkPermitsTable extends Migration
 
             $table->json('registration_number_vehicle');
 
-            $table->boolean('agree');
+            $table->boolean('agree')->default(0);
 
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('property_id')->constrained('properties')->cascadeOnDelete();

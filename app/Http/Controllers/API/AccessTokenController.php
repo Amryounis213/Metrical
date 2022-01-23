@@ -106,7 +106,8 @@ class AccessTokenController extends Controller
     {
         $request->validate([
             'code' => 'required',
-            'email' => 'required'
+            'email' => 'required',
+            'device_name' => 'required',
         ]);
 
 
@@ -118,12 +119,13 @@ class AccessTokenController extends Controller
             $user->update([
                 'email_verified_at' => now()
             ]);
-
+            $token = $user->createToken($request->device_name);
             return  response()->json(
                 [
                     'status' => true,
                     'code' => 201,
                     'message' => 'Validation code is correct',
+                    'token' =>  $token->plainTextToken,
                     'data' => $user,
                 ],
                 200

@@ -32,7 +32,7 @@ class CreatePropertiesTable extends Migration
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
             $table->text('description_gr')->nullable();
-            $table->string('city')->nullable();
+            $table->unsignedInteger('city')->nullable();
             $table->string('location_latitude');
             $table->string('location_longitude');
             $table->json('amenities')->nullable();
