@@ -201,6 +201,7 @@ class servicesController extends Controller
 
         if ($type == 'movein') {
             $service = MoveIn::with('user')->where('id', $id)->first();
+            dd($service->contact);
         } else if ($type == 'delivery-premit') {
             $service = DeliveryPermit::with('user')->where('id', $id)->first();
         } else if ($type == 'moveout') {

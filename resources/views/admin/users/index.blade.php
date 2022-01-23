@@ -1,7 +1,8 @@
 @extends('components.admin-layout')
+
 @section('content')
 
-<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+<div id="dd" class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
         <!--begin::Details-->
         <div class="d-flex align-items-center flex-wrap mr-2">
@@ -120,7 +121,8 @@
                 <!--begin::Search Form-->
                 <div class="mb-7">
                     <div class="row align-items-center">
-                        <div class="col-lg-9 col-xl-8">
+                 
+                        <div class="col-lg-10 col-xl-8">
                             <div class="row align-items-center">
                                 <div class="col-md-4 my-2 my-md-0">
                                     <div class="input-icon">
@@ -130,6 +132,7 @@
                                         </span>
                                     </div>
                                 </div>
+                              
                                 <div class="col-md-4 my-2 my-md-0">
                                     <div class="d-flex align-items-center">
                                         <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
@@ -143,19 +146,21 @@
                                 <div class="col-md-4 my-2 my-md-0">
                                     <div class="d-flex align-items-center">
                                         <label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-                                        <select class="form-control" id="kt_datatable_search_type">
-                                            <option value="">All</option>
-                                            <option value="1">Online</option>
-                                            <option value="2">Retail</option>
-                                            <option value="3">Direct</option>
+                                        <select name="type" class="form-control" id="filter">
+                                            <option value="0">--Select--</option>
+                                            <option value="1">Owner</option>
+                                            <option value="2">Tenant</option>
+                                            <option value="0">Normal</option>
+                                            <option value="4">All</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                            <a href="#" class="btn btn-light-primary px-6 font-weight-bold">Search</a>
+                           <button type="submit" class="btn btn-light-primary px-6 font-weight-bold" >Search</button>
                         </div>
+                
                     </div>
                 </div>
                 @if (Session::has('success'))
@@ -187,7 +192,7 @@
                                 <th class="pr-0 text-right" style="min-width: 160px">action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="data">
                             @foreach ($users as $user)
                             <tr>
                                 <td class="pl-0 py-6">
@@ -266,6 +271,7 @@
 
                         </tbody>
                     </table>
+                    {{$users->links()}}
                 </div>
                 <!--end::Table-->
             </div>
@@ -299,4 +305,42 @@
             </div>
         </div>
     </div></div>
+@endsection
+
+
+@section('scripts')
+<script>
+    $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+      });
+  
+$( "#filter" ).change(function() {
+      let x =$(this).val();
+     
+        if(x == 4)
+        {
+            window.location.href= "{{ url('/admin/users/all') }}"
+        }
+        else{
+
+
+
+       
+      $.ajax({
+          url:"{{ url('/admin/user/filter') }}" + '/' + x,
+          type : "GET" ,
+         
+          success:function(data){
+            window.location.href= "{{ url('/admin/user/filter') }}" + '/' + x;
+          }
+  
+  
+      })
+
+    }
+  });
+  </script>
+
 @endsection

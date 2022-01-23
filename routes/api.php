@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ContactWithAdminController;
 use App\Http\Controllers\API\AccessTokenController;
 use App\Http\Controllers\API\AmenityController;
 use App\Http\Controllers\API\CommunityController;
+use App\Http\Controllers\API\ContactsController;
 use App\Http\Controllers\API\CountriesController;
 use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\API\EventController;
@@ -15,7 +16,7 @@ use App\Http\Controllers\API\RentController;
 use App\Http\Controllers\API\servicesController;
 use App\Http\Controllers\API\StopOfferController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\ApI\UserProfileInfoController;
+use App\Http\Controllers\API\UserProfileInfoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -67,7 +68,7 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
         Route::post('work-permit', [servicesController::class, 'workPermit']);
         Route::post('delivery-permit', [servicesController::class, 'deliveryPermit']);
     });
-
+    Route::get('contacts', [ContactsController::class, 'showContent']);
     Route::post('properties/filter/search', [PropertyController::class, 'propertiesfilter']);
 
     Route::get('home', [UserController::class, 'home']);
@@ -134,7 +135,7 @@ Route::get('profile/family_info', [UserProfileInfoController::class, 'showFamily
 Route::post('profile/Docs_info', [UserProfileInfoController::class, 'editDocsProfile'])
     ->middleware('auth:sanctum');
 
-    //EmergencyContacts
+//EmergencyContacts
 Route::get('profile/emergency_contacts', [UserProfileInfoController::class, 'ShowEmergencyContacts'])
     ->middleware('auth:sanctum');
 // for EmergencyContacts
@@ -144,5 +145,5 @@ Route::post('profile/emergency_contacts', [UserProfileInfoController::class, 'Ad
 
 
 
-
-
+Route::post('contact/emergency', [ContactsController::class, 'AddEmergencyContact'])
+    ->middleware('auth:sanctum');

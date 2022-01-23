@@ -20,8 +20,8 @@ class CreateMoveOutsTable extends Migration
             $table->string('email');
             $table->string('mobile');
             $table->date('date');
-            $table->dateTime('start_time');
-            $table->dateTime('end_time');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->boolean('agree')->default(0);
 
 

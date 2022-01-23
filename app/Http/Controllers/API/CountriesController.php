@@ -48,6 +48,7 @@ class CountriesController extends Controller
             'code' => 200,
             'message' => 'Static Data',
             'setting' => [
+                'nationalty' => [country::find(231)],
                 'country' => [country::find(231)],
                 'terms' =>  $term,
             ],

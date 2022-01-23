@@ -38,7 +38,8 @@ class CreatePropertiesTable extends Migration
             $table->json('amenities')->nullable();
             $table->string('image_url')->nullable();
             $table->json('images')->nullable();
-
+            $table->string('video_url')->nullable();
+            $table->string('floor')->nullable();
             $table->enum('type', ['house', 'apartment']);
 
             $table->enum('offer_type', ['stop', 'sale', 'rent', 'both',]);

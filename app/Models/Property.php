@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Property extends Model
@@ -33,6 +34,8 @@ class Property extends Model
         'location_longitude',
         'image_url',
         'images',
+        'video_url',
+        'floor',
         'type',
         'offer_type',
         'status',
@@ -99,7 +102,9 @@ class Property extends Model
      */
     public function scopePercentage()
     {
-        $rentedNow = $this->whereHas('rent')->count();
+        $rentedNow = $this->whereHas('rent', function ($query) {
+            $query->where('status', 'active');
+        })->count();
         $total = $this->count();
         if ($rentedNow != 0) {
             $per = $rentedNow  / $total * 100;
@@ -110,6 +115,11 @@ class Property extends Model
 
     public function toArray()
     {
+
+
+
+
+
         $name = 'name_' . strval($this->name . app()->getLocale());
         $description = 'description_' . strval($this->name . app()->getLocale());
 
@@ -117,7 +127,31 @@ class Property extends Model
         $community = Community::find($this->community_id);
         $rentNow = Rent::where('property_id', $this->id)->where('status', 1)->exists();
         $owner = Owner::find($this->owner_id);
+        $tenant = Tenant::find($this->tenant_id);
         $images = Images::where('property_id', $this->id)->get('path');
+
+
+        $checker = false;
+        $found = $owner->user_id ?? null;
+        $found2 = $tenant->user_id ?? null;
+        if ($found != null) {
+
+            if ($owner->user_id == Auth::guard('sanctum')->id()) {
+                $checker = true;
+            } else {
+                $checker = false;
+            }
+        } else {
+            if ($found2 != null) {
+
+                if ($tenant->user_id == Auth::guard('sanctum')->id()) {
+                    $checker = true;
+                } else {
+                    $checker = false;
+                }
+            }
+        }
+
 
         foreach ($images as $img) {
             $data[] = asset('uploads/' . $img->path);
@@ -130,6 +164,7 @@ class Property extends Model
             'description' => $this->$description,
             'area' => $this->area,
             'main_image' => $this->image_path,
+            'video' => $this->video_url,
             'images' => $data ?? [],
             'reference' => $this->reference,
             'feminizations' => $this->feminizations,
@@ -144,6 +179,7 @@ class Property extends Model
             'location_longitude' => $this->location_longitude,
             'location_latitude' => $this->location_latitude,
             'amenities' => $this->amenities,
+            'floor' => $this->floor,
             'community' => [
                 'name' => $community->$name ?? '',
                 'status' => $community->status ?? 0,
@@ -159,6 +195,7 @@ class Property extends Model
 
                 ] : null,
             'ownership_date' => $this->ownership_date,
+            'has_this_property' => $checker,
             'rent_now' => $rentNow,
             'current_rent' => $rentNow ? Rent::where('property_id', $this->id)->where('status', 'active')->first(['from', 'to']) : null,
             'offer' => Offer::whereHas('property', function ($query) {

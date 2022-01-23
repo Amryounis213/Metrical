@@ -16,9 +16,9 @@ class CreateEmergencyContactsTable extends Migration
         Schema::create('emergency_contacts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('full_name')->nullable();
+            $table->string('name')->nullable();
             $table->string('mobile')->nullable();
-            $table->string('country')->nullable();
+            $table->unsignedInteger('country')->nullable();
             $table->timestamps();
         });
     }

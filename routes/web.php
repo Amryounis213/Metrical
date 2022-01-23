@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\RentController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\servicesController;
 use App\Http\Controllers\Admin\StopOffers;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\EventsController;
 use App\Models\Community;
 use App\Models\ContactWithAdmin;
@@ -63,7 +64,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
             'properties' => Property::count(),
             'offers' => Offer::where('status', '!=', 'stop')->count(),
             'pending_users' => User::where('status', '0')->where('type', '<>', '0')->count(),
-            'rents' => Rent::with('property')->limit(5)->latest()->get(),
+            'rents' => Rent::with('property')->limit(5)->latest()->paginate(3),
             'total_price' => Rent::limit(5)->latest()->sum('price'),
             'events' => News::limit(3)->latest()->get(),
         ]);
@@ -140,7 +141,19 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('binding-users/refuse/{id}', [UsersController::class, 'refuseBinding'])->name('binding.refuse');
     Route::put('accept-offer/{id}', [OfferController::class, 'acceptOffers'])->name('offers.accept');
     Route::post('rent', [RentController::class, 'store'])->name('renting.store');
+
+    Route::get('link-owner-property/{id}', [UsersController::class, 'addOwnerPage'])->name('props');
+
+    Route::post('link-owner-property', [UsersController::class, 'addOwner'])->name('store');
+
+    Route::get('success-link', [UsersController::class, 'successLink'])->name('successlink');
+
+
+    Route::get('user/filter/{type}', [UsersController::class, 'searchFiltering'])->name('serach');
     Route::get('users/all', [UsersController::class, 'AllUser'])->name('AllUsers');
+    Route::get('user/create', [UsersController::class, 'createUser'])->name('createUser');
+    Route::post('user/store', [UsersController::class, 'storeUser'])->name('storeuser');
+
 
     Route::get('stop-rent/{id}', [RentController::class, 'StopRent'])->name('StopRent');
 });

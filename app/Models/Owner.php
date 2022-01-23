@@ -53,4 +53,25 @@ class Owner extends Model
         }
         return asset('uploads/' . $this->title_dead_copy);
     }
+
+
+    /**
+     * 
+     */
+
+    public function OwnerAdd($users, $request)
+    {
+
+        Owner::create([
+            'user_id' => $users->id,
+            'full_name' => $users->first_name . ' ' . $users->last_name,
+            'email' => $users->email,
+            'mobile' => $users->mobile_number,
+            'passport_copy' => $request->passport_copy,
+            'title_dead_copy' => $request->title_dead_copy,
+            'unit_number' => $request->unit_number,
+            'renting_price' => $request->renting_price,
+            'community_id' => $request->community_id,
+        ]);
+    }
 }

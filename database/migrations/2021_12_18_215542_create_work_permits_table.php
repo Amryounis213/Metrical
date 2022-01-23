@@ -31,9 +31,9 @@ class CreateWorkPermitsTable extends Migration
             $table->integer('children_number');
             $table->string('aduls');
             $table->string('resident_mobile');
-            $table->string('officer_country');
+            $table->string('officer_country')->nullable();
             $table->string('officer_number')->nullable();
-            
+
             $table->string('passport_number')->nullable();
             $table->string('trn_number')->nullable();
             $table->string('emirate_id')->nullable();
@@ -46,17 +46,17 @@ class CreateWorkPermitsTable extends Migration
 
             //step 3 (Emergancy Contact)
 
-
+            $table->json('contact');
 
             //step 4 (Documents)
             $table->string('tenancy_contract');
             $table->date('contract_expiry');
             $table->string('passport');
-            $table->date('passport_expiry');
-            $table->string('title_dead');
-            $table->string('emirateId_image');
+            $table->date('passport_expiry')->nullable();
+            $table->string('title_dead')->nullable();
+            $table->string('emirateId_image')->nullable();
 
-            $table->json('registration_number_vehicle');
+            $table->json('registration_number_vehicle')->nullable();
 
             $table->boolean('agree')->default(0);
 

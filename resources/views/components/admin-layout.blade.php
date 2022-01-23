@@ -37,13 +37,22 @@ License: You must have a valid license purchased only from themeforest(the above
 		<link rel="shortcut icon" href="{{asset('admin/assets/media/logos/Metrical.png')}}" />
         <link href="{{asset('admin/assets/plugins/custom/uppy/uppy.bundle.css')}}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{asset('admin/assets/css/lity/lity.css')}}" >
+        @yield('stylesheet')
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <style>
             body {
-                zoom:80%;
+                zoom:83%;
             }
 
             #kt_aside_menu {
-                height: 700px !important;
+                height: 640px !important;
+                border-bottom: 1px solid yellow ;
+                border-radius: 25px;
+
+
+            }
+            .ps__thumb-y{
+                background: #c2d627 !important;
             }
         </style>
 

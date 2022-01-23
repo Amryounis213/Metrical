@@ -10,11 +10,11 @@ class EmergencyContact extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'full_name', 'mobile', 'country'
+        'user_id', 'name', 'mobile', 'country'
     ];
 
     public function user()
     {
-       return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }

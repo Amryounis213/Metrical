@@ -74,8 +74,10 @@ class NewsController extends Controller
             'community_id' => 'required',
         ]);
         // return $request->all();
-        if ($request->hasFile('image')) {
-            $file = $request->file('image'); // UplodedFile Object
+
+        $input = $request->all();
+        if ($request->hasFile('image_url')) {
+            $file = $request->file('image_url'); // UplodedFile Object
 
             $image_path = $file->store('/', [
                 'disk' => 'upload',
@@ -84,7 +86,7 @@ class NewsController extends Controller
                 'image_url' => $image_path,
             ]);
         }
-        if ($request->hasfile('photos')) {
+        /*   if ($request->hasfile('photos')) {
             foreach ($request->file('photos') as $image) {
                 $name = $image->getClientOriginalName();
                 $image->move(public_path() . '/uploads/', $name);
@@ -93,8 +95,9 @@ class NewsController extends Controller
             $request->merge([
                 'images' => $data,
             ]);
-        }
-        $categories = News::create($request->all());
+        }*/
+        $news = News::create($input);
+
         return redirect()->route('news.index')->with('create', 'new news is created');
     }
 
@@ -148,17 +151,18 @@ class NewsController extends Controller
             'community_id' => 'required',
         ]);
         $new = News::findOrFail($id);
-        if ($request->hasFile('image')) {
-            $file = $request->file('image'); // UplodedFile Object
+
+        $input = $request->all();
+        if ($request->hasFile('image_url')) {
+            $file = $request->file('image_url'); // UplodedFile Object
 
             $image_path = $file->store('/', [
                 'disk' => 'upload',
             ]);
-            $request->merge([
-                'image_url' => $image_path,
-            ]);
+
+            $input['image_url'] = $image_path;
         }
-        if ($request->hasfile('photos')) {
+        /*    if ($request->hasfile('photos')) {
             foreach ($request->file('photos') as $image) {
                 $name = $image->getClientOriginalName();
                 $image->move(public_path() . '/uploads/', $name);
@@ -167,8 +171,8 @@ class NewsController extends Controller
             $request->merge([
                 'images' => $data,
             ]);
-        }
-        $new->update($request->all());
+        }*/
+        $new->update($input);
         return redirect()->route('news.index')->with('edit', 'the news is updated');
     }
 

@@ -9,18 +9,51 @@ use App\Models\MoveOut;
 use App\Models\WorkPermit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class servicesController extends Controller
 {
 
+
+
+
     public function moveIn(Request $request)
     {
-        $user_id = Auth::guard('sanctum')->id();
-        $request->validate([
-            'property_id' => 'required|exists:properties,id'
+
+        $validation = Validator::make($request->all(), [
+            'full_name' => 'required',
+            'country' => 'required',
+            'email' => 'required',
+            'aduls' => 'required',
+            'nationalty' => 'required',
+            'mobile' => 'required',
+            'children' => 'nullable',
+            'emirate_id' => 'nullable',
+            'date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'contact' => 'required',
+            'property_id' => 'required|exists:properties,id',
+
+            'tenancy_contract' => 'required',
+            'contract_expiry' => 'required',
+            'passport' => 'required',
+            'passport_expiry' => 'required',
+            'title_dead' => 'required',
+            'emirateId_image' => 'required',
         ]);
+
+        if ($validation->fails()) {
+            return  response()->json([
+                'status' => false,
+                'code' => 401,
+                'message' => '',
+                'data' => $validation->errors(),
+            ], 401);
+        }
+
         $request->merge([
-            'user_id' => $user_id
+            'user_id' => Auth::guard('sanctum')->id(),
         ]);
 
 
@@ -73,63 +106,98 @@ class servicesController extends Controller
         }
 
         $moveIn = MoveIn::create($input);
-        if ($moveIn) {
-            return response()->json([
-                'status' => true,
-                'code' => 201,
-                'message' => __('messages.Enquiry'),
-                'data' => $moveIn,
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'code' => 400,
-                'message' => __('messages.Enquiry'),
-                'data' => $moveIn,
-            ]);
-        }
+
+        return response()->json([
+            'status' => true,
+            'code' => 201,
+            'message' => __('messages.Enquiry'),
+            'data' => $moveIn,
+        ]);
     }
 
 
     public function moveOut(Request $request)
     {
-        $user_id = Auth::guard('sanctum')->id();
-        $request->merge([
-            'user_id' => $user_id
-        ]);
-
-        $request->validate([
-            // 'user_id' => 'required|exists:users,id',
+        $validation = Validator::make($request->all(), [
+            'full_name' => 'required| string',
+            'country' => 'required',
+            'email' => 'required',
+            'mobile' => 'required',
+            'date' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
             'property_id' => 'required|exists:properties,id'
         ]);
-        $moveOut = MoveOut::create($request->all());
-        if ($moveOut) {
-            return response()->json([
-                'status' => true,
-                'code' => 201,
-                'message' => __('messages.Enquiry'),
-                'data' => $moveOut,
-            ]);
-        } else {
-            return response()->json([
+
+        if ($validation->fails()) {
+            return  response()->json([
                 'status' => false,
-                'code' => 400,
-                'message' => __('messages.Enquiry'),
-                'data' => $moveOut,
-            ]);
+                'code' => 401,
+                'message' => '',
+                'data' => $validation->errors(),
+            ], 401);
         }
+
+
+        $request->merge([
+            'user_id' => Auth::guard('sanctum')->id(),
+        ]);
+
+        $moveOut = MoveOut::create($request->all());
+
+        return response()->json([
+            'status' => true,
+            'code' => 201,
+            'message' => __('messages.Enquiry'),
+            'data' => $moveOut,
+        ]);
     }
 
 
     public function workPermit(Request $request)
     {
-        $user_id = Auth::guard('sanctum')->id();
 
-        $request->validate([
-            'property_id' => 'required|exists:properties,id'
+        $validation = Validator::make($request->all(), [
+            'contractor_name' => 'required',
+            'contractor_contact_name' => 'required',
+            'country' => 'required',
+            'mobile' => 'required',
+            'number_of_staff' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+
+
+            'resident_name' => 'required',
+            'resident_country' => 'required',
+            'children_number' => 'nullable',
+            'aduls' => 'required',
+            'resident_mobile' => 'required',
+
+
+            'officer_number' => 'required',
+            'emirate_id' => 'nullable',
+            'date' => 'required',
+            'contact' => 'required',
+            'property_id' => 'required|exists:properties,id',
+
+            'tenancy_contract' => 'required',
+            'contract_expiry' => 'required',
+            'passport' => 'required',
+            'passport_expiry' => 'required',
+            'title_dead' => 'required',
+            'emirateId_image' => 'required',
         ]);
+
+        if ($validation->fails()) {
+            return  response()->json([
+                'status' => false,
+                'code' => 401,
+                'message' => '',
+                'data' => $validation->errors(),
+            ], 401);
+        }
         $request->merge([
-            'user_id' => $user_id
+            'user_id' => Auth::guard('sanctum')->id(),
         ]);
         $input = $request->all();
         if ($request->hasFile('passport')) {
@@ -180,34 +248,58 @@ class servicesController extends Controller
         }
 
         $WorkPermit = WorkPermit::create($input);
-        if ($WorkPermit) {
-            return response()->json([
-                'status' => true,
-                'code' => 201,
-                'message' => __('messages.Enquiry'),
-                'data' => $WorkPermit,
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'code' => 400,
-                'message' => __('messages.Enquiry'),
-                'data' => $WorkPermit,
-            ]);
-        }
+        return response()->json([
+            'status' => true,
+            'code' => 201,
+            'message' => __('messages.Enquiry'),
+            'data' => $WorkPermit,
+        ]);
     }
 
     public function deliveryPermit(Request $request)
     {
-        $user_id = Auth::guard('sanctum')->id();
-        $request->merge([
-            'user_id' => $user_id
+
+
+        $validation = Validator::make($request->all(), [
+            'date' => 'required',
+            'delivery_company' => 'required',
+            'description' => 'required',
+
+            'resident_name' => 'required',
+            'resident_country' => 'required',
+            'children_number' => 'nullable',
+            'aduls' => 'required',
+            'resident_mobile' => 'required',
+
+
+            'officer_number' => 'required',
+            'emirate_id' => 'nullable',
+
+            'contact' => 'required',
+            'property_id' => 'required|exists:properties,id',
+
+            'tenancy_contract' => 'required',
+            'contract_expiry' => 'required',
+            'passport' => 'required',
+            'passport_expiry' => 'required',
+            'title_dead' => 'required',
+            'emirateId_image' => 'required',
         ]);
 
-        $request->validate([
-            // 'user_id' => 'required|exists:users,id',
-            'property_id' => 'required|exists:properties,id'
+        if ($validation->fails()) {
+            return  response()->json([
+                'status' => false,
+                'code' => 401,
+                'message' => '',
+                'data' => $validation->errors(),
+            ], 401);
+        }
+
+        $request->merge([
+            'user_id' => Auth::guard('sanctum')->id(),
         ]);
+
+
 
 
         $input = $request->all();
@@ -259,20 +351,12 @@ class servicesController extends Controller
         }
 
         $DeliveryPermit = DeliveryPermit::create($input);
-        if ($DeliveryPermit) {
-            return response()->json([
-                'status' => true,
-                'code' => 201,
-                'message' => __('messages.Enquiry'),
-                'data' => $DeliveryPermit,
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'code' => 400,
-                'message' => __('messages.Enquiry'),
-                'data' => $DeliveryPermit,
-            ]);
-        }
+
+        return response()->json([
+            'status' => true,
+            'code' => 201,
+            'message' => __('messages.Enquiry'),
+            'data' => $DeliveryPermit,
+        ]);
     }
 }

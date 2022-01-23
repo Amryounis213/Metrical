@@ -39,10 +39,11 @@
                     </form>
                 </div>
                 <!--end::Search Form-->
-                
+
             </div>
             <!--end::Details-->
-           
+            <a href="{{route('communities.create')}}" class="btn btn-light-success font-weight-bolder btn-sm">Add Community</a>
+
             <!--end::Toolbar-->
         </div>
     </div>

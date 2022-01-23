@@ -34,6 +34,7 @@ class DeliveryPermit extends Model
         'agree',
         'user_id',
         'property_id',
+        'contact',
     ];
 
     public function user()
