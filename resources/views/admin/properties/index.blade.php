@@ -3,6 +3,23 @@
 
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Subheader-->
+        <form action="importProp">
+            <div class="form-group row">
+                <label for="excel" class="col-2 col-form-label">excel</label>
+                <div class="col-10">
+                    <input  name="excel"
+                        class="form-control" type="file"
+                        value="{{ old('excel') }}"
+                        id="readness_percentage" />
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                <div class="col-10">
+                    <button type="submit">Add</button>
+                </div>
+            </div>
+        </form>
         <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <!--begin::Details-->

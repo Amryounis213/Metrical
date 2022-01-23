@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('append', [PropertyController::class , 'append'])->name('append');
 
 
 Route::get('admin-panel', function () {
@@ -112,6 +113,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('binding-users/refuse/{id}', [UsersController::class, 'refuseBinding'])->name('binding.refuse');
     Route::put('accept-offer/{id}', [OfferController::class, 'acceptOffers'])->name('offers.accept');
     Route::post('rent', [RentController::class, 'store'])->name('renting.store');
+    Route::post('import-prop', [PropertyController::class , 'import'])->name('importProp');
 });
-
 require __DIR__ . '/auth.php';

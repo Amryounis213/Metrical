@@ -14,6 +14,8 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use DB;
+use Excel;
 
 class PropertyController extends Controller
 {
@@ -89,6 +91,7 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
+        return $request;
         $request->validate([
             'image_url' => 'nullable',
             'images' => 'nullable|max:10240',
@@ -213,5 +216,17 @@ class PropertyController extends Controller
         $property = Property::find($id);
         $property->delete();
         return redirect()->back();
+    }
+
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+      'select_file'  => 'required|mimes:xls,xlsx'
+     ]);
+
+     $path = $request->file('select_file')->getRealPath();
+
+     $data = Excel::load($path)->get();
+
     }
 }

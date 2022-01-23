@@ -21,7 +21,6 @@ class CreatePropertiesTable extends Migration
             $table->unsignedFloat('area');
             $table->string('reference');
             $table->string('feminizations');
-
             $table->boolean('is_shortterm');
             $table->unsignedInteger('bedroom')->default(0);
             $table->unsignedInteger('bathroom')->default(0);

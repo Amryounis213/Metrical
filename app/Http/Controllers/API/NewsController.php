@@ -25,14 +25,15 @@ class NewsController extends Controller
                 'message' => __('messages.news'),
                 'news' => $news,
             ]);
-        } else {
+        } 
+        
             return response()->json([
                 'status' => false,
                 'code' => 400,
                 'message' => __('messages.news'),
                 'news' => $news,
             ]);
-        }
+        
     }
 
     public function newsByCommunity($id)
