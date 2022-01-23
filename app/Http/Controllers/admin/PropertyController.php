@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProperysExport;
 use App\Http\Controllers\Controller;
+use App\Imports\ProperysImport;
 use App\Models\Amenity;
 use App\Models\Community;
 use App\Models\Owner;
@@ -14,6 +16,8 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PropertyController extends Controller
 {
@@ -92,7 +96,6 @@ class PropertyController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'name_en' => 'required',
             'name_ar' => 'required',
@@ -253,5 +256,18 @@ class PropertyController extends Controller
         $property = Property::find($id);
         $property->delete();
         return redirect()->back();
+    }
+
+    public function import(Request $request)
+    {
+        
+        $this->validate($request, [
+      'excel'  => 'required|mimes:xls,xlsx'
+     ]);
+
+     $path = $request->file('excel');
+     Excel::import(new ProperysImport, $path);
+        
+        return redirect('/')->with('success', 'All good!');
     }
 }

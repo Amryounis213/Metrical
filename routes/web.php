@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('append', [PropertyController::class , 'append'])->name('append');
 
 
 Route::get('admin-panel', function () {
@@ -150,6 +151,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 
     Route::get('user/filter/{type}', [UsersController::class, 'searchFiltering'])->name('serach');
+    Route::post('import-prop', [PropertyController::class , 'import'])->name('importProp');
     Route::get('users/all', [UsersController::class, 'AllUser'])->name('AllUsers');
     Route::get('user/create', [UsersController::class, 'createUser'])->name('createUser');
     Route::post('user/store', [UsersController::class, 'storeUser'])->name('storeuser');
@@ -157,5 +159,4 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::get('stop-rent/{id}', [RentController::class, 'StopRent'])->name('StopRent');
 });
-
 require __DIR__ . '/auth.php';

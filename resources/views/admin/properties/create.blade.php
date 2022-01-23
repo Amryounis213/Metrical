@@ -43,7 +43,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <!--begin::Card-->
-                        <div class="card card-custom gutter-b example example-compact">
+                        <div  class="card card-custom gutter-b example example-compact">
                             <div class="card-header">
                                 <h3 class="card-title">{{ $title }}</h3>
                                 <div class="card-toolbar">
@@ -55,7 +55,7 @@
                                 enctype="multipart/form-data"  class="dropzone" id="dropzone">
                                 @csrf
                                 <div class="card-body">
-                                    <div class="card-body">
+                                    <div id='parent' class="card-body">
                                         <div class="form-group row">
 
                                             <label class="col-2 col-form-label">Main Image</label>
@@ -112,16 +112,16 @@
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Name</label>
                                             <div class="col-lg-3">
-                                                <input  maxlength="25"  name="name_ar" value="{{ old('name_ar') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
+                                                <input  maxlength="25"  name="name_ar[]" value="{{ old('name_ar') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
                                                 
                                             </div>
                                             <div class="col-lg-3">
-                                                <input maxlength="25"  name="name_gr" value="{{ old('name_gr') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
+                                                <input maxlength="25"  name="name_gr[]" value="{{ old('name_gr') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
                                                 
                                             </div>
 
                                             <div class="col-lg-4">
-                                                <input maxlength="25"  name="name_en" value="{{ old('name_en') }}"  type="text" class="form-control kt_maxlength_1" placeholder="English" />
+                                                <input maxlength="25"  name="name_en[]" value="{{ old('name_en') }}"  type="text" class="form-control kt_maxlength_1" placeholder="English" />
                                                 
                                             </div>
 
@@ -341,7 +341,7 @@
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary mr-2">Create</button>
                                         <button type="reset" class="btn btn-secondary">Cancel</button>
-                                    </div>
+                                        <a class="btn btn-secondary append">Add</a >                         </div>
                                 </div>
                             </form>
                             <!--end::Form-->
