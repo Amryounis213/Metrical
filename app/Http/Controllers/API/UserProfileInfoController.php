@@ -5,9 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Owner;
 use App\Models\Tenant;
+use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserProfileInfoController extends Controller
 {
@@ -26,16 +28,25 @@ class UserProfileInfoController extends Controller
     // for personal info
     public function editPersonalProfile(Request $request)
     {
-        $user = Auth::guard('sanctum')->user();
-        $request->validate([
-            'email' => 'required',
-            'country' => 'required',
-            'city' => 'required',
-            'mobile_number' => 'required',
-            'nationality' => 'required',
-            'id_number' => 'required',
+        $validation = Validator::make($request->all(), [
+            'email' => 'nullable',
+            'country' => 'nullable',
+            'city' => 'nullable',
+            'mobile_number' => 'nullable',
+            'nationality' => 'nullable',
+            'id_number' => 'nullable',
 
         ]);
+        if ($validation->fails()) {
+            return  response()->json([
+                'status' => false,
+                'code' => 422,
+                'message' => '',
+                'data' => $validation->errors(),
+            ], 422);
+        }
+        $user = User::where('id', Auth::guard('sanctum')->id())->first();
+        // $user = Auth::guard('sanctum')->user();
         if ($request->hasFile('image')) {
             if ($user->image_url !== null) {
 
@@ -52,9 +63,10 @@ class UserProfileInfoController extends Controller
         $user->update($request->all());
         return  response()->json(
             [
-                'status' => '201',
-                'message' => __('the profile was updated'),
-                'data' => Auth::guard('sanctum')->user()
+                'status' => true,
+                'code' => 201,
+                'message' => 'Profile Updated Succesfully',
+                'data' => $user,
             ],
             201
         );
@@ -67,7 +79,8 @@ class UserProfileInfoController extends Controller
             'children_number', 'adults_number', 'member_family_number'
         ]);
         return [
-            'status' => 200,
+            'status' => true,
+            'code' => 200,
             'message' => __('the profile of user'),
             'data' => $profile,
         ];
@@ -78,14 +91,15 @@ class UserProfileInfoController extends Controller
     {
         $user = Auth::guard('sanctum')->user();
         $request->validate([
-            'children_number' => 'required',
-            'adults_number' => 'required',
-            'member_family_number' => 'required'
+            'children_number' => 'nullable',
+            'adults_number' => 'nullable',
+            'member_family_number' => 'nullable'
         ]);
         $user->update($request->all());
         return  response()->json(
             [
-                'status' => '201',
+                'status' => true,
+                'code' => 201,
                 'message' => __('the profile was updated'),
                 'data' => Auth::guard('sanctum')->user()
             ],

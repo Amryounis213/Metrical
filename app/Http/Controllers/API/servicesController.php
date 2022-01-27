@@ -20,6 +20,7 @@ class servicesController extends Controller
     public function moveIn(Request $request)
     {
 
+
         $validation = Validator::make($request->all(), [
             'full_name' => 'required',
             'country' => 'required',
@@ -46,10 +47,10 @@ class servicesController extends Controller
         if ($validation->fails()) {
             return  response()->json([
                 'status' => false,
-                'code' => 401,
+                'code' => 422,
                 'message' => '',
                 'data' => $validation->errors(),
-            ], 401);
+            ], 422);
         }
 
         $request->merge([
@@ -132,10 +133,10 @@ class servicesController extends Controller
         if ($validation->fails()) {
             return  response()->json([
                 'status' => false,
-                'code' => 401,
+                'code' => 422,
                 'message' => '',
                 'data' => $validation->errors(),
-            ], 401);
+            ], 422);
         }
 
 
@@ -191,10 +192,10 @@ class servicesController extends Controller
         if ($validation->fails()) {
             return  response()->json([
                 'status' => false,
-                'code' => 401,
+                'code' => 422,
                 'message' => '',
                 'data' => $validation->errors(),
-            ], 401);
+            ], 422);
         }
         $request->merge([
             'user_id' => Auth::guard('sanctum')->id(),
@@ -289,10 +290,10 @@ class servicesController extends Controller
         if ($validation->fails()) {
             return  response()->json([
                 'status' => false,
-                'code' => 401,
+                'code' => 422,
                 'message' => '',
                 'data' => $validation->errors(),
-            ], 401);
+            ], 422);
         }
 
         $request->merge([

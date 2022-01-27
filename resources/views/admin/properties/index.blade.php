@@ -1,28 +1,15 @@
 @extends('components.admin-layout')
+@section('stylesheet')
+<style>
+    #kt_content{
+        padding: 0px 0px !important
+}
+</style>
+@endsection
 @section('content')
 
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-        <!--begin::Subheader-->
-        <form action="{{route('importProp')}}" method="POST" enctype="multipart/form-data" >
-            @csrf
-            <div class="card-body">
-            <div class="form-group row">
-                <label class="col-form-label col-lg-3 col-sm-12 text-lg-right">Excel Upload</label>
-                <input type="file" name="excel">
-                {{-- <div class="col-lg-4 col-md-9 col-sm-12">
-                    <div class="dropzone dropzone-default" id="kt_dropzone_1">
-                        <div class="dropzone-msg dz-message needsclick">
-                            <h3 class="dropzone-msg-title">Drop files here or click to upload.</h3>
-                            <span class="dropzone-msg-desc">This is just a demo dropzone. Selected files are
-                            <strong>not</strong>actually uploaded.</span>
-                        </div>
-                    </div>
-                </div> --}}
-                <button type="submit" class="btn btn-primary mr-2">Create</button>
-
-            </div>
-            </div>
-        </form>
+       
         <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
             <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
                 <!--begin::Details-->
@@ -33,31 +20,12 @@
                     <!--begin::Separator-->
                     <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
                     <!--end::Separator-->
+                    
                     <!--begin::Search Form-->
                     <div class="d-flex align-items-center" id="kt_subheader_search">
                         <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{$properties_count ?? $properties->count()}} Total</span>
 
-                        <form class="ml-5">
-                            <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
-                                <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." />
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <span class="svg-icon">
-                                            <!--begin::Svg Icon | path:assets/media/svg/icons/General/Search.svg-->
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <rect x="0" y="0" width="24" height="24" />
-                                                    <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
-                                                    <path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero" />
-                                                </g>
-                                            </svg>
-                                            <!--end::Svg Icon-->
-                                        </span>
-                                        <!--<i class="flaticon2-search-1 icon-sm"></i>-->
-                                    </span>
-                                </div>
-                            </div>
-                        </form>
+                     
 
                        
                     </div>
@@ -117,7 +85,7 @@
                         <div class="progress progress-xs mt-2 mb-2 w-50">
                             <div class="progress-bar bg-warning" role="progressbar" style="width: {{$percentage . '%'}};" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
-                        <span class="ml-3 font-weight-bolder">% {{$percentage}}</span>
+                        <span class="ml-3 font-weight-bolder">% {{round($percentage , 2)}}</span>
                     </div>
                 </div>
                 @endif
@@ -160,6 +128,49 @@
             </div>
         </div>
         @endif
+
+        <div class="mb-10 d-flex flex-row-fluid bgi-size-cover bgi-position-center" style="background-image: url({{asset('admin/assets/media/bg/bg-9.jpg')}})">
+            <div class="container">
+                <!--begin::Topbar-->
+               
+                <!--end::Topbar-->
+                <div class="d-flex align-items-stretch text-center flex-column py-40">
+                    <!--begin::Heading-->
+                    <h1 class="text-dark font-weight-bolder mb-12">Search for Properties</h1>
+                    <!--end::Heading-->
+                    <!--begin::Form-->
+                    <form class="d-flex position-relative w-75 px-lg-40 m-auto" action="{{route('properties.results')}}" method="GET">
+                        @csrf
+                        <div class="input-group">
+                            <!--begin::Icon-->
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white border-0 py-7 px-8">
+                                    <span class="svg-icon svg-icon-xl">
+                                        <!--begin::Svg Icon | path:assets/media/svg/icons/General/Search.svg-->
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24"></rect>
+                                                <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                                <path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero"></path>
+                                            </g>
+                                        </svg>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                </span>
+                            </div>
+                            <!--end::Icon-->
+
+                            <!--begin::Input-->
+                            <input name="name" type="text" class="form-control h-auto border-0 py-7 px-1 font-size-h6" placeholder="Name of property">
+                            <input type="submit" class="form-control h-auto btn btn-warning font-size-h6" value="Search">
+
+                            <!--end::Input-->
+                        </div>
+                    </form>
+                    <!--end::Form-->
+                </div>
+            </div>
+        </div>
         <!--begin::Entry-->
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->

@@ -185,7 +185,7 @@
                                                 <!--begin::Text-->
                                                 <div class="d-flex flex-column flex-grow-1">
                                                     <a  class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Community</a>
-                                                    <span class="text-muted font-weight-bold">{{$new->community->name_en}} Community</span>
+                                                    <span class="text-muted font-weight-bold">{{$new->community->name_en ?? ''}} Community</span>
                                                 </div>
                                                 <!--end::Text-->
                                                

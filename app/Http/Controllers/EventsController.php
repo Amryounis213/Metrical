@@ -89,7 +89,7 @@ class EventsController extends Controller
     }
     public function update(Request $request, $id)
     {
-        dd($request->all());
+
         $request->validate([
             'title_ar' => 'required',
             'title_en' => 'required',
@@ -100,7 +100,7 @@ class EventsController extends Controller
             'address' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'community_id' => 'required',
+            // 'community_id' => 'required',
         ]);
         $event = Event::findOrFail($id);
         $input = $request->all();
@@ -115,7 +115,7 @@ class EventsController extends Controller
             ]);
             $input['image_url'] = $image_path;
         }
-
+        dd($input);
         $event->update($input);
         return redirect()->route('events.index')->with('edit', 'The event  ( ' . $event->title_en . ') is updated');
     }

@@ -46,9 +46,9 @@ License: You must have a valid license purchased only from themeforest(the above
 
             #kt_aside_menu {
                 height: 640px !important;
-                border-bottom: 1px solid yellow ;
+               
                 border-radius: 25px;
-
+                box-shadow: 0px 5px 3px #ecb969;
 
             }
             .ps__thumb-y{
@@ -143,7 +143,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             data-menu-dropdown-timeout="500">
                             <!--begin::Menu Nav-->
                             <ul class="menu-nav">
-                                <li class="menu-item menu-item-active" aria-haspopup="true">
+                                <li class="menu-item " aria-haspopup="true">
                                     <a href="{{route('dashboard')}}" class="menu-link">
                                         <span class="svg-icon menu-icon">
                                             <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
@@ -288,6 +288,16 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             <span class="menu-text">All Users</span>
                                                         </a>
                                                     </li>  
+
+                                                    <li class="menu-item" aria-haspopup="true">
+                                                        <a href="{{ route('createUser') }}" class="menu-link">
+                                                            <i class="menu-bullet menu-bullet-dot">
+                                                                <span></span>
+                                                            </i>
+                                                            <span class="menu-text">Add New User</span>
+                                                        </a>
+                                                    </li>  
+
 
                                                     <li class="menu-item" aria-haspopup="true">
                                                         <a href="{{ route('owners.users') }}" class="menu-link">
@@ -512,6 +522,15 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             </a>
                                                         </li>
                                                       
+                                                        <li class="menu-item" aria-haspopup="true">
+                                                            <a href="{{route('viewImportProp')}}"
+                                                                class="menu-link">
+                                                                <i class="menu-bullet menu-bullet-dot">
+                                                                    <span></span>
+                                                                </i>
+                                                                <span class="menu-text">Import Csv</span>
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </li>
@@ -561,7 +580,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 <i class="menu-bullet menu-bullet-line">
                                                     <span></span>
                                                 </i>
-                                                <span class="menu-text">Services</span>
+                                                <span class="menu-text">Facility Management </span>
                                                 <i class="menu-arrow"></i>
                                             </a>
                                             <div class="menu-submenu">

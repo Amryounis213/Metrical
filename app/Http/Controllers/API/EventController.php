@@ -29,8 +29,8 @@ class EventController extends Controller
             ]);
         } else {
             return response()->json([
-                'status' => false,
-                'code' => 404,
+                'status' => true,
+                'code' => 200,
                 'message' => __('messages.events'),
                 'events' => [],
             ]);
@@ -48,8 +48,8 @@ class EventController extends Controller
             ]);
         }
         return response()->json([
-            'status' => false,
-            'code' => 404,
+            'status' => true,
+            'code' => 200,
             'message' => __('messages.events.notfound'),
             'events' => [],
         ]);
@@ -66,8 +66,8 @@ class EventController extends Controller
             ]);
         }
         return response()->json([
-            'status' => false,
-            'code' => 404,
+            'status' => true,
+            'code' => 200,
             'message' => __('messages.events.notfound'),
             'events' => [],
         ]);
@@ -93,7 +93,6 @@ class EventController extends Controller
                 'status' => true,
                 'code' => 200,
                 'message' => __('messages.interested'),
-
             ]);
         }
 
@@ -101,7 +100,6 @@ class EventController extends Controller
             'status' => true,
             'code' => 200,
             'message' => __('messages.notInterested'),
-
         ]);
     }
 }

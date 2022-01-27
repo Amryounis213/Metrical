@@ -285,7 +285,7 @@
                                 <label class="col-4 col-form-label">Emirate ID:</label>
                                 <div class="col-8">
                                     <span class="form-control-plaintext font-weight-bolder">
-                                        <a >{{ $user->emirate_id }}</a>
+                                        <a >{{ $user->owner->emirate_id }}</a>
                                     </span>
                                 </div>
                             </div>
@@ -293,7 +293,7 @@
                                 <label class="col-4 col-form-label">Renting Price:</label>
                                 <div class="col-8">
                                     <span class="form-control-plaintext font-weight-bolder">
-                                        <a >{{ $user->renting_price }}</a>
+                                        <a >{{ $user->owner->renting_price }}</a>
                                     </span>
                                 </div>
                             </div>
@@ -302,7 +302,7 @@
                                 <div class="col-8">
                                     <span class="form-control-plaintext">
                                     
-                                    <span class="label label-inline label-danger label-bold">{{ $user->tenant->community_id ?? $user->owner->community_id }}</span></span>
+                                    <span class="label label-inline label-danger label-bold">{{ $user->tenant->community ?? $user->owner->community->name_en}}</span></span>
                                 </div>
                             </div>
                             @endif
@@ -316,111 +316,118 @@
                        
                         <!--end::Footer-->
                     </div>
+
+
+                    
                     <!--end::Card-->
                 </div>
                 <div class="col-xl-8">
                     <!--begin::Card-->
-                    <div class="card card-custom gutter-b">
+                    
+
+                    <!--end::Card-->
+                    <!--begin::Card-->
+                    <div class="card card-custom">
                         <!--begin::Header-->
-                        <div class="card-header card-header-tabs-line">
-                            <div class="card-toolbar">
-                                <ul class="nav nav-tabs nav-tabs-space-lg nav-tabs-line nav-bold nav-tabs-line-3x" role="tablist">
+                        <div class="card-header h-auto py-4">
+                            <div class="card-title">
+                                <ul class="nav nav-tabs nav-tabs-line">
                                     <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#kt_apps_contacts_view_tab_1">
-                                            <span class="nav-icon mr-2">
-                                                <span class="svg-icon mr-3">
-                                                    <!--begin::Svg Icon | path:assets/media/svg/icons/General/Notification2.svg-->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                            <rect x="0" y="0" width="24" height="24"></rect>
-                                                            <path d="M13.2070325,4 C13.0721672,4.47683179 13,4.97998812 13,5.5 C13,8.53756612 15.4624339,11 18.5,11 C19.0200119,11 19.5231682,10.9278328 20,10.7929675 L20,17 C20,18.6568542 18.6568542,20 17,20 L7,20 C5.34314575,20 4,18.6568542 4,17 L4,7 C4,5.34314575 5.34314575,4 7,4 L13.2070325,4 Z" fill="#000000"></path>
-                                                            <circle fill="#000000" opacity="0.3" cx="18.5" cy="5.5" r="2.5"></circle>
-                                                        </g>
-                                                    </svg>
-                                                    <!--end::Svg Icon-->
-                                                </span>
-                                            </span>
-                                            <span class="nav-text">Passport Copy</span>
-                                        </a>
+                                        <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_1">Passport Copy</a>
                                     </li>
-                                    <li class="nav-item mr-3">
-                                        <a class="nav-link" data-toggle="tab" href="#kt_apps_contacts_view_tab_2">
-                                            <span class="nav-icon mr-2">
-                                                <span class="svg-icon mr-3">
-                                                    <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Chat-check.svg-->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                            <rect x="0" y="0" width="24" height="24"></rect>
-                                                            <path d="M4.875,20.75 C4.63541667,20.75 4.39583333,20.6541667 4.20416667,20.4625 L2.2875,18.5458333 C1.90416667,18.1625 1.90416667,17.5875 2.2875,17.2041667 C2.67083333,16.8208333 3.29375,16.8208333 3.62916667,17.2041667 L4.875,18.45 L8.0375,15.2875 C8.42083333,14.9041667 8.99583333,14.9041667 9.37916667,15.2875 C9.7625,15.6708333 9.7625,16.2458333 9.37916667,16.6291667 L5.54583333,20.4625 C5.35416667,20.6541667 5.11458333,20.75 4.875,20.75 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                                            <path d="M2,11.8650466 L2,6 C2,4.34314575 3.34314575,3 5,3 L19,3 C20.6568542,3 22,4.34314575 22,6 L22,15 C22,15.0032706 21.9999948,15.0065399 21.9999843,15.009808 L22.0249378,15 L22.0249378,19.5857864 C22.0249378,20.1380712 21.5772226,20.5857864 21.0249378,20.5857864 C20.7597213,20.5857864 20.5053674,20.4804296 20.317831,20.2928932 L18.0249378,18 L12.9835977,18 C12.7263047,14.0909841 9.47412135,11 5.5,11 C4.23590829,11 3.04485894,11.3127315 2,11.8650466 Z M6,7 C5.44771525,7 5,7.44771525 5,8 C5,8.55228475 5.44771525,9 6,9 L15,9 C15.5522847,9 16,8.55228475 16,8 C16,7.44771525 15.5522847,7 15,7 L6,7 Z" fill="#000000"></path>
-                                                        </g>
-                                                    </svg>
-                                                    <!--end::Svg Icon-->
-                                                </span>
-                                            </span>
-                                            <span class="nav-text">Visa Copy</span>
-                                        </a>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2">@if ($user->owner)
+                                            Title Dead Copy
+                                        @else
+                                            Visa Copy 
+                                        @endif</a>
                                     </li>
                                    
                                 </ul>
                             </div>
+                            
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
-                        <div class="card-body px-0">
-                            <div class="tab-content pt-5">
-                                <!--begin::Tab Content-->
-                                @if ($user->tenant)
-                                    <div class="tab-pane active" id="kt_apps_contacts_view_tab_1" role="tabpanel">
+                        <div class="card-body" >
+                            
+                            <div class="tab-content mt-5" id="myTabContent">
+                                <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel" aria-labelledby="kt_tab_pane_2">
+                                    @if ($user->tenant)
                                     <div class="container">
                                         <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $user->tenant->passport_copy )}})"></div>
                                     </div>
+
+                                    @elseif($user->owner)
+                                  
+                                            <div class="container">
+                                                <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $user->owner->passport_copy )}})"></div>
+                                            </div>
+                                   
+
+                                    @else
+
+
+                                    @endif
+
+
+
+
                                 </div>
-                                @elseif($user->owner)
 
-                                    <div class="tab-pane active" id="kt_apps_contacts_view_tab_1" role="tabpanel">
-                                    <div class="container">
-                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $user->owner->passport_copy )}})"></div>
-                                    </div>
-                                
-                                @else
 
-                                    No Image ^_^
-                                @endif
-                                
-                                <!--end::Tab Content-->
-                                <!--begin::Tab Content-->
-                                @if ($user->tenant)
-                                <div class="tab-pane" id="kt_apps_contacts_view_tab_2" role="tabpanel">
-                                    <div class="container">
-                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $user->tenant->visa_copy)}})"></div>
-                                    </div>
+
+
+                                <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel" aria-labelledby="kt_tab_pane_2">
+                                    @if ($user->tenant)
+                               
+                                        <div class="container">
+                                            <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $user->tenant->visa_copy )}})"></div>
+                                        </div>
+                                    
+
+                                    @elseif($user->owner)
+                                    
+                                            <div class="container">
+                                                <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $user->owner->title_dead_copy )}})"></div>
+                                            </div>
+                                    
+
+                                    @else
+
+
+                                    @endif
+
                                 </div>
-                                @elseif($user->owner)
-
-                                    <div class="tab-pane active" id="kt_apps_contacts_view_tab_1" role="tabpanel">
-                                    <div class="container">
-                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $user->owner->visa_copy )}})"></div>
-                                    </div>
-                                
-                                @else
-
-                                    No Image ^_^
-                                @endif
-                               
-                                <!--end::Tab Content-->
-                               
-                                <!--end::Tab Content-->
+                                <div class="tab-pane fade" id="kt_tab_pane_3" role="tabpanel" aria-labelledby="kt_tab_pane_3">
+                                    
+                                </div>
+                                <div class="tab-pane fade" id="kt_tab_pane_4" role="tabpanel" aria-labelledby="kt_tab_pane_4">
+                            
+                                </div>
                             </div>
+                           
                         </div>
+                        
                         <!--end::Body-->
+                       
+                        <!--end::Footer-->
                     </div>
+
+
+                    
                     <!--end::Card-->
                 </div>
+              
+
             </div>
             <!--end::Row-->
         </div>
         <!--end::Container-->
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script src="{{asset('admin/assets/js/pages/custom/education/student/profile.js')}}"></script>
 @endsection

@@ -61,6 +61,8 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
     Route::post('stop-offer', [StopOfferController::class, 'store']);
     //Route::put('accept-offer', [OfferController::class , 'acceptOffers']);
 
+    Route::post('offer/{type}', [OfferController::class, 'storeOffer']);
+
 
     Route::prefix('services')->group(function () {
         Route::post('movein', [servicesController::class, 'moveIn']);
@@ -83,7 +85,14 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
     Route::get('profile/delivery-permit', [ProfileController::class, 'Delivery'])
         ->middleware('auth:sanctum');
 });
+
+
+
+Route::get('metrical/owner', [PropertyController::class, 'propertyOwner']);
+Route::get('metrical/tenant', [PropertyController::class, 'propertyTenant']);
+
 //API (Amr Younis)
+
 
 Route::get('countries', [CountriesController::class, 'showallcountries']);
 Route::get('countries/{id}/cities', [CountriesController::class, 'showCitiesByCountry']);
@@ -118,14 +127,14 @@ Route::post('interested', [EventController::class, 'interested'])
 Route::post('contact', [ContactWithAdminController::class, 'store'])
     ->middleware('auth:sanctum');
 // for personal information
-Route::put('profile/person_info', [UserProfileInfoController::class, 'editPersonalProfile'])
+Route::post('profile/person_info', [UserProfileInfoController::class, 'editPersonalProfile'])
     ->middleware('auth:sanctum');
 
 Route::get('profile/person_info', [UserProfileInfoController::class, 'showPersonalProfile'])
     ->middleware('auth:sanctum');
 
 // for Family info
-Route::put('profile/family_info', [UserProfileInfoController::class, 'editFamilyProfile'])
+Route::post('profile/family_info', [UserProfileInfoController::class, 'editFamilyProfile'])
     ->middleware('auth:sanctum');
 
 Route::get('profile/family_info', [UserProfileInfoController::class, 'showFamilyProfile'])

@@ -33,6 +33,11 @@ class Owner extends Model
     {
         return $this->hasMany(Property::class, 'owner_id', 'id');
     }
+
+    public function community()
+    {
+        return $this->belongsTo(Community::class, 'community_id', 'id');
+    }
     public function getPassportPathAttribute($value)
     {
         if (!$this->passport_copy) {

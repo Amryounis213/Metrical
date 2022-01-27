@@ -3004,7 +3004,7 @@ var KTWidgets = function () {
         }
 
         var options = {
-            series: [74],
+            series: [x1],
             chart: {
                 height: height,
                 type: 'radialBar',
@@ -3022,7 +3022,7 @@ var KTWidgets = function () {
                             fontWeight: '700'
                         },
                         value: {
-                            color: KTApp.getSettings()['colors']['gray']['gray-700'],
+                            color: "#3F4254",
                             fontSize: "30px",
                             fontWeight: '700',
                             offsetY: 12,
@@ -3033,12 +3033,12 @@ var KTWidgets = function () {
                         }
                     },
                     track: {
-                        background: KTApp.getSettings()['colors']['theme']['light']['success'],
+                        background: '#fdf5e7',
                         strokeWidth: '100%'
                     }
                 }
             },
-            colors: [KTApp.getSettings()['colors']['theme']['base']['success']],
+            colors: ['rgba(255, 168, 0, 0.85)'],
             stroke: {
                 lineCap: "round",
             },
@@ -3403,7 +3403,7 @@ var KTWidgets = function () {
         }
 
         var options = {
-            series: [74],
+            series: [x1],
             chart: {
                 height: height,
                 type: 'radialBar',
@@ -3441,7 +3441,7 @@ var KTWidgets = function () {
                     }
                 }
             },
-            colors: [KTApp.getSettings()['colors']['theme']['base']['primary']],
+            colors: [KTApp.getSettings()['colors']['theme']['base']['warning']],
             stroke: {
                 lineCap: "round",
             },
@@ -4636,7 +4636,7 @@ var KTWidgets = function () {
             // Charts Widgets
             _initChartsWidget1();
             _initChartsWidget2();
-            _initChartsWidget3();
+
             _initChartsWidget4();
             _initChartsWidget5();
             _initChartsWidget6();

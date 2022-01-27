@@ -28,7 +28,7 @@ class News extends Model
     ];
     public function community()
     {
-        return $this->belongsTo(Community::class, 'community_id', 'id');
+        return $this->belongsTo(Community::class, 'community_id', 'id')->withDefault();
     }
 
 

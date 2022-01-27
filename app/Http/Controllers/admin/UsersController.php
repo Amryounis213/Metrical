@@ -21,7 +21,7 @@ class UsersController extends Controller
     /* binging users */
     public function index()
     {
-        $users = User::where('request_sent', '1')->where('type', '0')->get();
+        $users = User::where('request_sent', '1')->where('type', '0')->paginate(5);
 
         return view('admin.users.index', [
             'users' => $users,
@@ -33,7 +33,8 @@ class UsersController extends Controller
     {
 
         $user = User::with('tenant', 'owner')->where('id', $id)->first();
-        dd($user->owner);
+        // $property = Property::where('owner_id', $user->owner->id)->get();
+
         return view('admin.users.show', [
             'user' => $user
         ]);
@@ -94,7 +95,7 @@ class UsersController extends Controller
 
     public function tenants()
     {
-        $users = User::with('tenant')->where('type', '2')->get();
+        $users = User::with('tenant')->where('type', '2')->paginate(5);
         return view('admin.users.index', [
             'title' => 'All Tenants Here',
             'users' => $users
@@ -102,7 +103,7 @@ class UsersController extends Controller
     }
     public function owners()
     {
-        $users = User::with('owner')->where('type', '1')->get();
+        $users = User::with('owner')->where('type', '1')->paginate(5);
         return view('admin.users.index', [
             'title' => 'All Owners Here',
             'users' => $users
@@ -159,6 +160,9 @@ class UsersController extends Controller
             if ($users->type == 1) {
                 $owner = new Owner();
                 $owner->OwnerAdd($users, $request);
+            } elseif ($users->type == 2) {
+                $tenant = new Tenant();
+                $tenant->TenantAdd($users, $request);
             }
             return redirect()->route('props', $users->id);
         } catch (Exception $exception) {
@@ -173,11 +177,13 @@ class UsersController extends Controller
         $title = 'Link Property with User';
         $properties = Property::get(['id', 'name_en']);
         $owner = Owner::where('user_id', $id)->first();
+        $tenant = Tenant::where('user_id', $id)->first();
         return view('admin.users.linkingProperty', [
             'properties' => $properties,
             'title' => $title,
             'id' => $id,
             'owner' => $owner,
+            'tenant' => $tenant,
         ]);
     }
 
@@ -203,5 +209,13 @@ class UsersController extends Controller
     public function successLink()
     {
         return view('admin.users.successpage');
+    }
+
+
+    public function filter(Request $request)
+    {
+        $users = User::with('tenant', 'owner')->where('type', $request->type)->orwhere('first_name', '%' . $request->name . '%')->paginate();
+
+        return view('admin.users.index', ['users' => $users]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +25,7 @@ class Event extends Model
     ];
     public function community()
     {
-        return $this->belongsTo(Community::class, 'community_id', 'id');
+        return $this->belongsTo(Community::class, 'community_id', 'id')->withDefault();
     }
 
     public function toArray()
@@ -38,8 +39,8 @@ class Event extends Model
             'description' => $this->$description,
             'address' => $this->address,
             'community_id' => $this->community_id,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+            'start_date' => Carbon::parse($this->start_date)->format('Y-m-d'),
+            'end_date' => Carbon::parse($this->end_date)->format('Y-m-d'),
             'community_id' => $this->community_id,
             'main_image' => asset('uploads/' . $this->image_url),
         ];

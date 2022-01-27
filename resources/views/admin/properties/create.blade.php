@@ -299,7 +299,7 @@
                                             </div>
 
                                             <div class="col-lg-3">
-                                                <input name="bedroom" type="number" class="form-control" placeholder="Floor" />
+                                                <input name="floor" type="number" class="form-control" placeholder="Floor" />
                                                 <span class="form-text text-muted">floor</span>
 
                                             </div>

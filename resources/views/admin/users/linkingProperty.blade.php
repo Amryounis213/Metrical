@@ -56,12 +56,13 @@
                     <!--begin::Card-->
                     <div class="card card-custom gutter-b example example-compact">
                         <div class="card-header">
-                            <h3 class="card-title">4- Link  <span class="text-success"> (  {{ $owner->full_name}} )</span> with Property :</h3>
+                            <h3 class="card-title">4- Link  <span class="text-success"> (  {{ $owner->full_name ?? $tenant->full_name}} )</span> with Property :</h3>
                             <div class="card-toolbar">
 
                             </div>
                         </div>
                         <!--begin::Form-->
+                        @if($owner)
                         <form class="form" method="POST" action="{{route('store')}}">
                             @csrf
                             <div class="card-body">
@@ -82,43 +83,55 @@
     
                                             </select>
                                         </div>
-
-                                  
-
-
-
-                                  
-
-
-
+                                   </div>
 
                                 </div>
-
-
-
-
-
-
-
-
-
-
-
-                               
-                               
-
                             </div>
-                    </div>
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-lg-6">
-                                <button type="submit" class="btn btn-success mr-2">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Cancel</button>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-6">
+                                        <button type="submit" class="btn btn-success mr-2">Submit</button>
+                                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    </form>
+                        </form>
+                        @else
+                        <form class="form" method="POST" action="{{route('store')}}">
+                            @csrf
+                            <div class="card-body">
+                                <div class="mb-15">
+
+
+
+                                    <input hidden name="tenant_id" value="{{ $tenant->id }}" >
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label text-right">Properties :</label>
+                                        <div class="col-lg-6">
+                                            <select name="property_id" class="form-control form-control-light">
+                                                <option value="">-- Select Property --</option>
+                                                @foreach ($properties as $cities)
+                                                <option value="{{$cities->id}}">{{$cities->name_en}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                   </div>
+
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-6">
+                                        <button type="submit" class="btn btn-success mr-2">Submit</button>
+                                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        @endif
+                       
                     <!--end::Form-->
                 </div>
                 <!--end::Card-->
