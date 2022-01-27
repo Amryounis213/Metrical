@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Community;
 use App\Models\Event;
 use App\Models\InterestedUser;
+use App\Models\User;
+use App\Notifications\InvoiceEvents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class EventsController extends Controller
 {
@@ -71,6 +74,8 @@ class EventsController extends Controller
             $input['image_url'] = $image_path;
         }
         $event = Event::create($input);
+        $users = User::get();
+        Notification::send($users, new InvoiceEvents($event) );
         return redirect()->route('events.index')->with('create', 'the Event is created Successfully');
     }
 

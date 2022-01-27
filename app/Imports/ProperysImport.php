@@ -5,9 +5,11 @@ namespace App\Imports;
 use App\Models\Property;
 use App\Models\Propery;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithHeadingRow
+;
 
-class ProperysImport implements ToModel
+class ProperysImport implements ToModel,WithHeadingRow
+
 {
     /**
     * @param array $row
