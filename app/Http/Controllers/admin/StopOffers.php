@@ -11,8 +11,7 @@ class StopOffers extends Controller
 {
     public function index()
     {
-        $offers = Stopoffer::get();
-        // return $offers;
+        $offers = Stopoffer::with(['Offer'])->get();
         return view('admin.properties.stop-offer', [
             'offers' => $offers,
             'title' => 'Show all stop offers'
@@ -20,6 +19,5 @@ class StopOffers extends Controller
     }
     public function StopOffer(Request $request)
     {
-        # code...
     }
 }

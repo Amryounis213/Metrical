@@ -24,9 +24,9 @@ class Offer extends Model
     }
 
 
-    public function toArray()
+    /* public function toArray()
     {
-        if ($this->type = 'sale') {
+        if ($this->type == 'sale') {
             return [
                 "id" => $this->id,
                 "full_name" => $this->full_name,
@@ -39,7 +39,7 @@ class Offer extends Model
                 "type" => "sale",
                 "property_id" => $this->property_id,
                 "user_id" => $this->user_id,
-                "status" => $this->status,
+
             ];
         } else {
             return [
@@ -56,8 +56,8 @@ class Offer extends Model
                 "type" => "rent",
                 "property_id" => $this->property_id,
                 "user_id" => $this->user_id,
-                "status" => $this->status,
+
             ];
         }
-    }
+    }*/
 }

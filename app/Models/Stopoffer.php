@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Stopoffer extends Model
 {
     use HasFactory;
-    protected $fillable = ['email', 'reason', 'full_name'];
+    protected $fillable = ['email', 'mobile', 'reason', 'full_name', 'offer_id', 'user_id'];
 
     public function offer()
     {

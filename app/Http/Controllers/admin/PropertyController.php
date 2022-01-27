@@ -26,6 +26,21 @@ class PropertyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function result(Request $request)
+    {
+
+        $properties = Property::where('name_en', 'LIKE', '%' . $request->name . '%')->paginate(10);
+        $percentage = Property::Percentage() ?? 0;
+        $tenants = User::with('tenant')->where('type', '3')->orWhere('type', '2')->get();
+        $owners = User::with('owner')->where('type', '3')->orWhere('type', '1')->get();
+        return view('admin.properties.index', [
+            'properties' => $properties,
+            'percentage' => $percentage,
+            'tenants' => $tenants,
+            'owners' => $owners,
+            'title' => 'Properties Results'
+        ]);
+    }
     public function index()
     {
 
@@ -191,7 +206,7 @@ class PropertyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $request->validate([
             'name_en' => 'required',
             'name_ar' => 'required',
@@ -260,14 +275,19 @@ class PropertyController extends Controller
 
     public function import(Request $request)
     {
-        
-        $this->validate($request, [
-      'excel'  => 'required|mimes:xls,xlsx'
-     ]);
 
-     $path = $request->file('excel');
-     Excel::import(new ProperysImport, $path);
-        
-        return redirect('/')->with('success', 'All good!');
+        /* $this->validate($request, [
+            'excel'  => 'required|mimes:xls,xlsx'
+        ]);*/
+
+        $path = $request->file('excel');
+        Excel::import(new ProperysImport, $path);
+
+        return redirect()->back()->with('success', 'Properties Add Successfully');
+    }
+
+    public function importCsvView()
+    {
+        return view('admin.properties.uploadcsv');
     }
 }

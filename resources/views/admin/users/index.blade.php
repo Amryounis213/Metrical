@@ -1,7 +1,8 @@
 @extends('components.admin-layout')
+
 @section('content')
 
-<div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+<div id="dd" class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
     <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
         <!--begin::Details-->
         <div class="d-flex align-items-center flex-wrap mr-2">
@@ -108,7 +109,7 @@
             <!--begin::Header-->
             <div class="card-header border-0 py-5">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label font-weight-bolder text-dark">{{$title}}</span>
+                    <span class="card-label font-weight-bolder text-dark">{{$title ?? 'Users Filter'}}</span>
                 </h3>
                 <div class="card-toolbar">
 
@@ -119,44 +120,39 @@
             <div class="card-body py-0">
                 <!--begin::Search Form-->
                 <div class="mb-7">
-                    <div class="row align-items-center">
-                        <div class="col-lg-9 col-xl-8">
+                    <form action="{{route('users.filter')}}" class="row align-items-center" method="POST">
+                        @csrf
+                        <div class="col-lg-10 col-xl-8">
                             <div class="row align-items-center">
-                                <div class="col-md-4 my-2 my-md-0">
+                                <div class="col-md-8 my-2 my-md-0">
                                     <div class="input-icon">
-                                        <input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
+                                        <input name="name" type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
                                         <span>
                                             <i class="flaticon2-search-1 text-muted"></i>
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-md-4 my-2 my-md-0">
-                                    <div class="d-flex align-items-center">
-                                        <label class="mr-3 mb-0 d-none d-md-block">Status:</label>
-                                        <select class="form-control" id="kt_datatable_search_status">
-                                            <option value="">All</option>
-                                            <option value="1">Active</option>
-                                            <option value="2">Draft</option>
-                                        </select>
-                                    </div>
-                                </div>
+                              
+                               
                                 <div class="col-md-4 my-2 my-md-0">
                                     <div class="d-flex align-items-center">
                                         <label class="mr-3 mb-0 d-none d-md-block">Type:</label>
-                                        <select class="form-control" id="kt_datatable_search_type">
-                                            <option value="">All</option>
-                                            <option value="1">Online</option>
-                                            <option value="2">Retail</option>
-                                            <option value="3">Direct</option>
+                                        <select name="type" class="form-control" id="filter">
+                                            <option value="">--Select--</option>
+                                            <option value="1">Owner</option>
+                                            <option value="2">Tenant</option>
+                                            <option value="0">Normal</option>
+                                            <option value="4">All</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                            <a href="#" class="btn btn-light-primary px-6 font-weight-bold">Search</a>
+                           <button type="submit" class="btn btn-light-primary px-6 font-weight-bold" >Search</button>
                         </div>
-                    </div>
+                
+                    </form>
                 </div>
                 @if (Session::has('success'))
       <div class="alert alert-success" role="alert">
@@ -171,33 +167,23 @@
                     <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_2">
                         <thead>
                             <tr class="text-uppercase">
-                                <th class="pl-0" style="width: 40px">
-                                    <label class="checkbox checkbox-lg checkbox-inline mr-2">
-                                        <input type="checkbox" value="1" />
-                                        <span></span>
-                                    </label>
-                                </th>
+                                
                                 <th class="pl-0" style="min-width: 100px">#</th>
                                 <th style="min-width: 120px">Image</th>
                                 <th style="min-width: 120px">Name</th>
                                 <th style="min-width: 120px">Joined</th>
-                                <th style="min-width: 120px">City</th>
                                 <th style="min-width: 120px">Mobile Number</th>
+                                <th style="min-width: 130px">Type</th>
                                 <th style="min-width: 130px">Request type</th>
                                 <th class="pr-0 text-right" style="min-width: 160px">action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($users as $user)
+                        <tbody id="data">
+                            @foreach ($users as $key=>$user)
                             <tr>
-                                <td class="pl-0 py-6">
-                                    <label class="checkbox checkbox-lg checkbox-inline">
-                                        <input type="checkbox" value="1" />
-                                        <span></span>
-                                    </label>
-                                </td>
+                               
                                 <td class="pl-0">
-                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$user->id}}</a>
+                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$key +1}}</a>
                                 </td>
                                 <td>
 
@@ -216,10 +202,7 @@
                                     </span>
 
                                 </td>
-                                <td>
-                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$user->city}}</span>
-
-                                </td>
+                             
                                 <td>
                                     
 
@@ -228,8 +211,19 @@
                                         
                                 </td>
                                 <td>
-                                    @if($user->need == 'normal')
+                                    @if($user->type == '0')
                                     <span class="label label-lg label-warning label-inline">Normal</span>
+                                    @elseif($user->type == '1')
+                                    <span class="label label-lg label-light-success label-inline">Owner</span>
+                                    @elseif($user->type == '2')
+                                    <span class="label label-lg label-light-primary label-inline">Tenant</span>
+                                    @else
+                                    <span class="label label-lg label-light-primary label-inline">Admin</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($user->need == 'normal')
+                                    <span class="label label-lg label-secondary label-inline">No request</span>
                                     @elseif($user->need == 'owner')
                                     <span class="label label-lg label-light-success label-inline">Owner</span>
                                     @else
@@ -266,6 +260,7 @@
 
                         </tbody>
                     </table>
+                    {{$users->links()}}
                 </div>
                 <!--end::Table-->
             </div>
@@ -299,4 +294,9 @@
             </div>
         </div>
     </div></div>
+@endsection
+
+
+@section('scripts')
+
 @endsection

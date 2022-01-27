@@ -102,7 +102,7 @@ class OfferController extends Controller
     public function acceptOffers($id)
     {
         Gate::authorize('offers.accept');
-        
+
         $offers = Offer::find($id);
         $offers->update([
             'status' => "1",
@@ -111,7 +111,7 @@ class OfferController extends Controller
         $property = Property::where('id', $offers->property_id)->first();
         $property->update(
             [
-                'owner_id' => $offers->user_id,
+                'offer_type' => $offers->type,
             ]
         );
         return redirect()->back();
@@ -126,5 +126,17 @@ class OfferController extends Controller
             'offers' => $offers,
             'title' => $title,
         ]);
+    }
+
+    /**
+     * 
+     * Action Filter
+     */
+
+    public function filter(Request $request)
+    {
+
+        $offers = Offer::with('property')->where('type', $request->type)->orwhere('full_name', '%' . $request->name . '%')->get();
+        return view('admin.offers.index', ['offers' => $offers]);
     }
 }

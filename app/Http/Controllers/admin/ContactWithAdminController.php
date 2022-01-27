@@ -9,6 +9,7 @@ use App\Models\ContactWithAdmin;
 use App\Notifications\ContactWithAdminNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ContactWithAdminController extends Controller
 {
@@ -25,12 +26,21 @@ class ContactWithAdminController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
+        $validation = Validator::make($request->all(), [
             'name' => 'required',
-            'phone_number' => 'required',
             'email' => 'required',
             'message' => 'required',
+            'phone_number' => 'nullable',
         ]);
+        if ($validation->fails()) {
+
+            return  response()->json([
+                'status' => false,
+                'code' => 422,
+                'message' => '',
+                'data' => $validation->errors(),
+            ], 422);
+        }
 
         $user = Auth::guard('sanctum')->user();
         $request->merge([
@@ -41,10 +51,11 @@ class ContactWithAdminController extends Controller
         // notify notification
         event(new SendMessageToAdminEvent($contact));
 
-        return [
-            'status' => 200,
+        return  response()->json([
+            'status' => true,
+            'code' => 201,
             'message' => __('messages.contact'),
             'data' => $contact,
-        ];
+        ]);
     }
 }

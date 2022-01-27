@@ -1086,7 +1086,7 @@ var KTWidgets = function () {
         chart.render();
     }
 
-    var _initChartsWidget3 = function () {
+    /*var _initChartsWidget3 = function () {
         var element = document.getElementById("kt_charts_widget_3_chart");
 
         if (!element) {
@@ -1218,7 +1218,7 @@ var KTWidgets = function () {
 
         var chart = new ApexCharts(element, options);
         chart.render();
-    }
+    }*/
 
     var _initChartsWidget4 = function () {
         var element = document.getElementById("kt_charts_widget_4_chart");
@@ -3004,7 +3004,7 @@ var KTWidgets = function () {
         }
 
         var options = {
-            series: [74],
+            series: [x1],
             chart: {
                 height: height,
                 type: 'radialBar',
@@ -3022,7 +3022,7 @@ var KTWidgets = function () {
                             fontWeight: '700'
                         },
                         value: {
-                            color: KTApp.getSettings()['colors']['gray']['gray-700'],
+                            color: "#3F4254",
                             fontSize: "30px",
                             fontWeight: '700',
                             offsetY: 12,
@@ -3033,12 +3033,12 @@ var KTWidgets = function () {
                         }
                     },
                     track: {
-                        background: KTApp.getSettings()['colors']['theme']['light']['success'],
+                        background: '#fdf5e7',
                         strokeWidth: '100%'
                     }
                 }
             },
-            colors: [KTApp.getSettings()['colors']['theme']['base']['success']],
+            colors: ['rgba(255, 168, 0, 0.85)'],
             stroke: {
                 lineCap: "round",
             },
@@ -3403,7 +3403,7 @@ var KTWidgets = function () {
         }
 
         var options = {
-            series: [74],
+            series: [x1],
             chart: {
                 height: height,
                 type: 'radialBar',
@@ -3441,7 +3441,7 @@ var KTWidgets = function () {
                     }
                 }
             },
-            colors: [KTApp.getSettings()['colors']['theme']['base']['primary']],
+            colors: [KTApp.getSettings()['colors']['theme']['base']['warning']],
             stroke: {
                 lineCap: "round",
             },
@@ -4432,7 +4432,7 @@ var KTWidgets = function () {
     }
 
     // Forms
-    var _initFormsWidget1 = function() {
+    var _initFormsWidget1 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_1_input");
 
         if (inputEl) {
@@ -4440,7 +4440,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget2 = function() {
+    var _initFormsWidget2 = function () {
         var formEl = KTUtil.getById("kt_forms_widget_2_form");
         var editorId = 'kt_forms_widget_2_editor';
 
@@ -4463,7 +4463,7 @@ var KTWidgets = function () {
         var editorObj = new Quill('#' + editorId, options);
     }
 
-    var _initFormsWidget3 = function() {
+    var _initFormsWidget3 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_3_input");
 
         if (inputEl) {
@@ -4471,7 +4471,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget4 = function() {
+    var _initFormsWidget4 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_4_input");
 
         if (inputEl) {
@@ -4479,7 +4479,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget5 = function() {
+    var _initFormsWidget5 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_5_input");
 
         if (inputEl) {
@@ -4487,7 +4487,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget6 = function() {
+    var _initFormsWidget6 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_6_input");
 
         if (inputEl) {
@@ -4495,7 +4495,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget7 = function() {
+    var _initFormsWidget7 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_7_input");
 
         if (inputEl) {
@@ -4503,7 +4503,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget8 = function() {
+    var _initFormsWidget8 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_8_input");
 
         if (inputEl) {
@@ -4511,7 +4511,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget9 = function() {
+    var _initFormsWidget9 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_9_input");
 
         if (inputEl) {
@@ -4519,7 +4519,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget10 = function() {
+    var _initFormsWidget10 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_10_input");
 
         if (inputEl) {
@@ -4527,7 +4527,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget11 = function() {
+    var _initFormsWidget11 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_11_input");
 
         if (inputEl) {
@@ -4535,7 +4535,7 @@ var KTWidgets = function () {
         }
     }
 
-    var _initFormsWidget12 = function() {
+    var _initFormsWidget12 = function () {
         var inputEl = KTUtil.getById("kt_forms_widget_12_input");
 
         if (inputEl) {
@@ -4544,7 +4544,7 @@ var KTWidgets = function () {
     }
 
     // Advance Tables
-    var _initAdvancedTableGroupSelection = function(element) {
+    var _initAdvancedTableGroupSelection = function (element) {
         var table = KTUtil.getById(element);
 
         if (!table) {
@@ -4582,14 +4582,14 @@ var KTWidgets = function () {
     }
 
     // Education Show More Demo
-    var _initEducationShowMoreBtn = function() {
+    var _initEducationShowMoreBtn = function () {
         var el = KTUtil.getById('kt_app_education_more_feeds_btn');
 
         if (!el) {
             return;
         }
 
-        KTUtil.addEvent(el, 'click', function(e) {
+        KTUtil.addEvent(el, 'click', function (e) {
             var elements = document.getElementsByClassName('education-more-feeds');
 
             if (!elements || elements.length <= 0) {
@@ -4598,7 +4598,7 @@ var KTWidgets = function () {
 
             KTUtil.btnWait(el, 'spinner spinner-right spinner-white pr-15', 'Please wait...', true);
 
-            setTimeout(function() {
+            setTimeout(function () {
                 KTUtil.btnRelease(el);
                 KTUtil.addClass(el, 'd-none');
 
@@ -4636,7 +4636,7 @@ var KTWidgets = function () {
             // Charts Widgets
             _initChartsWidget1();
             _initChartsWidget2();
-            _initChartsWidget3();
+
             _initChartsWidget4();
             _initChartsWidget5();
             _initChartsWidget6();

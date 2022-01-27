@@ -48,10 +48,10 @@ class AccessTokenController extends Controller
 
             return  response()->json([
                 'status' => true,
-                'code' => 401,
+                'code' => 422 ,
                 'message' => '',
                 'data' => $validation->errors(),
-            ], 401);
+            ], 422 );
         }
         $request->merge([
             'password' => Hash::make($request->password),

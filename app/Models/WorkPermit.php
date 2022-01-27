@@ -41,7 +41,7 @@ class WorkPermit extends Model
         'agree',
         'user_id',
         'property_id',
-
+        'contact',
 
     ];
 

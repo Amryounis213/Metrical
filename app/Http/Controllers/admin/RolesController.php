@@ -26,7 +26,8 @@ class RolesController extends Controller
     {
         // Gate::authorize('roles.view-any');
 
-        $roles = Role::paginate();
+        $roles = Role::paginate(10);
+
         return view('admin.roles.index', [
             'roles' => $roles,
             'title' => 'Show All Roles'

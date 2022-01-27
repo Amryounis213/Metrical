@@ -282,19 +282,25 @@
                                         </div>
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Information</label>
-                                            <div class="col-lg-3">
+                                            <div class="col-lg-2">
                                                 <input name="gate" type="number" class="form-control"placeholder="Gates" />
                                                 <span class="form-text text-muted">Gates number</span>
                                             </div>
-                                            <div class="col-lg-3">
+                                            <div class="col-lg-2">
                                                 <input name="bathroom" type="number" class="form-control" placeholder="Bathroom" />
                                                 <span class="form-text text-muted">Bathroom number</span>
 
                                             </div>
 
-                                            <div class="col-lg-3">
+                                            <div class="col-lg-2">
                                                 <input name="bedroom" type="number" class="form-control" placeholder="Bedroom" />
                                                 <span class="form-text text-muted">Bedroom number</span>
+
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <input name="floor" type="number" class="form-control" placeholder="Floor" />
+                                                <span class="form-text text-muted">floor</span>
 
                                             </div>
                                           
@@ -377,9 +383,4 @@
 </script>
 @endsection
 @include('components.form-script');
-@endsection
-
-@section('scripts')
-<script src="{{asset('admin/assets/js/appends.js')}}"></script>
-
 @endsection

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ContactWithAdminController;
 use App\Http\Controllers\API\AccessTokenController;
 use App\Http\Controllers\API\AmenityController;
 use App\Http\Controllers\API\CommunityController;
+use App\Http\Controllers\API\ContactsController;
 use App\Http\Controllers\API\CountriesController;
 use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\API\EventController;
@@ -15,7 +16,7 @@ use App\Http\Controllers\API\RentController;
 use App\Http\Controllers\API\servicesController;
 use App\Http\Controllers\API\StopOfferController;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\ApI\UserProfileInfoController;
+use App\Http\Controllers\API\UserProfileInfoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -60,6 +61,8 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
     Route::post('stop-offer', [StopOfferController::class, 'store']);
     //Route::put('accept-offer', [OfferController::class , 'acceptOffers']);
 
+    Route::post('offer/{type}', [OfferController::class, 'storeOffer']);
+
 
     Route::prefix('services')->group(function () {
         Route::post('movein', [servicesController::class, 'moveIn']);
@@ -67,7 +70,7 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
         Route::post('work-permit', [servicesController::class, 'workPermit']);
         Route::post('delivery-permit', [servicesController::class, 'deliveryPermit']);
     });
-
+    Route::get('contacts', [ContactsController::class, 'showContent']);
     Route::post('properties/filter/search', [PropertyController::class, 'propertiesfilter']);
 
     Route::get('home', [UserController::class, 'home']);
@@ -82,7 +85,14 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
     Route::get('profile/delivery-permit', [ProfileController::class, 'Delivery'])
         ->middleware('auth:sanctum');
 });
+
+
+
+Route::get('metrical/owner', [PropertyController::class, 'propertyOwner']);
+Route::get('metrical/tenant', [PropertyController::class, 'propertyTenant']);
+
 //API (Amr Younis)
+
 
 Route::get('countries', [CountriesController::class, 'showallcountries']);
 Route::get('countries/{id}/cities', [CountriesController::class, 'showCitiesByCountry']);
@@ -117,14 +127,14 @@ Route::post('interested', [EventController::class, 'interested'])
 Route::post('contact', [ContactWithAdminController::class, 'store'])
     ->middleware('auth:sanctum');
 // for personal information
-Route::put('profile/person_info', [UserProfileInfoController::class, 'editPersonalProfile'])
+Route::post('profile/person_info', [UserProfileInfoController::class, 'editPersonalProfile'])
     ->middleware('auth:sanctum');
 
 Route::get('profile/person_info', [UserProfileInfoController::class, 'showPersonalProfile'])
     ->middleware('auth:sanctum');
 
 // for Family info
-Route::put('profile/family_info', [UserProfileInfoController::class, 'editFamilyProfile'])
+Route::post('profile/family_info', [UserProfileInfoController::class, 'editFamilyProfile'])
     ->middleware('auth:sanctum');
 
 Route::get('profile/family_info', [UserProfileInfoController::class, 'showFamilyProfile'])
@@ -134,7 +144,7 @@ Route::get('profile/family_info', [UserProfileInfoController::class, 'showFamily
 Route::post('profile/Docs_info', [UserProfileInfoController::class, 'editDocsProfile'])
     ->middleware('auth:sanctum');
 
-    //EmergencyContacts
+//EmergencyContacts
 Route::get('profile/emergency_contacts', [UserProfileInfoController::class, 'ShowEmergencyContacts'])
     ->middleware('auth:sanctum');
 // for EmergencyContacts
@@ -144,5 +154,5 @@ Route::post('profile/emergency_contacts', [UserProfileInfoController::class, 'Ad
 
 
 
-
-
+Route::post('contact/emergency', [ContactsController::class, 'AddEmergencyContact'])
+    ->middleware('auth:sanctum');

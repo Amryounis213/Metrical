@@ -33,8 +33,9 @@ class MoveIn extends Model
         'agree',
         'user_id',
         'property_id',
+        'contact',
     ];
-
+    protected $casts = ['contact' => 'array', 'registration_number_vehicle' => 'array'];
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

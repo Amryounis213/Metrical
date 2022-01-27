@@ -13,10 +13,12 @@ use App\Http\Controllers\Admin\RentController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\servicesController;
 use App\Http\Controllers\Admin\StopOffers;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\EventsController;
 use App\Models\Community;
 use App\Models\ContactWithAdmin;
 use App\Models\Enquiry;
+use App\Models\Event;
 use App\Models\News;
 use App\Models\Offer;
 use App\Models\Property;
@@ -36,7 +38,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('append', [PropertyController::class , 'append'])->name('append');
+
+Route::get('append', [PropertyController::class, 'append'])->name('append');
 
 
 Route::get('admin-panel', function () {
@@ -60,13 +63,17 @@ Route::prefix('admin')->middleware('auth')->group(function () {
             'contact' => $contact,
             'enquires' => $enquires,
             'users' => User::where('type', '!=', 3)->count(),
-            'communities' => Community::count(),
+            'communities' => Community::withCount(['event', 'news', 'properties'])->paginate(6),
             'properties' => Property::count(),
             'offers' => Offer::where('status', '!=', 'stop')->count(),
-            'pending_users' => User::where('status', '0')->where('type', '<>', '0')->count(),
-            'rents' => Rent::with('property')->limit(5)->latest()->get(),
+
+            'rents' => Rent::with('property')->limit(5)->latest()->paginate(3),
+            'rents_active' => Rent::where('status', 'active')->count(),
             'total_price' => Rent::limit(5)->latest()->sum('price'),
-            'events' => News::limit(3)->latest()->get(),
+            'news' => News::limit(3)->latest()->get(),
+            'events' => Event::limit(3)->latest()->get(),
+            'percantage' => Property::Percentage() ?? 0,
+            'pending_users' => User::where('request_sent', 1)->paginate(5),
         ]);
     })->name('dashboard');
     Route::post('roles/store-user-role', [RolesController::class, 'storeUserRole'])->name('link-user-role.store');
@@ -86,7 +93,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('accept-delivery/{id}', [servicesController::class, 'acceptDelivery'])->name('accept-delivery');
     Route::get('refuse-delivery/{id}', [servicesController::class, 'refuseDelivery'])->name('refuse-delivery');
 
-
+    Route::post('users/filter', [UsersController::class, 'filter'])->name('users.filter');
 
 
     Route::get('work-permits', [servicesController::class, 'WorkPermits'])->name('WorkPermits');
@@ -108,9 +115,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::post('add-owner', [PropertyController::class, 'addOwner'])->name('properties.addOwner');
     Route::resource('properties', PropertyController::class);
+
+    Route::get('properties/search/results', [PropertyController::class, 'result'])->name('properties.results');
+
     Route::resource('offers', OfferController::class);
     Route::get('offers/type/{type}', [OfferController::class, 'type'])->name('offer-type');
-
+    Route::post('offers/filter', [OfferController::class, 'filter'])->name('offers.filter');
     Route::get('upload-images/{propertyId}', [ImageUploadController::class, 'index'])->name('show-properties-image');
     Route::post('upload-images', [ImageUploadController::class, 'store'])->name('store-properties-image');
 
@@ -141,8 +151,26 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('binding-users/refuse/{id}', [UsersController::class, 'refuseBinding'])->name('binding.refuse');
     Route::put('accept-offer/{id}', [OfferController::class, 'acceptOffers'])->name('offers.accept');
     Route::post('rent', [RentController::class, 'store'])->name('renting.store');
-    Route::post('import-prop', [PropertyController::class , 'import'])->name('importProp');
+
+    Route::get('link-owner-property/{id}', [UsersController::class, 'addOwnerPage'])->name('props');
+
+    Route::post('link-owner-property', [UsersController::class, 'addOwner'])->name('store');
+
+    Route::get('success-link', [UsersController::class, 'successLink'])->name('successlink');
+
+
+    Route::get('user/filter/{type}', [UsersController::class, 'searchFiltering'])->name('serach');
+
+    Route::get('import-csv', [PropertyController::class, 'importCsvView'])->name('viewImportProp');
+    Route::post('import-prop', [PropertyController::class, 'import'])->name('importProp');
+
+
+
+
     Route::get('users/all', [UsersController::class, 'AllUser'])->name('AllUsers');
+    Route::get('user/create', [UsersController::class, 'createUser'])->name('createUser');
+    Route::post('user/store', [UsersController::class, 'storeUser'])->name('storeuser');
+
 
     Route::get('stop-rent/{id}', [RentController::class, 'StopRent'])->name('StopRent');
 });

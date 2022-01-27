@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Owner;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -165,5 +166,48 @@ class PropertyController extends Controller
                 'properties' => $property,
             ]);
         }
+    }
+
+
+    public function propertyOwner()
+    {
+        $user = Auth::guard('sanctum')->user()->owner->id ?? null;
+        if ($user != null) {
+            $properties = Property::where('owner_id', Auth::guard('sanctum')->user()->owner->id)->get();
+            return [
+                'status' => true,
+                'code' => 200,
+                'message' => __('messages.properties'),
+                'properties' => $properties,
+            ];
+        }
+        return [
+            'status' => true,
+            'code' => 200,
+            'message' => 'You dont Have Owner account',
+            'properties' => [],
+        ];
+    }
+
+
+    public function propertyTenant()
+    {
+        $user = Auth::guard('sanctum')->user()->tenant->id ?? null;
+        if ($user != null) {
+            $properties = Property::where('tenant_id', Auth::guard('sanctum')->user()->tenant->id)->get()  ?? [];
+            return [
+                'status' => true,
+                'code' => 200,
+                'message' => __('messages.properties'),
+                'properties' => $properties,
+            ];
+        }
+
+        return [
+            'status' => true,
+            'code' => 200,
+            'message' => 'You dont Have tenant account',
+            'properties' => [],
+        ];
     }
 }

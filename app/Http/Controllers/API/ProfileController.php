@@ -18,8 +18,9 @@ class ProfileController extends Controller
 
         // $move_in = MoveIn::where('user_id', $user_id)->get();
         $move_in = MoveIn::where('user_id', $user_id)->get([
-            'created_at','data' ,'start_time','end_time','full_name','mobile'
+            'created_at', 'date', 'start_time', 'end_time', 'full_name', 'mobile', 'contact', 'country'
         ]);
+
         return  response()->json(
             [
                 'status' => true,
@@ -29,14 +30,13 @@ class ProfileController extends Controller
             ],
             200
         );
-
     }
     public function moveOut()
     {
         $user_id = Auth::guard('sanctum')->id();
 
         $move_out = MoveOut::where('user_id', $user_id)->get([
-            'created_at','data' ,'start_time','end_time','full_name','mobile' 
+            'created_at', 'date', 'start_time', 'end_time', 'full_name', 'mobile',
         ]);
         return  response()->json(
             [
@@ -47,15 +47,13 @@ class ProfileController extends Controller
             ],
             200
         );
-        
-
     }
     public function Delivery()
     {
         $user_id = Auth::guard('sanctum')->id();
 
         $delivery = DeliveryPermit::where('user_id', $user_id)->get([
-            'created_at','delivery_company','date','resident_name','resident_mobile','resident_country'
+            'created_at', 'delivery_company', 'date', 'resident_name', 'resident_mobile', 'resident_country', 'contact'
 
         ]);
         return  response()->json(
@@ -67,14 +65,13 @@ class ProfileController extends Controller
             ],
             200
         );
-
     }
     public function WorkPermit()
     {
         $user_id = Auth::guard('sanctum')->id();
 
         $work_permit = WorkPermit::where('user_id', $user_id)->get([
-            'created_at','contractor_name', 'contractor_contact_name', 'number_of_staff', 'mobile', 'country','start_time','end_time'
+            'created_at', 'contractor_name', 'contractor_contact_name', 'number_of_staff', 'mobile', 'country', 'start_time', 'end_time'
         ]);
         return  response()->json(
             [
@@ -85,6 +82,5 @@ class ProfileController extends Controller
             ],
             200
         );
-
     }
 }

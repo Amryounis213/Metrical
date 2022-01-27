@@ -33,4 +33,20 @@ class Tenant extends Model
     {
         return $this->hasMany(Property::class, 'tenant_id', 'id');
     }
+
+
+    public function TenantAdd($users, $request)
+    {
+
+        Tenant::create([
+            'user_id' => $users->id,
+            'full_name' => $users->first_name . ' ' . $users->last_name,
+            'email' => $users->email,
+            'mobile' => $users->mobile_number,
+            'passport_copy' => $request->passport_copy,
+            'visa_copy' => $request->visa_copy,
+            'unit_number' => $request->unit_number,
+            'community_id' => $request->community_id,
+        ]);
+    }
 }

@@ -17,6 +17,7 @@ class CreateStopoffersTable extends Migration
             $table->id();
             $table->string('full_name');
             $table->string('email');
+            $table->string('mobile');
             $table->text('reason');
             $table->foreignId('offer_id')->nullable()->constrained('offers', 'id')->cascadeOnDelete();
             $table->foreignId('user_id')->nullable()->constrained('users', 'id')->cascadeOnDelete();

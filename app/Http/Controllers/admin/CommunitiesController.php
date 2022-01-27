@@ -42,26 +42,29 @@ class CommunitiesController extends Controller
 
     public function store(Request $request)
     {
+
+
         $request->validate([
             'name_ar' => 'required',
             'name_en' => 'required',
             'name_gr' => 'required',
             'area' => 'required',
-            'image' => 'required',
+            'image_url' => 'required',
             'status' => 'required',
             'readness_percentage' => 'required|min:0|max:100',
         ]);
+
+        $input = $request->all();
         if ($request->hasFile('image_url')) {
 
             $file = $request->file('image_url');
             $image_path = $file->store('/', [
                 'disk' => 'upload',
             ]);
-            $request->merge([
-                'image' => $image_path,
-            ]);
+
+            $input['image'] = $image_path;
         }
-        $community = Community::create($request->all());
+        $community = Community::create($input);
         return redirect(route('communities.index'));
     }
 
