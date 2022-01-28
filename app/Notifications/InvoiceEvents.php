@@ -61,6 +61,7 @@ class InvoiceEvents extends Notification
     {   
         
         return [
+            'id' => $this->events->id,
             'title' => [
                 'en' => $this->events->title_en,
                 'ar' => $this->events->title_ar,
@@ -78,11 +79,12 @@ class InvoiceEvents extends Notification
     public function toFcm($notifiable)
     {
         return FcmMessage::create()
-            // ->setData(['url' => config('app.url') . "/api/tweets/" . $this->tweet->id])
+            ->setData(['url' => config('app.url') . "/api/events/" . $this->events->id])
             ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
                 ->setTitle('Account Activated')
                 
                 ->setBody([
+                'id' => $this->events->id,
                 'title' => [
                     'en' => $this->events->title_en,
                     'ar' => $this->events->title_ar,

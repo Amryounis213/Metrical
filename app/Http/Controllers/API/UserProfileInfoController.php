@@ -112,14 +112,6 @@ class UserProfileInfoController extends Controller
     public function editDocsProfile(Request $request)
     {
         $user = Auth::guard('sanctum')->user();
-        $request->validate([
-            'contracts_copy' => 'required',
-            'contract_expiry' => 'required',
-            'title_deed_copy' => ' required',
-            'emirates_id_copy' => ' required',
-            'passport_copy_image' => ' required',
-            'passport_expiry_date' => ' required',
-        ]);
         if ($request->hasFile('contracts_copy')) {
             if ($user->contracts !== null) {
 

@@ -10,7 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory;
+    use Notifiable;
     protected $appends = ['image_path'];
 
 
@@ -267,4 +268,12 @@ class User extends Authenticatable
     {
         return  $this->hasMany(EmergencyContact::class);
     }
+    public function routeNotificationForFcm()
+    {
+        return $this->deviceTokens()->pluck('token')->toArray();
+    }
+    // public function deviceTokens()
+    // {
+    //     return $this->hasMany(DeviceToken::class);
+    // }
 }
