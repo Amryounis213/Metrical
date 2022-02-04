@@ -56,6 +56,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->middleware('auth')->group(function () {
+    // 
     Route::get('admin-panel', function () {
         $contact = ContactWithAdmin::count();
         $enquires = Enquiry::count();
