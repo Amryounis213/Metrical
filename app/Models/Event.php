@@ -6,10 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Notifications\Notifiable;
 
 class Event extends Model
 {
     use HasFactory;
+    use Notifiable;
 
     protected $fillable = [
         'title_ar',

@@ -72,7 +72,7 @@ var KTLogin = function () {
 					KTUtil.scrollTop();
 				});
 				setTimeout(function () {
-					window.location.href = 'http://metrical.ae/admin/admin-panel';
+					
 				}, 2000);
 			})
 				.fail(function () {

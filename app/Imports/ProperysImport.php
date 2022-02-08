@@ -8,12 +8,11 @@ use App\Models\Propery;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class ProperysImport implements ToCollection, WithHeadingRow
-
 {
 
     /**

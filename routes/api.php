@@ -9,6 +9,7 @@ use App\Http\Controllers\API\CountriesController;
 use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\NewsController;
+use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\PropertyController;
@@ -139,6 +140,10 @@ Route::post('changePass', [AccessTokenController::class, 'changePass'])
 
 Route::post('interested', [EventController::class, 'interested'])
     ->middleware('auth:sanctum');
+
+Route::get('notifications', [NotificationsController::class, 'index'])
+    ->middleware('auth:sanctum');
+    Route::get('notifications/{id}', [NotificationsController::class, 'delete'])->name('notifications.read');
 
 
 
