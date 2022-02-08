@@ -58,4 +58,14 @@ class ContactWithAdminController extends Controller
             'data' => $contact,
         ]);
     }
+
+
+    public function makeAsRead($id)
+    {
+        $contact = ContactWithAdmin::find($id);
+        $contact->update([
+            'is_read' => true,
+        ]);
+        return redirect()->back();
+    }
 }

@@ -21,8 +21,8 @@ var KTMaskDemo = function () {
             placeholder: "99999-999"
         });
 
-        $('#kt_phone_input').mask('0000-0000', {
-            placeholder: "9999-9999"
+        $('#kt_phone_input').mask('000-0000-0000000-0', {
+            placeholder: "784-1234-1234567-1"
         });
 
         $('#kt_phone_with_ddd_input').mask('(00) 0000-0000', {
@@ -56,12 +56,12 @@ var KTMaskDemo = function () {
 
     return {
         // public functions
-        init: function() {
+        init: function () {
             demos();
         }
     };
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     KTMaskDemo.init();
 });

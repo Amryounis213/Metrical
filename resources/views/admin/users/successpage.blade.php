@@ -66,7 +66,7 @@
                                 <!--end::Content-->
                                 <!--begin::Button-->
                                 <div class="col-sm-5 d-flex align-items-center justify-content-sm-end">
-                                    <a href="{{route('createUser')}}" class="ml-2 btn font-weight-bolder text-uppercase font-size-lg btn-success py-3 px-6">Add New User</a>
+                                    <a href="{{route('addnewuserform')}}" class="ml-2 btn font-weight-bolder text-uppercase font-size-lg btn-success py-3 px-6">Add New User</a>
                                     <a href="{{route('AllUsers')}}" class="ml-2 btn font-weight-bolder text-uppercase font-size-lg btn-warning py-3 px-6">View Users</a>
                                 </div>
                                 <!--end::Button-->

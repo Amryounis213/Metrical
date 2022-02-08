@@ -19,6 +19,8 @@ class CreateContactWithAdminsTable extends Migration
             $table->string('email')->nullable();
             $table->string('phone_number')->nullable();
             $table->text('message')->nullable();
+
+            $table->boolean('is_read')->default(0);
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

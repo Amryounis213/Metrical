@@ -38,4 +38,13 @@ class enquiryController extends Controller
         $enquiry->delete();
         return redirect()->back();
     }
+
+    public function makeAsRead($id)
+    {
+        $enquiry = Enquiry::find($id);
+        $enquiry->update([
+            'is_read' => true,
+        ]);
+        return redirect()->back();
+    }
 }

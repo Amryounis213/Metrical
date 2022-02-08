@@ -13,7 +13,7 @@
             <!--end::Separator-->
             <!--begin::Search Form-->
             <div class="d-flex align-items-center" id="kt_subheader_search">
-                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{--$properties_count--}} Total</span>
+                <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">{{$enquiry->count()}} Total</span>
                 <form class="ml-5">
                     <div class="input-group input-group-sm input-group-solid" style="max-width: 175px">
                         <input type="text" class="form-control" id="kt_subheader_search_form" placeholder="Search..." />
@@ -164,174 +164,86 @@
     <div class="d-flex flex-column-fluid">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-                        <!--begin::Advance Table Widget 5-->
-                        <div class="card card-custom gutter-b">
-                            <!--begin::Header-->
-                            <div class="card-header border-0 py-5">
-                                <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label font-weight-bolder text-dark">Enquires Table</span>
-                                    <span class="text-muted mt-3 font-weight-bold font-size-sm">More than 400+ enquiry
-                                        members</span>
-                                </h3>
-                                <div class="card-toolbar">
+                @foreach ($enquiry as $enquiry)
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                    <!--begin::Card-->
+                    <div class="card card-custom gutter-b card-stretch">
+                        <!--begin::Body-->
+                        <div class="card-body pt-4">
+                            <!--begin::Toolbar-->
+                            <div class="d-flex justify-content-end">
+                               
+                            </div>
+                            <!--end::Toolbar-->
+                            <!--begin::User-->
+                            <div class="d-flex align-items-center mb-7">
+                                <!--begin::Pic-->
+                                <div class="flex-shrink-0 mr-4">
+                                    @if ($enquiry->user->image_url != null)
+                                    <div class="symbol symbol-circle symbol-lg-75">
+                                        <img src="{{asset('uploads/' . $enquiry->user->image_url)}}" alt="image">
+                                    </div>
+                                    @else
+                                    <div class="symbol symbol-circle symbol-lg-75">
+                                        <img src="{{asset('admin/assets/media/users/300_25.jpg')}}" alt="image">
+                                    </div>
+                                    @endif
+                                    
+                                </div>
+                                <!--end::Pic-->
+                                <!--begin::Title-->
+                                <div class="d-flex flex-column">
+                                    <a href="#" class="text-dark font-weight-bold text-hover-primary font-size-h4 mb-0">{{$enquiry->full_name}}</a>
                                    
                                 </div>
+                                <!--end::Title-->
                             </div>
-                            <!--end::Header-->
-                            <!--begin::Body-->
-                            <div class="card-body py-0">
-                                <!--begin::Search Form-->
-                                <div class="mb-7">
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-9 col-xl-8">
-                                            <form action="{{ route('enquires.results') }}" method="GET"
-                                                class="row align-items-start">
-                                                <div class="col-md-4 my-2 my-md-0">
-                                                    <div class="input-icon">
-                                                        <input name='name' type="text" class="form-control"
-                                                            placeholder="Search..." id="kt_datatable_search_query" />
-                                                        <span>
-                                                            <i class="flaticon2-search-1 text-muted"></i>
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                                <button type="submit"
-                                                    class="btn btn-light-primary px-6 font-weight-bold">Search</button>
-                                            </form>
-                                        </div>
-                                        <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
-                                            {{ $enquiry->count() }} elements of enquiries
-                                        </div>
-                                    </div>
+                            <!--end::User-->
+                            <!--begin::Desc-->
+                            <p class="mb-7 overflow-auto max-h-150px h-150px">{{$enquiry->message}}
+                            </p>
+                            <!--end::Desc-->
+                            <!--begin::Info-->
+                            <div class="mb-7">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-dark-75 font-weight-bolder mr-2">Subject :</span>
+                                    <a href="#" class="text-muted text-hover-primary">{{$enquiry->subject}}</a>
                                 </div>
-                                <!--begin::Table-->
-                                <div class="table-responsive">
-                                    <table class="table table-head-custom table-vertical-center"
-                                        id="kt_advance_table_widget_2">
-                                        <thead>
-                                            <tr class="text-uppercase">
-                                                <th class="pl-0" style="width: 40px">
-                                                    <label class="checkbox checkbox-lg checkbox-inline mr-2">
-                                                        <input type="checkbox" value="1" />
-                                                        <span></span>
-                                                    </label>
-                                                </th>
-                                                <th class="pl-0" style="min-width: 100px">#</th>
-                                                <th style="min-width: 120px">Full Name</th>
-                                                <th style="min-width: 120px">Email</th>
-                                                <th style="min-width: 120px">Subject</th>
-                                                <th style="min-width: 120px">Property</th>
-                                                <th class="pr-0 text-right" style="min-width: 160px">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($enquiry as $key=>$enquiry)
-                                            <tr>
-                                                <td class="pl-0 py-6">
-                                                    <label class="checkbox checkbox-lg checkbox-inline">
-                                                        <input type="checkbox" value="1" />
-                                                        <span></span>
-                                                    </label>
-                                                </td>
-                                                <td class="pl-0">
-                                                    <a href="#"
-                                                        class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$key + 1}}</a>
-                                                </td>
-                                                
-                                                <td>
-                                                    <span
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$enquiry->email}}</span>
-
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$enquiry->subject}}</span>
-
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        class="text-dark-75 font-weight-bolder d-block font-size-lg">{{$enquiry->subject}}</span>
-                                                </td>
-                                                <td>
-                                                    <span class="label label-lg label-light-success label-inline">
-                                                        {{ $enquiry->property->name_en  ?? ''}}</span>
-                                                </td>
-
-                                                <td class="pr-0 text-right">
-                                                   
-                                                    <a class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
-                                                        <form class="delete" action="{{route('enquires.delete', $enquiry->id)}}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
-                                                                <span class="svg-icon svg-icon-md svg-icon-primary">
-                                                                    <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        xmlns:xlink="http://www.w3.org/1999/xlink"
-                                                                        width="24px" height="24px" viewBox="0 0 24 24"
-                                                                        version="1.1">
-                                                                        <g stroke="none" stroke-width="1" fill="none"
-                                                                            fill-rule="evenodd">
-                                                                            <rect x="0" y="0" width="24" height="24" />
-                                                                            <path
-                                                                                d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z"
-                                                                                fill="#000000" fill-rule="nonzero" />
-                                                                            <path
-                                                                                d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
-                                                                                fill="#000000" opacity="0.3" />
-                                                                        </g>
-                                                                    </svg>
-                                                                    <!--end::Svg Icon-->
-                                                                </span>
-                                                            </button>
-
-                                                        </form>
-                                                    </a>
-
-                                                </td>
-                                            </tr>
-                                            @endforeach
-
-
-                                        </tbody>
-                                    </table>
+                                <div class="d-flex justify-content-between align-items-cente my-1">
+                                    <span class="text-dark-75 font-weight-bolder mr-2">Property:</span>
+                                    <a href="#" class="text-muted text-hover-primary">{{$enquiry->property->name_en ?? ''}}</a>
                                 </div>
-                                <!--end::Table-->
+                                <div class="d-flex justify-content-between align-items-cente my-1">
+                                    <span class="text-dark-75 font-weight-bolder mr-2">Mobile:</span>
+                                    <a href="#" class="text-muted text-hover-primary">{{$enquiry->mobile ?? ''}}</a>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-cente my-1">
+                                    <span class="text-dark-75 font-weight-bolder mr-2">Email:</span>
+                                    <a href="#" class="text-muted text-hover-primary">{{$enquiry->user->email ?? ''}}</a>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-cente my-1">
+                                    <span class="text-dark-75 font-weight-bolder mr-2">Created at:</span>
+                                    <a href="#" class="text-muted text-hover-primary">{{$enquiry->created_at}}</a>
+                                </div>
+                                
                             </div>
+                            <!--end::Info-->
+                            <a id="makeread{{$enquiry->id}}" href="{{route('Enquirymakeread' , $enquiry->id)}}"  class="btn btn-block mb-4 btn-sm btn-warning font-weight-bolder text-uppercase py-4 makeread @if($enquiry->is_read) disabled btn-light-warning @endif">Make As Read</a>
 
+                            <form class="delete" action="{{route('enquires.delete', $enquiry->id)}}"
+                                method="POST">
+                                @csrf
+                                @method('delete')
+                               
+                                <a  class="btn btn-block btn-sm btn-warning font-weight-bolder text-uppercase py-4">Delete</a>
 
-                            <!-- Modal-->
-                            <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
-                                aria-labelledby="staticBackdrop" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <i aria-hidden="true" class="ki ki-close"></i>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body" style="height: 300px;">
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-light-primary font-weight-bold"
-                                                data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary font-weight-bold">Save
-                                                changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--end::Body-->
+                            </form>
                         </div>
-                        <!--end::Advance Table Widget 5-->
+                        <!--end::Body-->
                     </div>
+                    <!--end:: Card-->
                 </div>
+                @endforeach
             </div>
 
         </div>

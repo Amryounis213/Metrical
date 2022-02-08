@@ -17,7 +17,9 @@ use App\Http\Controllers\API\servicesController;
 use App\Http\Controllers\API\StopOfferController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserProfileInfoController;
+use App\Models\Property;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,7 +38,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('communities', CommunityController::class);
+Route::get('units/owner/{id}', function ($id) {
+    return  response()->json([
+        'status' => true,
+        'code' => 200,
+        'message' => 'properties',
+        'properties' => Property::where('owner_id', null)->where('community_id', $id)->where('offer_type', '!=', 'stop')->get(),
+    ]);
+});
 
+Route::get('units/tenant/{id}', function ($id) {
+    return  response()->json([
+        'status' => true,
+        'code' => 200,
+        'message' => 'properties',
+        'properties' => Property::where('tenant_id', null)->where('community_id', $id)->where('offer_type', '!=', 'stop')->get(),
+    ]);
+});
 Route::middleware(['localization', 'auth:sanctum'])->group(function () {
     Route::resource('users', UserController::class);
     Route::get('new-user-with-news', [UserController::class, 'withNews']);
@@ -151,7 +169,8 @@ Route::get('profile/emergency_contacts', [UserProfileInfoController::class, 'Sho
 
 Route::post('profile/emergency_contacts', [UserProfileInfoController::class, 'AddEmergencyContacts'])
     ->middleware('auth:sanctum');
-
+Route::post('profile/emergency_contacts/edit', [UserProfileInfoController::class, 'EditEmergencyContacts'])
+    ->middleware('auth:sanctum');
 
 
 Route::post('contact/emergency', [ContactsController::class, 'AddEmergencyContact'])

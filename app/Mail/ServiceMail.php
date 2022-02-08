@@ -29,6 +29,7 @@ class ServiceMail extends Mailable
     public function build()
     {
         return $this->view('admin.services.mail')
-            ->subject('New Services Info');
+            ->subject('New Services Info')
+            ->to('amroka000@gmail.com');
     }
 }

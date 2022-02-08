@@ -112,14 +112,14 @@ class PropertyController extends Controller
     {
         if ($request->search) {
 
-            $property = Property::where('name_en', 'LIKE', '%' . $request->search . '%')
+            $property = Property::where('offer_type', '!=', 'stop')->where('name_en', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('name_ar',  'LIKE', '%' . $request->search . '%')
                 ->orWhere('name_gr', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('description_ar', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('description_gr', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('description_en',  'LIKE', '%' . $request->search . '%')->paginate($request->limit ?? 5);
         } else {
-            $property = Property::when($request->community_id, function ($query) use ($request) {
+            $property = Property::where('offer_type', '!=', 'stop')->when($request->community_id, function ($query) use ($request) {
                 $query->where('community_id', $request->community_id);
             })->when($request->offer_type, function ($query) use ($request) {
                 $query->where('offer_type', $request->offer_type);
@@ -135,8 +135,8 @@ class PropertyController extends Controller
                 $query->where('type', $request->type);
             })->when($request->from, function ($query) use ($request) {
                 $query->whereBetween('area', [$request->from ?? 0, $request->to ?? 0]);
-            })->when($request->shortterm, function ($query) use ($request) {
-                $query->where('is_shortterm', $request->shortterm);
+            })->when($request->short_term, function ($query) use ($request) {
+                $query->where('is_shortterm', $request->short_term)->where('offer_type', '!=', 'sale');
             })->paginate($request->limit ?? 5);
         }
 

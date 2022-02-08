@@ -21,6 +21,16 @@
             </div>
         </div>
         <!--end::Subheader-->
+
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <!--begin::Entry-->
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
@@ -55,7 +65,7 @@
                                                         data-action="change" data-toggle="tooltip" title=""
                                                         data-original-title="Change avatar">
                                                         <i class="fa fa-pen icon-sm text-muted"></i>
-                                                        <input name="image_url" type="file" name="profile_avatar"
+                                                        <input name="image" value="{{$community->image}}" type="file" 
                                                             accept=".png, .jpg, .jpeg" />
                                                         <input type="hidden" name="profile_avatar_remove" />
                                                     </label>
@@ -112,6 +122,26 @@
 
                                           
                                         </div>
+
+                                        <div class="form-group row ">
+                                            <label class="col-2 col-form-label">Address</label>
+                                            <div class="col-lg-3">
+                                                <input  maxlength="25"  name="address_ar" value="{{$community->address_ar}}"  type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
+                                                
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input maxlength="25"  name="address_gr" value="{{$community->address_gr}}"  type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
+                                                
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <input maxlength="25"  name="address_en" value="{{ $community->address_en }}"  type="text" class="form-control kt_maxlength_1" placeholder="English" />
+                                                
+                                            </div>
+
+                                          
+                                        </div>
+
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Area</label>
                                             <div class="col-10">
@@ -147,12 +177,29 @@
                                               </div>
                                             </div>
 
-
+                                            <div class="form-group row ">
+                                                <label class="col-2 col-form-label">Location</label>
+                                                <div class="col-lg-3">
+                                                    <input id="lat"  name="location_latitude" value="{{$community->location_latitude}}" type="text" class="form-control" placeholder="latitude"/>
+                                                    
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <input id="lng" name="location_longitude" value="{{$community->location_longitude}}" type="text" class="form-control" placeholder="longtude"/>
+                                                    
+                                                </div>
+            
+                                              
+            
+                                              
+                                            </div>
 
                                     </div>
+
+                                    
+    
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary mr-2">Update</button>
-                                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                                        <button type="reset" class="btn btn-secondary">Reset Fields</button>
                                     </div>
                                 </div>
                             </form>

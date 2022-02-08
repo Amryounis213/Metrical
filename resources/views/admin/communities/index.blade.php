@@ -78,7 +78,7 @@
                                                 <li class="navi-item">
                                                     <a href="{{route('communities.edit' ,$community->id)}}" class="navi-link">
                                                         <span class="navi-icon">
-                                                            <i class="flaticon2-shopping-cart-1"></i>
+                                                            <i class="far fa-edit"></i>
                                                         </span>
                                                         <span class="navi-text">Edit </span>
                                                     </a>
@@ -89,9 +89,11 @@
                                                 <li class="navi-item">
                                                     <a href="#" class="navi-link">
                                                         <span class="navi-icon">
-                                                            <i class="flaticon2-shopping-cart-1"></i>
+                                                            <i class="far fa-trash-alt"></i>
                                                         </span>
-                                                        <span class="navi-text">Delete </span>
+
+                        
+                                                       <span class="delete navi-text">Delete</span>
                                                     </a>
                                                 </li>
                                                 </form>
@@ -112,7 +114,7 @@
                             <!--end::User-->
                             <!--begin::Name-->
                             <div class="my-4">
-                                <a href="#" class="text-dark font-weight-bold text-hover-primary font-size-h4">{{$community->name_en}} Community</a>
+                                <a  class=" font-weight-bold text-primary font-size-h4 active">{{$community->name_en}} Community</a>
                             </div>
                             <!--end::Name-->
                             <!--begin::Label-->

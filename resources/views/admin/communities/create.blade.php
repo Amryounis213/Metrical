@@ -29,6 +29,15 @@
         </div>
         <!--end::Subheader-->
         <!--begin::Entry-->
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
         <div class="d-flex flex-column-fluid">
             <!--begin::Container-->
             <div class="container">
@@ -101,16 +110,34 @@
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Name</label>
                                             <div class="col-lg-3">
-                                                <input id="kt_maxlength_1"  name="name_ar" value="{{$community->name_ar}}" type="text" class="form-control" placeholder="Arabic" />
+                                                <input id="kt_maxlength_1"  name="name_ar" value="{{old('name_ar')}}" type="text" class="form-control" placeholder="Arabic" />
                                                 
                                             </div>
                                             <div class="col-lg-3">
-                                                <input id="kt_maxlength_1" name="name_gr" value="{{$community->name_gr}}" type="text" class="form-control" placeholder="Germany" />
+                                                <input id="kt_maxlength_1" name="name_gr" value="{{old('name_gr')}}" type="text" class="form-control" placeholder="Germany" />
                                                 
                                             </div>
 
                                             <div class="col-lg-4">
-                                                <input id="kt_maxlength_1" name="name_en" value="{{$community->name_en}}" type="text" class="form-control" placeholder="English" />
+                                                <input id="kt_maxlength_1" name="name_en" value="{{old('name_en')}}" type="text" class="form-control" placeholder="English" />
+                                                
+                                            </div>
+
+                                          
+                                        </div>
+                                        <div class="form-group row ">
+                                            <label class="col-2 col-form-label">Address</label>
+                                            <div class="col-lg-3">
+                                                <input  maxlength="25"  name="address_ar" value="{{ old('address_ar') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
+                                                
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input maxlength="25"  name="address_gr" value="{{ old('address_gr') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
+                                                
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <input maxlength="25"  name="address_en" value="{{ old('address_en') }}"  type="text" class="form-control kt_maxlength_1" placeholder="English" />
                                                 
                                             </div>
 
@@ -121,7 +148,7 @@
                                             <div class="col-10">
                                                 <input id="kt_maxlength_2" name="area" class="form-control"
                                                     type="any" value="{{$community->area}}"
-                                                    id="example-search-input" placeholder="Ex : 50000 mm" />
+                                                    id="example-search-input" placeholder="Ex : 50000 sqft" />
                                             </div>
                                         </div>
                                         
@@ -149,7 +176,21 @@
                                   </div>
                                 </div>
 
+                                <div class="form-group row ">
+                                    <label class="col-2 col-form-label">Location</label>
+                                    <div class="col-lg-3">
+                                        <input id="lat"  name="location_latitude" value="{{ old('location_latitude') }}" type="text" class="form-control" placeholder="latitude"/>
+                                        
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input id="lng" name="location_longitude" value="{{ old('location_longitude') }}" type="text" class="form-control" placeholder="longtude"/>
+                                        
+                                    </div>
 
+                                  
+
+                                  
+                                </div>
 
 
 
@@ -159,7 +200,7 @@
                                     </div>
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary mr-2">Create</button>
-                                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                                        <button type="reset" class="btn btn-secondary">Reset Fields</button>
                                     </div>
                                 </div>
                             </form>

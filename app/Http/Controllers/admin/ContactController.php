@@ -13,7 +13,7 @@ class ContactController extends Controller
     {
         Gate::authorize('contact.view');
         $title = 'Contact Requests Table';
-        $contacts = ContactWithAdmin::latest()->paginate(5);
+        $contacts = ContactWithAdmin::latest()->paginate(2);
 
         return view('admin.contact.index', [
             'contacts' => $contacts,

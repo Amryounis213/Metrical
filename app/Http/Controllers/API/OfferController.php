@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use App\Models\Property;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -49,8 +50,10 @@ class OfferController extends Controller
             'property_id' => 'required|exists:properties,id'
         ]);
 
+        $docs = UserProfile::where('user_id', Auth::guard('sanctum')->id())->first();
         $request->merge([
             'user_id' => Auth::guard('sanctum')->id(),
+            'passport_copy' => $request->passport_copy ?? $docs->passport,
         ]);
         $owner_id = User::find($request->user_id)->owner->id;
         $property_id = Property::find($request->property_id)->owner_id;

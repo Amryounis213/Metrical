@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,7 @@ class Owner extends Model
         'email',
         'mobile',
         'status',
+        'passport_expiry_date'
     ];
     protected $appends = ['passport_path', 'title_dead'];
     protected $hidden = ['passport_copy', 'title_dead_copy'];
@@ -66,17 +68,43 @@ class Owner extends Model
 
     public function OwnerAdd($users, $request)
     {
+        if ($request->hasFile('passport_copy')) {
+
+            $uploadedFile = $request->file('passport_copy');
+
+            $passport_copy = $uploadedFile->store('/', 'upload');
+            $request->merge([
+                'passport_copy' => $passport_copy
+            ]);
+        }
+
+        if ($request->hasFile('title_dead_copy')) {
+
+            $uploadedFile = $request->file('title_dead_copy');
+
+            $title_dead_copy = $uploadedFile->store('/', 'upload');
+            $request->merge([
+                'title_dead_copy' => $title_dead_copy
+            ]);
+        }
+
 
         Owner::create([
             'user_id' => $users->id,
             'full_name' => $users->first_name . ' ' . $users->last_name,
             'email' => $users->email,
             'mobile' => $users->mobile_number,
-            'passport_copy' => $request->passport_copy,
-            'title_dead_copy' => $request->title_dead_copy,
+            'passport_copy' => $passport_copy,
+            'title_dead_copy' => $title_dead_copy,
             'unit_number' => $request->unit_number,
             'renting_price' => $request->renting_price,
             'community_id' => $request->community_id,
+        ]);
+        $property = Property::find($request->property);
+        $own = Owner::where('user_id', $users->id)->first();
+        $property->update([
+            'owner_id' => $own->id,
+            'ownership_date' => Carbon::now(),
         ]);
     }
 }

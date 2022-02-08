@@ -40,7 +40,7 @@
                         @if ($service->user->image_url)
                         <div class="flex-shrink-0 mr-7">
                             <div class="symbol symbol-50 symbol-lg-120">
-                                <img alt="Pic" src="{{asset('uploads/' , $service->user->image_url)}}">
+                                <img alt="Pic" src="{{asset('uploads/' . $service->user->image_url)}}">
                             </div>
                         </div> 
                         @else
@@ -527,30 +527,39 @@
                             <div class="tab-content pt-5">
                                 <!--begin::Tab Content-->
                                 <div class="tab-pane active" id="kt_apps_contacts_view_tab_1" role="tabpanel">
+                                    <a href="{{asset('uploads/' . $service->emirateId_image)}}" data-lity>
+
                                     <div class="container">
-                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $service->emirateId_image)}})"></div>
+                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-400px" style="background-image: url({{asset('uploads/'. $service->emirateId_image)}});background-size: 100% 100%;"></div>
                                     </div>
+                                    </a>
                                 </div>
                                 <!--end::Tab Content-->
                                 <!--begin::Tab Content-->
                                 <div class="tab-pane" id="kt_apps_contacts_view_tab_2" role="tabpanel">
+                                    <a href="{{asset('uploads/' . $service->passport)}}" data-lity>
                                     <div class="container">
-                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $service->passport)}})"></div>
+                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-400px" style="background-image: url({{asset('uploads/'. $service->passport)}}) ;background-size: 100% 100%;"></div>
                                     </div>
+                                    </a>
                                 </div>
                                 <!--end::Tab Content-->
                                 <!--begin::Tab Content-->
                                 <div class="tab-pane" id="kt_apps_contacts_view_tab_3" role="tabpanel">
+                                    <a href="{{asset('uploads/' . $service->tenancy_contract)}}" data-lity>
                                     <div class="container">
-                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $service->tenancy_contract)}})"></div>
+                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-400px" style="background-image: url({{asset('uploads/'. $service->tenancy_contract)}});background-size: 100% 100%;"></div>
                                     </div>
+                                    </a>
                                 </div>
                                 <!--end::Tab Content-->
                                 <!--begin::Tab Content-->
                                 <div class="tab-pane" id="kt_apps_contacts_view_tab_4" role="tabpanel">
+                                    <a href="{{asset('uploads/' . $service->title_dead)}}" data-lity>
                                     <div class="container">
-                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-265px" style="background-image: url({{asset('uploads/'. $service->title_dead)}})"></div>
+                                        <div class="bgi-no-repeat bgi-size-cover rounded min-h-400px" style="background-image: url({{asset('uploads/'. $service->title_dead)}});background-size: 100% 100%;"></div>
                                     </div>
+                                    </a>
                                 </div>
                                 <!--end::Tab Content-->
                             </div>
@@ -565,4 +574,7 @@
         <!--end::Container-->
     </div>
 </div>
+@endsection
+@section('scripts')
+<script src="{{asset('admin/assets/js/lity/lity.js')}}"></script>
 @endsection

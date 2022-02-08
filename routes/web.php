@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CommunitiesController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ContactWithAdminController;
@@ -14,18 +15,23 @@ use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\servicesController;
 use App\Http\Controllers\Admin\StopOffers;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\EliteController;
 use App\Http\Controllers\EventsController;
+use App\Http\Controllers\SocialController;
+use App\Mail\SendPassword;
 use App\Models\Community;
 use App\Models\ContactWithAdmin;
 use App\Models\Enquiry;
 use App\Models\Event;
 use App\Models\News;
 use App\Models\Offer;
+use App\Models\Owner;
 use App\Models\Property;
 use App\Models\Rent;
 use App\Models\User;
 use App\Notifications\SendReminderForEventNotification;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,23 +65,32 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('admin-panel', function () {
         $contact = ContactWithAdmin::count();
         $enquires = Enquiry::count();
+        $communities = Community::withCount(['event', 'news', 'properties'])->paginate(6);
+        $topowner = DB::table('properties')->select('owner_id', DB::raw('COUNT(owner_id) as count'))->groupBy('owner_id')->orderBy('count', 'desc')->first();
+        $top = Owner::findorfail($topowner->owner_id);
+        $user1 = User::find($top->user_id);
+
         return view('admin.home.index', [
             'contact' => $contact,
             'enquires' => $enquires,
             'users' => User::where('type', '!=', 3)->count(),
-            'communities' => Community::withCount(['event', 'news', 'properties'])->paginate(6),
+            'communities' => $communities,
             'properties' => Property::count(),
             'offers' => Offer::where('status', '!=', 'stop')->count(),
-
-            'rents' => Rent::with('property')->limit(5)->latest()->paginate(3),
+            'rents' => Rent::with('property')->limit(8)->latest()->get(),
             'rents_active' => Rent::where('status', 'active')->count(),
             'total_price' => Rent::limit(5)->latest()->sum('price'),
             'news' => News::limit(3)->latest()->get(),
             'events' => Event::limit(3)->latest()->get(),
             'percantage' => Property::Percentage() ?? 0,
             'pending_users' => User::where('request_sent', 1)->paginate(5),
+            'user1' => $user1 ?? null,
+            'topowner' => $topowner->count ?? 0,
         ]);
     })->name('dashboard');
+
+
+    Route::resource('admins', AdminController::class);
     Route::post('roles/store-user-role', [RolesController::class, 'storeUserRole'])->name('link-user-role.store');
     Route::get('roles/link-user-role', [RolesController::class, 'linkUserRole'])->name('link-user-role');
     Route::get('roles/results', [RolesController::class, 'result'])->name('roles.results');
@@ -115,12 +130,17 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::post('add-owner', [PropertyController::class, 'addOwner'])->name('properties.addOwner');
     Route::resource('properties', PropertyController::class);
-
+    Route::get('properties/create/{id}', [PropertyController::class, 'addPropertyByCommunity'])->name('property.create.community');
     Route::get('properties/search/results', [PropertyController::class, 'result'])->name('properties.results');
 
     Route::resource('offers', OfferController::class);
     Route::get('offers/type/{type}', [OfferController::class, 'type'])->name('offer-type');
     Route::post('offers/filter', [OfferController::class, 'filter'])->name('offers.filter');
+
+    Route::put('update-offer', [OfferController::class, 'OfferUpdate'])->name('update-offer');
+
+    Route::post('properties/filter', [PropertyController::class, 'Filter'])->name('properties.filter');
+
     Route::get('upload-images/{propertyId}', [ImageUploadController::class, 'index'])->name('show-properties-image');
     Route::post('upload-images', [ImageUploadController::class, 'store'])->name('store-properties-image');
 
@@ -148,7 +168,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('owners-users', [UsersController::class, 'owners'])->name('owners.users');
     Route::get('binding-users/{id}', [UsersController::class, 'showBindingUser'])->name('binding.show');
     Route::get('binding-users/accept/{id}', [UsersController::class, 'acceptBinding'])->name('binding.accept');
-    Route::put('binding-users/refuse/{id}', [UsersController::class, 'refuseBinding'])->name('binding.refuse');
+    Route::delete('binding-users/refuse/{id}', [UsersController::class, 'refuseBinding'])->name('binding.refuse');
     Route::put('accept-offer/{id}', [OfferController::class, 'acceptOffers'])->name('offers.accept');
     Route::post('rent', [RentController::class, 'store'])->name('renting.store');
 
@@ -158,20 +178,47 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     Route::get('success-link', [UsersController::class, 'successLink'])->name('successlink');
 
+    Route::put('update-docs', [UsersController::class, 'updateDocs'])->name('update-docs');
 
     Route::get('user/filter/{type}', [UsersController::class, 'searchFiltering'])->name('serach');
 
     Route::get('import-csv', [PropertyController::class, 'importCsvView'])->name('viewImportProp');
     Route::post('import-prop', [PropertyController::class, 'import'])->name('importProp');
 
+    Route::get('user/import-csv', [UsersController::class, 'importCsvView'])->name('viewImportUser');
+    Route::post('user/import-prop', [UsersController::class, 'import'])->name('importUser');
 
 
+    Route::put('user-details/{id}', [UsersController::class, 'UpdateUserInfo'])->name('updateuserinfo');
+    Route::get('user-details/{id}', [UsersController::class, 'EditUser'])->name('edituser');
 
     Route::get('users/all', [UsersController::class, 'AllUser'])->name('AllUsers');
-    Route::get('user/create', [UsersController::class, 'createUser'])->name('createUser');
+    //Route::get('new/users/create', [UsersController::class, 'addnewuser'])->name('create-users');
     Route::post('user/store', [UsersController::class, 'storeUser'])->name('storeuser');
-
+    Route::get('addnewuser', [EliteController::class, 'showformadduser'])->name('addnewuserform');
 
     Route::get('stop-rent/{id}', [RentController::class, 'StopRent'])->name('StopRent');
+
+    Route::resource('socials', SocialController::class);
+
+    Route::get('contact/makeasread/{id}', [ContactWithAdminController::class, 'makeAsRead'])->name('contactmakeread');
+    Route::get('enquiry/makeasread/{id}', [enquiryController::class, 'makeAsRead'])->name('Enquirymakeread');
+    /**
+     * Action Ajax
+     */
+
+    Route::get('GetPropertyByCommunity/{id}', [EliteController::class, 'GetPropertyByCommunity'])->name('GetPropertyByCommunity');
+    Route::get('tenant/GetPropertyByCommunity/{id}', [EliteController::class, 'TenantGetPropertyByCommunity'])->name('TenantGetPropertyByCommunity');
+
+    Route::get('getPhonecodeByCountry/{id}', [EliteController::class, 'GetPhonecodeByCountry'])->name('GetPhonecodeByCountry');
+
+
+    Route::get('done/{id}', [UsersController::class, 'Done'])->name('Done');
+    /**
+     * Emails
+     */
+    Route::get('/email', function () {
+        return new SendPassword();
+    });
 });
 require __DIR__ . '/auth.php';

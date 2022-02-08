@@ -6,6 +6,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -39,7 +41,8 @@ class User extends Authenticatable
         'need',
         'member_family_number',
         'children_number',
-        'adults_number'
+        'adults_number',
+        'passport_number'
     ];
 
 
@@ -88,6 +91,19 @@ class User extends Authenticatable
     public function MoveIns()
     {
         return $this->hasMany(MoveIn::class, 'user_id', 'id');
+    }
+    public function Country()
+    {
+        return $this->belongsTo(country::class, 'country', 'id');
+    }
+
+    public function City()
+    {
+        return $this->belongsTo(City::class, 'city', 'id');
+    }
+    public function UserProfile()
+    {
+        return $this->hasOne(UserProfile::class, 'user_id');
     }
 
     static $term_en = "Contrary to popular belief, Lorem Ipsum is
@@ -191,14 +207,23 @@ class User extends Authenticatable
 
     public function toArray()
     {
+        /* Solve for Tenant and Owner 
+        $pro1 = Property::where('owner_id', Auth::guard('sanctum')->user()->owner->id)->get();
+        $pro2 = Property::where('tenant_id', Auth::guard('sanctum')->user()->tenant->id)->get();
+        return $pro1->merge($pro2);
+*/
         $NewUserNews = News::inRandomOrder()->limit(5)->latest()->get();
 
+        if (User::find($this->id)->owner) {
+            $owners = User::find($this->id)->owner->property ?? null;
+            $tenants = null;
+        } else {
+            $tenants = User::find($this->id)->tenant->property ?? null;
+            $owners = null;
+        }
 
-        $owners = User::find($this->id)->owner->property ?? null;
-        $tenants = User::find($this->id)->tenant->property ?? null;
-
-
-        if ($tenants) {
+        //   return Property::where('owner_id', Auth::guard('sanctum')->user()->owner()->id)->get();
+        if ($tenants != null) {
             return [
                 'id' => $this->id,
                 'code' => $this->code,
@@ -206,18 +231,25 @@ class User extends Authenticatable
                 'last_name' => $this->last_name,
                 'email' => $this->email,
                 'email_verified_at' => $this->email_verified_at,
-                'country' => country::find($this->country)->name ?? null,
-                'city' => City::find($this->city)->name ?? null,
+                'country' => $this->country ?? null,
+                'city' => $this->city ??  null,
                 'country_name' => country::find($this->country)->name ?? null,
                 'city_name' => City::find($this->city)->name ?? null,
                 'mobile_number' => $this->mobile_number,
+                'member_family_number' => $this->member_family_number,
+                'children_number' => $this->children_number,
+                'adults_number' => $this->adults_number,
                 'image_url' => $this->image_path,
                 'type' => $this->type,
                 'status' => $this->status,
+                'documents' => $this->UserProfile,
+                'passport_number' => $this->passport_number,
                 'news' => $NewUserNews,
-                'nationalty' => $this->nationalty,
+                'nationality' => $this->nationality,
+                'nationality_name' => country::find($this->nationality)->name ?? null,
                 'id_number' => $this->id_number,
                 'properties' => $tenants ?? [],
+
             ];
         } else {
             return [
@@ -231,15 +263,21 @@ class User extends Authenticatable
                 'city' => $this->city,
                 'country_name' => country::find($this->country)->name ?? null,
                 'city_name' => City::find($this->city)->name ?? null,
-
+                'documents' => UserProfile::where('user_id', $this->id)->latest()->first(['id', 'contracts', 'contract_expiry', 'title_deed', 'emirates_id', 'passport', 'passport_expiry']),
+                'passport_number' => $this->passport_number,
                 'mobile_number' => $this->mobile_number,
+                'member_family_number' => $this->member_family_number,
+                'children_number' => $this->children_number,
+                'adults_number' => $this->adults_number,
                 'image_url' => $this->image_path,
                 'type' => $this->type,
                 'status' => $this->status,
                 'news' => $NewUserNews,
-                'nationalty' => $this->nationalty,
+                'nationality' => $this->nationality,
+                'nationality_name' => country::find($this->nationality)->name ?? null,
                 'id_number' => $this->id_number,
                 'properties' => $owners ?? [],
+
             ];
         }
     }
@@ -259,10 +297,10 @@ class User extends Authenticatable
         return asset('uploads/' . $this->image_url);
     }
 
-    public function profile()
+    /*  public function profile()
     {
         return  $this->hasOne(UserProfile::class);
-    }
+    }*/
     public function EmergencyContacts()
     {
         return  $this->hasMany(EmergencyContact::class);

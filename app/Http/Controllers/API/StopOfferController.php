@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Offer;
+use App\Models\Property;
 use App\Models\Stopoffer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,8 +33,14 @@ class StopOfferController extends Controller
         $request->merge([
             'user_id' => Auth::guard('sanctum')->id(),
         ]);
-        $stop = Stopoffer::create($request->all());
 
+        $stop = Stopoffer::create($request->all());
+        $offer = Offer::find($request->offer_id);
+        $property = Property::find($offer->property_id);
+        $property->update([
+            'offer_type' => 'stop',
+        ]);
+        $offer->delete();
         return response()->json([
             'status' => 201,
             'code' => true,

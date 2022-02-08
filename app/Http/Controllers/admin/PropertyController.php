@@ -46,9 +46,13 @@ class PropertyController extends Controller
 
         //Gate::authorize('properties.view');
 
-        $properties = Property::with(['community', 'owner', 'rent' => function ($query) {
+        $properties = Property::with(['community', 'owner', 'tenant', 'rent' => function ($query) {
             $query->where('status', 'active');
-        }])->paginate(6);
+        }])
+            ->orderBy('created_at', 'DESC')
+            ->paginate(6);
+
+
 
         $percentage = Property::Percentage() ?? 0;
         $tenants = User::with('tenant')->where('type', '3')->orWhere('type', '2')->get();
@@ -134,10 +138,20 @@ class PropertyController extends Controller
             'type' => 'required',
             'gate' => 'required',
             'amenities' => 'nullable',
+            'reference' => 'required'
         ]);
+        $address = Community::find($request->community_id);
+
+
 
         $request->merge([
             'date_added' => Carbon::now(),
+            'address_ar' => $address->address_ar ?? 'UAE',
+            'address_en' => $address->address_en ?? 'UAE',
+            'address_gr' => $address->address_gr ?? 'UAE',
+            'location_latitude' => $address->location_latitude,
+            'location_longitude' => $address->location_longitude,
+            'feminizations' => 'no',
         ]);
         $input = $request->all();
         if ($request->hasFile('image_url')) {
@@ -189,6 +203,7 @@ class PropertyController extends Controller
         $property = Property::find($id);
         $communities = Community::all();
         $amenities = Amenity::all();
+
         return view('admin.properties.edit', [
             'property' => $property,
             'title' => $title,
@@ -206,7 +221,6 @@ class PropertyController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $request->validate([
             'name_en' => 'required',
             'name_ar' => 'required',
@@ -230,6 +244,7 @@ class PropertyController extends Controller
             'type' => 'required',
             'gate' => 'required',
             'amenities' => 'nullable',
+            'reference' => 'required'
         ]);
 
 
@@ -289,5 +304,65 @@ class PropertyController extends Controller
     public function importCsvView()
     {
         return view('admin.properties.uploadcsv');
+    }
+
+
+
+
+    public function Filter(Request $request)
+    {
+
+
+        $properties = Property::with(['community', 'owner', 'tenant', 'rent' => function ($query) {
+            $query->where('status', 'active');
+        }])->when($request->offerBy, function ($query) use ($request) {
+            $query->where('offer_type', $request->offerBy);
+        })->when($request->type, function ($query) use ($request) {
+            $query->where('type', $request->type);
+        })->when($request->status, function ($query) use ($request) {
+            if ($request->status == 'owned') {
+                $query->where('owner_id', '!=', null);
+            }
+            if ($request->status == 'rented') {
+                $query->where('tenant_id', '!=', null);
+            }
+            if ($request->status == 'notowned') {
+                $query->where('owner_id',  null);
+            }
+
+            if ($request->status == 'notrented') {
+                $query->where('tenant_id',  null);
+            }
+        })
+            ->paginate(10);
+
+
+        $tenants = User::with('tenant')->where('type', '3')->orWhere('type', '2')->get();
+        $owners = User::with('owner')->where('type', '3')->orWhere('type', '1')->get();
+        $percentage = Property::Percentage() ?? 0;
+        return view('admin.properties.index', [
+            'properties' => $properties,
+            'percentage' => $percentage,
+            'properties_count' => $properties->count(),
+            'tenants' => $tenants,
+            'owners' => $owners
+        ]);
+    }
+
+    public function addPropertyByCommunity($id)
+    {
+        $title = 'Create New Property';
+        $amenities = Amenity::all();
+
+        $property = new Property();
+        return view(
+            'admin.properties.create',
+            [
+                'title' => $title,
+                'property' => $property,
+                'amenities' => $amenities,
+                'community' => Community::where('id', $id)->first(),
+            ]
+        );
     }
 }

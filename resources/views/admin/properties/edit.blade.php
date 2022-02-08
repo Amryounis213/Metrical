@@ -126,21 +126,21 @@
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (Arabic)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_ar" class="form-control" id="kt_maxlength_5_modal" minlength="200" maxlength="1500" placeholder="" rows="6">{{$property->description_ar}}</textarea>
+                                                <textarea name="description_ar" class="form-control editor"  minlength="200" maxlength="1500" placeholder="" rows="6">{{$property->description_ar}}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (Germany)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_gr" class="form-control" id="kt_maxlength_5_modal" minlength="200" maxlength="1500" placeholder="" rows="6">{{$property->description_gr}}</textarea>
+                                                <textarea name="description_gr" class="form-control editor"  minlength="200" maxlength="1500" placeholder="" rows="6">{{$property->description_gr}}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (English)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_en" class="form-control" id="kt_maxlength_5_modal" minlength="200" maxlength="1500" placeholder="" rows="6">{{$property->description_en}}</textarea>
+                                                <textarea name="description_en" class="form-control editor" minlength="200" maxlength="1500" placeholder="" rows="6">{{$property->description_en}}</textarea>
                                             </div>
                                         </div>
 
@@ -186,15 +186,7 @@
 
                                        
                                        
-                                        <div class="form-group row">
-                                            <label for="address_ar" class="col-2 col-form-label">Feminizations</label>
-                                            <div class="col-10">
-                                                <input id="kt_maxlength_2" name="feminizations"
-                                                    class="form-control" type="text"
-                                                    value="{{$property->feminizations}}"
-                                                    id="readness_percentage" />
-                                            </div>
-                                        </div>
+                                       
 
                                       
                                         <div class="form-group row">
@@ -202,12 +194,12 @@
                                             <div class="col-10">
                                                 <div class="radio-inline">
                                                     <label class="radio radio-danger">
-                                                        <input type="radio" value="0" name="status" checked="checked"/>
+                                                        <input type="radio" value="0" name="status"  @if ($property->status == '0') checked @endif/>
                                                         <span></span>
                                                         Under Constraction
                                                     </label>
                                                     <label class="radio radio-danger">
-                                                        <input type="radio" value="1" name="status"  />
+                                                        <input type="radio" value="1" name="status" @if ($property->status == '1') checked @endif  />
                                                         <span></span>
                                                         Ready
                                                     </label>
@@ -215,7 +207,51 @@
                                                 </div>
                                             </div>
                                         </div>
+                                       
                                         <div class="form-group row">
+                                            <label class="col-2 col-form-label">Type</label>
+                                            <div class="col-10">
+                                                <div class="radio-inline">
+                                                    <label class="radio radio-danger">
+                                                        <input type="radio" value="house" name="type" @if ($property->type == 'house') checked @endif/>
+                                                        <span></span>
+                                                        house
+                                                    </label>
+                                                    <label class="radio radio-danger">
+                                                        <input type="radio" value="apartment" name="type" @if ($property->type == 'apartment') checked @endif  />
+                                                        <span></span>
+                                                        apartment
+                                                    </label>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-2 col-form-label">Offer Type</label>
+                                            <div class="col-10">
+                                                <div class="radio-inline">
+                                                    <label class="radio radio-danger">
+                                                        <input id="none" type="radio" value="stop" name="offer_type" @if ($property->offer_type == 'stop') checked @endif />
+                                                            
+                                                       
+                                                        <span></span>
+                                                        none
+                                                    </label>
+                                                    <label class="radio radio-danger">
+                                                        <input id="sale" type="radio" value="sale" name="offer_type"  @if ($property->offer_type == 'sale') checked @endif />
+                                                        <span></span>
+                                                        sale
+                                                    </label>
+                                                    <label class="radio radio-danger">
+                                                        <input id="rent" type="radio" value="rent" name="offer_type" @if ($property->offer_type == 'rent') checked @endif />
+                                                        <span></span>
+                                                        rent
+                                                    </label>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="shortterm" class="form-group row">
                                             <label class="col-2 col-form-label">Short Term</label>
                                             <div class="col-10">
                                                 <div class="radio-inline">
@@ -233,95 +269,39 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="col-2 col-form-label">Type</label>
-                                            <div class="col-10">
-                                                <div class="radio-inline">
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="0" name="type" checked="checked"/>
-                                                        <span></span>
-                                                        house
-                                                    </label>
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="1" name="type"  />
-                                                        <span></span>
-                                                        apartment
-                                                    </label>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-2 col-form-label">Offer Type</label>
-                                            <div class="col-10">
-                                                <div class="radio-inline">
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="stop" name="offer_type" @if ($property->offer_type == 'stop') checked @endif />
-                                                            
-                                                       
-                                                        <span></span>
-                                                        stop
-                                                    </label>
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="sale" name="offer_type"  @if ($property->offer_type == 'sale') checked @endif />
-                                                        <span></span>
-                                                        sale
-                                                    </label>
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="rent" name="offer_type" @if ($property->offer_type == 'rent') checked @endif />
-                                                        <span></span>
-                                                        rent
-                                                    </label>
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="both" name="offer_type" @if ($property->offer_type == 'both') checked @endif />
-                                                        <span></span>
-                                                        both
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Information</label>
-                                            <div class="col-lg-3">
-                                                <input name="gate"  value="{{$property->gate}}"  type="number" class="form-control"placeholder="Gates" />
+                                            <div class="col-lg-2">
+                                                <input name="gate" value="{{$property->gate}}" type="number" class="form-control"placeholder="Gates" />
                                                 <span class="form-text text-muted">Gates number</span>
-
                                             </div>
-                                            <div class="col-lg-3">
+                                            <div class="col-lg-2">
                                                 <input name="bathroom" value="{{$property->bathroom}}" type="number" class="form-control" placeholder="Bathroom" />
                                                 <span class="form-text text-muted">Bathroom number</span>
 
                                             </div>
 
-                                            <div class="col-lg-3">
+                                            <div class="col-lg-2">
                                                 <input name="bedroom" value="{{$property->bedroom}}" type="number" class="form-control" placeholder="Bedroom" />
                                                 <span class="form-text text-muted">Bedroom number</span>
 
                                             </div>
+
+                                            <div class="col-lg-3">
+                                                <input maxlength="15" value="{{$property->floor}}" name="floor" type="text" class="form-control" placeholder="Ex :The forth or 4" />
+                                                <span class="form-text text-muted">Floor</span>
+
+                                            </div>
                                           
                                         </div>
 
-                                        <div class="form-group row ">
-                                            <label class="col-2 col-form-label">Location</label>
-                                            <div class="col-lg-3">
-                                                <input id="lat" value="{{$property->location_latitude}}"  name="location_latitude" type="text" class="form-control"/>
-                                                
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <input id="lng"  value="{{$property->location_longitude}}"  name="location_longitude" type="text" class="form-control"/>
-                                                
-                                            </div>
-
-                                          
-
-                                          
-                                        </div>
+                                       
                                         <div class="form-group row">
                                             <label class="col-2 col-form-label">Amenities</label>
                                             <div class="checkbox-inline">
                                                 @foreach ($amenities as $amenity)
                                                 <label class="checkbox">
-                                                    <input type="checkbox" name="amenities[]" value="{{$amenity->name}}"/>
+                                                    <input type="checkbox" name="amenities[]" value="{{$amenity->name}}" @if(in_array($amenity->name , $property->amenities ?? [])) checked="checked" @endif/>
                                                     <span></span>{{$amenity->name}}</label>
                                                 @endforeach
                                                 
@@ -335,7 +315,7 @@
                                     </div>
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary mr-2">Update</button>
-                                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                                        <button type="reset" class="btn btn-secondary">Reset Fields</button>
                                     </div>
                                 </div>
                             </form>
@@ -354,4 +334,27 @@
     <!--end::Content-->
    
     @include('components.form-script');
+@endsection
+
+@section('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
+<script>
+   var allEditors = document.querySelectorAll('.editor');
+for (var i = 0; i < allEditors.length; ++i) {
+  ClassicEditor.create(allEditors[i]);
+}
+  </script>
+
+<script>
+    $("#shortterm").hide();
+    $("#rent").click(function(){
+        $("#shortterm").show();
+    });
+    $("#sale").click(function(){
+        $("#shortterm").hide();
+    });
+    $("#none").click(function(){
+        $("#shortterm").hide();
+    });
+</script>
 @endsection

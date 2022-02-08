@@ -128,21 +128,21 @@
                                     <div class="form-group row">
                                         <label for="example-search-input" class="col-2 col-form-label">Description (Arabic)</label>
                                         <div class="col-10" style="position: relative;">
-                                            <textarea name="description_ar" value="{{ old('description_ar') }}" class="form-control kt_maxlength_5_modal"  maxlength="1000" placeholder="" rows="6">{{$new->description_ar}}</textarea>
+                                            <textarea name="description_ar" value="{{ old('description_ar') }}" class="form-control kt_maxlength_5_modal editor"  maxlength="1000" placeholder="" rows="6">{{$new->description_ar}}</textarea>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="example-search-input" class="col-2 col-form-label">Description (Germany)</label>
                                         <div class="col-10" style="position: relative;">
-                                            <textarea name="description_gr" value="{{ old('description_gr') }}" class="form-control kt_maxlength_5_modal"  maxlength="1000" placeholder="" rows="6">{{$new->description_gr}}</textarea>
+                                            <textarea name="description_gr" value="{{ old('description_gr') }}" class="form-control kt_maxlength_5_modal editor"  maxlength="1000" placeholder="" rows="6">{{$new->description_gr}}</textarea>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="example-search-input" class="col-2 col-form-label">Description (English)</label>
                                         <div class="col-10" style="position: relative;">
-                                            <textarea name="description_en" value="{{ old('description_en') }}" class="form-control kt_maxlength_5_modal"  maxlength="1000" placeholder="" rows="6">{{$new->description_en}}</textarea>
+                                            <textarea name="description_en" value="{{ old('description_en') }}" class="form-control kt_maxlength_5_modal editor"  maxlength="1000" placeholder="" rows="6">{{$new->description_en}}</textarea>
                                         </div>
                                     </div>
 
@@ -159,7 +159,7 @@
                                         </div>
                                         <div class="col-10">
                                             <button type="submit" class="btn btn-success mr-2">Update</button>
-                                            <button type="reset" class="btn btn-secondary">Cancel</button>
+                                            <button type="reset" class="btn btn-secondary">Reset Fields</button>
                                         </div>
                                     </div>
                                 </div>
@@ -177,4 +177,13 @@
         <!--end::Entry-->
     </div>
     <!--end::Content-->
+@endsection
+@section('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
+<script>
+   var allEditors = document.querySelectorAll('.editor');
+for (var i = 0; i < allEditors.length; ++i) {
+  ClassicEditor.create(allEditors[i]);
+}
+  </script>
 @endsection

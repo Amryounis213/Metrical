@@ -4,8 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Owner;
+use App\Models\Property;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -48,14 +50,15 @@ class AccessTokenController extends Controller
 
             return  response()->json([
                 'status' => true,
-                'code' => 422 ,
+                'code' => 422,
                 'message' => '',
                 'data' => $validation->errors(),
-            ], 422 );
+            ], 422);
         }
         $request->merge([
             'password' => Hash::make($request->password),
-            'code' => mt_rand(1111, 9999),
+            //'code' => mt_rand(1111, 9999),
+            'code' => 1111,
         ]);
 
         $user = User::create($request->all());
@@ -86,9 +89,10 @@ class AccessTokenController extends Controller
                 404
             );
         }
-        
+
         $user->update([
-            'code' => mt_rand(1111, 9999),
+            //  'code' => mt_rand(1111, 9999),
+            'code' => 1111,
         ]);
 
         return  response()->json(
@@ -114,7 +118,7 @@ class AccessTokenController extends Controller
         $email = trim($request->email);
         $user = User::where('email', $email)->first();
 
-        if ($user->code === $request->code) {
+        if ($user->code == $request->code) {
 
             $user->update([
                 'email_verified_at' => now()
@@ -177,10 +181,9 @@ class AccessTokenController extends Controller
                 ],
                 404
             );
-            
         }
-        
-        if($user->email_verified_at == null){
+
+        if ($user->email_verified_at == null) {
             return  response()->json(
                 [
                     'status' => false,
@@ -340,14 +343,23 @@ class AccessTokenController extends Controller
         // return $request;
         $request->merge([
             'user_id' => Auth::guard('sanctum')->id(),
+            'community_id' => Property::find($request->unit_number)->community_id,
         ]);
         $request->validate([
-            'community_id' => 'required|exists:communities,id',
-            'passport' => 'required| file',
-            'visa' => 'required | file',
+            //'community_id' => 'required|exists:communities,id',
+            'passport' => 'nullable| file',
+            'visa' => 'nullable | file',
             'unit_number' => 'required',
 
         ]);
+        $docs = UserProfile::where('user_id', Auth::guard('sanctum')->id())->first();
+        if (!$docs) {
+            UserProfile::create([
+                'user_id' => Auth::guard('sanctum')->id(),
+            ]);
+            $docs = UserProfile::where('user_id', Auth::guard('sanctum')->id())->first();
+        }
+
 
         $user = Auth::guard('sanctum')->user();
         $user1 = User::findOrFail($request->user_id);
@@ -369,6 +381,13 @@ class AccessTokenController extends Controller
             $request->merge([
                 'passport_copy' => $passport_copy
             ]);
+            $docs->update([
+                'passport' => $passport_copy,
+            ]);
+        } else {
+            $request->merge([
+                'passport_copy' => $docs->passport,
+            ]);
         }
         if ($request->hasFile('visa')) {
             if ($user->visa_copy !== null) {
@@ -383,12 +402,15 @@ class AccessTokenController extends Controller
             ]);
         }
         $user1->update([
-            'type' => '0',
             'request_sent' => '1',
             'need' => 'tenant',
         ]);
-
-        $tenants = Tenant::create($request->all());
+        if (Tenant::where('user_id', Auth::guard('sanctum')->id())->exists()) {
+            $tenants = Tenant::where('user_id', Auth::guard('sanctum')->id())->first();
+            $tenants->update($request->all());
+        } else {
+            $tenants = Tenant::create($request->all());
+        }
 
         return  response()->json(
             [
@@ -405,18 +427,25 @@ class AccessTokenController extends Controller
     {
         $request->merge([
             'user_id' => Auth::guard('sanctum')->id(),
+            'community_id' => Property::find($request->unit_number)->community_id,
         ]);
         $request->validate([
-            'community_id' => 'required|exists:communities,id',
-            'passport' => 'required',
-            'title_dead' => 'required',
-            'emirate_id' => 'required',
+            //  'community_id' => 'required|exists:communities,id',
+            'passport' => 'nullable',
+            'title_dead' => 'nullable',
+            'emirate_id' => 'nullable',
             'unit_number' => 'required',
-            'renting_price' => 'required',
-            'direct' => 'required',
-
+            'renting_price' => 'nullable',
+            'direct' => 'nullable',
         ]);
-
+        $docs = UserProfile::where('user_id', Auth::guard('sanctum')->id())->first();
+        if (!$docs) {
+            UserProfile::create([
+                'user_id' => Auth::guard('sanctum')->id(),
+                'passport' => $request->passport
+            ]);
+            $docs = UserProfile::where('user_id', Auth::guard('sanctum')->id())->first();
+        }
         $user = Auth::guard('sanctum')->user();
 
 
@@ -431,7 +460,16 @@ class AccessTokenController extends Controller
             $request->merge([
                 'passport_copy' => $passport_copy
             ]);
+
+            $docs->update([
+                'passport' => $passport_copy,
+            ]);
+        } else {
+            $request->merge([
+                'passport_copy' => $docs->passport,
+            ]);
         }
+
         if ($request->hasFile('title_dead')) {
             if ($user->title_dead_copy !== null) {
 
@@ -446,14 +484,19 @@ class AccessTokenController extends Controller
         }
         $user1 = User::findOrFail($request->user_id);
         $user1->update([
-            'type' => '0',
+
             'status' => '0',
             'request_sent' => '1',
             'need' => 'owner',
         ]);
 
+        if (Owner::where('user_id', Auth::guard('sanctum')->id())->exists()) {
+            $owner = Owner::where('user_id', Auth::guard('sanctum')->id())->first();
+            $owner->update($request->all());
+        } else {
+            $owner = Owner::create($request->all());
+        }
 
-        $owner = Owner::create($request->all());
 
 
         return  response()->json(

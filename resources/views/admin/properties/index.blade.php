@@ -43,7 +43,7 @@
                                         <li class="navi-item">
                                             <a href="#" class="navi-link" data-toggle="status-change" data-status="1">
                                                 <span class="navi-text">
-                                                    <span class="label label-light-success label-inline font-weight-bold">Approved</span>
+                                                    <span class="label label-light-warning label-inline font-weight-bold">Approved</span>
                                                 </span>
                                             </a>
                                         </li>
@@ -71,7 +71,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <button class="btn btn-light-success font-weight-bolder btn-sm mr-2" id="kt_subheader_group_actions_fetch" data-toggle="modal" data-target="#kt_datatable_records_fetch_modal">Fetch Selected</button>
+                            <button class="btn btn-light-warning font-weight-bolder btn-sm mr-2" id="kt_subheader_group_actions_fetch" data-toggle="modal" data-target="#kt_datatable_records_fetch_modal">Fetch Selected</button>
                             <button class="btn btn-light-danger font-weight-bolder btn-sm mr-2" id="kt_subheader_group_actions_delete_all">Delete All</button>
                         </div>
                     </div>
@@ -97,7 +97,13 @@
                     <a href="#" class=""></a>
                     <!--end::Button--> 
                     <!--begin::Button-->
+                    @if(Route::is('showPropertiesByCommunity') )
+                    <a  href="{{route('property.create.community' , $id)}}" class="btn btn-light-primary font-weight-bold ml-2">Add Property in This Community</a>
+                    @else
                     <a  href="{{route('properties.create')}}" class="btn btn-light-primary font-weight-bold ml-2">Add Property</a>
+                    @endif
+                    
+                    
                     <!--end::Button-->
                   
                 </div>
@@ -161,18 +167,64 @@
                             <!--end::Icon-->
 
                             <!--begin::Input-->
-                            <input name="name" type="text" class="form-control h-auto border-0 py-7 px-1 font-size-h6" placeholder="Name of property">
+                            <input name="name" type="text" class="form-control h-auto border-0 py-7 col-md-8 px-1 font-size-h6" placeholder="Name of property">
+                            
                             <input type="submit" class="form-control h-auto btn btn-warning font-size-h6" value="Search">
 
                             <!--end::Input-->
                         </div>
+
+                       
                     </form>
+                </br>
+                   
+                  
                     <!--end::Form-->
                 </div>
             </div>
         </div>
         <!--begin::Entry-->
+        <form class="d-flex position-relative w-75 px-lg-40 m-auto " action="{{route('properties.filter')}}" method="POST">
+            @csrf
+            <div class="input-group">
+                
+                <!--end::Icon-->
+
+                <!--begin::Input-->
+                
+                <select name="offerBy" class="form-control h-auto border-0 py-7 px-1 font-size-h6 m-2">
+                    <option selected="true" disabled="disabled">-- Offer By --</option>
+                    <option value="rent">Rent</option>
+                    <option value="sale">Sale</option>
+                   
+                </select>
+
+                <select name="type" class="form-control h-auto border-0 py-7 px-1 font-size-h6 m-2">
+                    <option selected="true" disabled="disabled">-- Type --</option>
+                    <option value="house">House</option>
+                    <option value="apartment">Apartment</option>
+                   
+                </select>
+
+
+                <select name="status" class="form-control h-auto border-0 py-7 px-1 font-size-h6 m-2">
+                    <option selected="true" disabled="disabled">-- Properties  --</option>
+                    <option value="owned">Owned now</option>
+                    <option value="rented">Rented now</option>
+                    <option value="notowned">Witout Owner</option>
+                    <option value="notrented">Witout Tenant</option>
+                </select>
+
+                <input type="submit" class="form-control h-auto btn btn-light-success font-size-h6 m-2" value="Filter">
+
+                <!--end::Input-->
+            </div>
+
+           
+        </form>
+        <hr>
         <div class="d-flex flex-column-fluid">
+            
             <!--begin::Container-->
             <div class="container">
                 <!--begin::Row-->
@@ -196,6 +248,7 @@
                                         <!--begin: Title-->
                                         <a href="#" class="card-title text-hover-primary font-weight-bolder font-size-h5 text-dark mb-1">{{$property->name_en}}</a>
                                         <span class="text-muted font-weight-bold">{{$property->community->name_en ?? 'Test'}} Community</span>
+                                        <span class="text-muted font-weight-bold"> {{$property->created_at ?? 'Test'}} </span>
                                         <!--end::Title-->
                                     </div>
                                     <!--end::Info-->
@@ -214,7 +267,7 @@
                                                     <li class="navi-item">
                                                         <a  href="{{route('properties.edit' ,$property->id)}}" class="navi-link">
                                                             <span class="navi-icon">
-                                                                <i class="flaticon2-shopping-cart-1"></i>
+                                                                <i class="far fa-edit"></i>
                                                             </span>
                                                             <span class="navi-text">Edit </span>
                                                         </a>
@@ -226,9 +279,9 @@
                                                        
                                                         <a href="" class="navi-link">
                                                             <span class="navi-icon">
-                                                                <i class="flaticon2-shopping-cart-1"></i>
+                                                                <i class="far fa-trash-alt"></i>
                                                             </span>
-
+    
                             
                                                            <span class="delete navi-text">Delete</span>
                                                         </a>
@@ -296,7 +349,7 @@
                                             </div>
                                         </div>
                                         <div id="faq{{$property->id}}" class="collapse" aria-labelledby="faqHeading1" data-parent="#faq" style="">
-                                            <div class="card-body text-dark-50 line-height-lg pl-12">{{$property->description_en}}</div>
+                                            <div class="card-body text-dark-50 line-height-lg pl-12">{!! $property->description_en !!}</div>
                                         </div>
                                     </div>
                                
@@ -335,55 +388,130 @@
                                         <span class="font-weight-bold text-dark-50"></span>{{$property->offer_type}}</span>
                                     </div>
                                     <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <div class="d-flex flex-column flex-lg-fill float-left mb-7">
-                                        <span class="font-weight-bolder mb-4">Owner / Tenant</span>
-                                        <div class="symbol-group symbol-hover">
-                                            @if ($property->owner != null)
-                                            <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="{{$property->owner->full_name ?? ''}}">
-                                                
-                                                <img style="
-                                                display: inline-block;
-                                                width: 100%;
-                                                max-width: 30px;
-                                                height: 30px;"
-                                                 alt="Pic" src="{{asset($property->owner->user->image_path)}}" />
-                                                {{-- {{$property->owner->full_name ?? ''}} --}}
-                                            </div>
-                                            @else
-                                            <div class="symbol symbol-30 symbol-circle">
-                                               No Owner else 
-                                            </div>
-                                            @endif
-                                          
-                                            
-                                        </div>
+                                   
+
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="font-weight-bolder mb-4">Floor</span>
+                                        <span class="font-weight-bolder font-size-h5 pt-1">
+                                        <span class="font-weight-bold text-warning">{{$property->floor ?? 'none'}}</span></span>
                                     </div>
+
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="font-weight-bolder mb-4">Gate</span>
+                                        <span class="font-weight-bolder font-size-h5 pt-1">
+                                        <span class="font-weight-bold text-dark-50">{{$property->gate ?? 'none'}}</span></span>
+                                    </div>
+
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="font-weight-bolder mb-4">Type</span>
+                                        <span class="font-weight-bolder font-size-h5 pt-1">
+                                        <span class="font-weight-bold text-dark-50">{{$property->type}}</span></span>
+                                    </div>
+                                    
                                     <!--end::Item-->
                               
-                                    <div class="d-flex flex-column flex-lg-fill float-left mb-7">
-                                        <div class="mr-2 d-flex flex-column mb-7">
-                                            <span class="d-block font-weight-bold mb-4">Amenities</span>
-                                            @if ($property->amenities != null)
-                                                
-                                           <div class="row">
-                                            @forelse ($property->amenities as $amenity)
-                                            <div class="mr-12 d-flex flex-column mb-7">
-                                                <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text">{{$amenity}}</span>
-                                            </div>
-                                            @empty
-                                            No
-                                            @endforelse
-                                           </div>
-                                            @endif
-                                          
-                                        </div>
-                                        
-                                        
-                                        
-                                        <!--end::Progress-->
-                                    </div> 
+                                    
                                 </div>
+
+                                <hr>
+
+                                @if ($property->owner != null)
+                                 <!--begin::Blog-->
+                                 <div class="d-flex flex-wrap">
+                                   
+                                    <div class="overlay col-md-12">
+                                        <div class="overlay-wrapper rounded text-left">
+                                            
+                                            <div class="symbol-group symbol-hover">
+                                                <div class="d-flex align-items-center mb-8">
+                                                    <!--begin::Symbol-->
+                                                    <div class="symbol symbol-40 symbol-circle symbol-xl-90">
+                                                        <div class="symbol-label min-w-65px min-h-80px" style="background-image: url({{asset($property->owner->user->image_path)}})"></div>
+                                                    </div>
+                                                    <!--end::Symbol-->
+                                                    <!--begin::Info-->
+                                                    <div class="d-flex flex-column ml-4">
+                                                        <!--begin::Title-->
+                                                        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$property->owner->user->first_name}} {{$property->owner->user->last_name}} <span class="label label-lg label-light-success label-inline ml-1">Owner</span></a>
+                                                        <!--end::Title-->
+                                                        <!--begin::Text-->
+                                                        <span class="text-muted font-weight-bold font-size-sm pb-4">mobile: {{$property->owner->user->mobile_number}}
+                                                        <br>Email : {{$property->owner->user->email}}</span>
+                                                        <!--end::Text-->
+                                                        <!--begin::Action-->
+                                                        
+                                                        <!--end::Action-->
+                                                    </div>
+                                                    <!--end::Info-->
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                        <div class="overlay-layer ">
+                                            <a href="{{route('binding.show' ,$property->owner->user->id )}}" class="btn font-weight-bolder btn-sm btn-light-success mr-2  mt-20">View Profile</a>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+
+                                
+
+                                
+                                @endif
+
+
+                                @if ($property->tenant != null)
+                                <!--begin::Blog-->
+                                <div class="d-flex flex-wrap">
+                                  
+                                   <div class="overlay col-md-12">
+                                       <div class="overlay-wrapper rounded text-left">
+                                           
+                                           <div class="symbol-group symbol-hover">
+                                               <div class="d-flex align-items-center mb-8">
+                                                   <!--begin::Symbol-->
+                                                   <div class="symbol symbol-40 symbol-circle symbol-xl-90">
+                                                       <div class="symbol-label min-w-65px min-h-80px" style="background-image: url({{asset($property->tenant->user->image_path ?? '')}})"></div>
+                                                   </div>
+                                                   <!--end::Symbol-->
+                                                   <!--begin::Info-->
+                                                   <div class="d-flex flex-column ml-4">
+                                                       <!--begin::Title-->
+                                                       <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$property->tenant->user->first_name}} {{$property->tenant->user->last_name}} <span class="label label-lg label-light-primary label-inline ml-1">Tenant</span></a>
+                                                       <!--end::Title-->
+                                                       <!--begin::Text-->
+                                                       <span class="text-muted font-weight-bold font-size-sm pb-4">mobile: {{$property->tenant->user->mobile_number}}
+                                                       <br>Email : {{$property->tenant->email}}</span>
+                                                       <!--end::Text-->
+                                                       <!--begin::Action-->
+                                                       
+                                                       <!--end::Action-->
+                                                   </div>
+                                                   <!--end::Info-->
+                                               </div>
+                                               
+                                               
+                                           </div>
+                                           
+                                           
+                                       </div>
+                                       <div class="overlay-layer ">
+                                           <a href="{{route('binding.show' ,$property->tenant->user->id )}}" class="btn font-weight-bolder btn-sm btn-light-primary mr-2  mt-20">View Profile</a>
+                                       </div>
+                                   </div>
+                                  
+                               </div>
+
+                               
+
+                               
+                               @endif
+
+
+                               
                                 <!--end::Blog-->
                             </div>
                             <!--end::Body-->
@@ -406,7 +534,7 @@
                                    
                                 </div>
                                 {{-- <button type="button" class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">details</button> --}}
-                                <button data-toggle="modal" data-target="#owner-{{$property->id}}" type="button" class="btn btn-success btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">
+                                <button data-toggle="modal" data-target="#owner-{{$property->id}}" type="button" class="btn btn-warning btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
                                         <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
                                       </svg>
@@ -414,7 +542,7 @@
                                 </button>
 
                                 @if($property->tenant_id == null)
-                                <button  data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-success btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto make-rent">
+                                <button  data-toggle="modal" data-target="#exampleModal{{$property->id}}" type="button" class="btn btn-warning btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto make-rent">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
                                         <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
                                         <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
@@ -429,7 +557,7 @@
                                       </svg>
                                      Close Rent Now  </a>
                                 @endif
-                                <a href="{{route('show-properties-image' , $property->id)}}"  type="button" class="btn btn-success btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto make-rent">
+                                <a href="{{route('show-properties-image' , $property->id)}}"  type="button" class="btn btn-warning btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto make-rent">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
                                         <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                                         <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
@@ -541,7 +669,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Add Owner For <strong class="text-success"> {{$property->name_en}}</strong></h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Add Owner For <strong class="text-warning"> {{$property->name_en}}</strong></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <i aria-hidden="true" class="ki ki-close"></i>
                                     </button>
@@ -619,9 +747,5 @@
 <script src="{{asset('assets/plugins/global/plugins.bundle.js')}}"></script>
 <script src="{{asset('assets/plugins/custom/prismjs/prismjs.bundle.js')}}"></script>
 <script src="{{asset('assets/js/scripts.bundle.js')}}"></script>
-<script src="https://keenthemes.com/metronic/assets/js/engage_code.js"></script>
-<script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
-		<!--begin::Global Config(global config for global JS scripts)-->
-<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#3699FF", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#E4E6EF", "dark": "#181C32" }, "light": { "white": "#ffffff", "primary": "#E1F0FF", "secondary": "#EBEDF3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#3F4254", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#EBEDF3", "gray-300": "#E4E6EF", "gray-400": "#D1D3E0", "gray-500": "#B5B5C3", "gray-600": "#7E8299", "gray-700": "#5E6278", "gray-800": "#3F4254", "gray-900": "#181C32" } }, "font-family": "Poppins" };</script>
 
 @endsection

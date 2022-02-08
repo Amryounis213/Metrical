@@ -19,7 +19,10 @@ class Community extends Model /*implements Searchable*/
         'location_latitude',
         'image',
         'status',
-        'readness_percentage'
+        'readness_percentage',
+        'address_ar',
+        'address_en',
+        'address_gr'
     ];
 
     protected $appends = ['image_path'];
