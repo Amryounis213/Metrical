@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CommunitiesController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\ContactWithAdminController;
@@ -56,7 +57,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->middleware('auth')->group(function () {
-    // 
+    Route::resource('admins', AdminController::class);
     Route::get('admin-panel', function () {
         $contact = ContactWithAdmin::count();
         $enquires = Enquiry::count();
