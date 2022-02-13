@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class News extends Model
 {
@@ -37,10 +38,11 @@ class News extends Model
 
         $title = 'title_' . strval($this->name . app()->getLocale());
         $description = 'description_' . strval($this->name . app()->getLocale());
-
+        $cleaner_input = strip_tags($this->$description);
         return [
             'id' => $this->id,
             'title' => $this->$title,
+            'brief' => Str::limit($cleaner_input, 150, '...'),
             'description' => $this->$description,
             'main_image' => $this->image_path,
             'images' => $this->images,

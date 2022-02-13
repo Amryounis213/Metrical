@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class Property extends Model
 {
@@ -116,13 +117,9 @@ class Property extends Model
     public function toArray()
     {
 
-
-
-
-
         $name = 'name_' . strval($this->name . app()->getLocale());
         $description = 'description_' . strval($this->name . app()->getLocale());
-
+        $cleaner_input = strip_tags($this->$description);
         $address = 'address_' . strval($this->name . app()->getLocale());
         $community = Community::find($this->community_id);
         $rentNow = Rent::where('property_id', $this->id)->where('status', 1)->exists();
@@ -156,7 +153,7 @@ class Property extends Model
         foreach ($images as $img) {
             $data[] = asset('uploads/' . $img->path);
         }
-        $offer = Offer::where('property_id', $this->id)->where('status', '1')->latest()->first();
+        $offer = Offer::where('property_id', $this->id)->latest()->first();
         if ($offer) {
             if ($offer->type == 'sale') {
                 $offer = [
@@ -165,7 +162,7 @@ class Property extends Model
                     "type" => "sale",
                     "property_id" => $offer->property_id,
                     "user_id" => $offer->user_id,
-
+                    "status" => $offer->status,
                 ];
             } else if ($offer->type == 'rent') {
                 $offer = [
@@ -176,6 +173,7 @@ class Property extends Model
                     "type" => "rent",
                     "property_id" => $offer->property_id,
                     "user_id" => $offer->user_id,
+                    "status" => $offer->status,
                 ];
             } else {
                 $offer = [];
@@ -185,6 +183,7 @@ class Property extends Model
         return [
             'id' => $this->id,
             'name' => $this->$name,
+            'brief' => Str::limit($cleaner_input, 150, '...'),
             'description' => $this->$description,
             'area' => $this->area,
             'main_image' => $this->image_path,
@@ -202,20 +201,22 @@ class Property extends Model
             'offer_type' => $this->offer_type,
             'location_longitude' => $this->location_longitude,
             'location_latitude' => $this->location_latitude,
-            'amenities' => $this->amenities,
+            'amenities' => $this->amenities ?? [],
             'floor' => $this->floor,
             'community' => [
+                'id' => $community->id ?? null,
                 'name' => $community->$name ?? '',
                 'status' => $community->status ?? 0,
                 'properties_count' => $community->properties->count(),
                 'image' => $community->image_path,
+                'percentage' => $community->readness_percentage,
             ],
             'owner' => $this->owner_id ?
                 [
                     'name' => $owner->full_name ?? 0,
                     'mobile' => $owner->mobile,
                     'image' => User::find($owner->user_id)->image_path,
-
+                    'email' => $owner->email,
                 ] : null,
             'ownership_date' => $this->ownership_date,
             'has_this_property' => $checker,

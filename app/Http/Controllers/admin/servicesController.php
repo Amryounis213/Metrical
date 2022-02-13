@@ -10,6 +10,7 @@ use App\Models\MoveOut;
 use App\Models\User;
 use App\Models\WorkPermit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 
 class servicesController extends Controller
@@ -29,7 +30,7 @@ class servicesController extends Controller
     }
     public function deliveries()
     {
-
+        Gate::authorize('services.view');
         $deliveries = DeliveryPermit::orderBy('agree', 'asc')
             ->get();
 
@@ -78,6 +79,7 @@ class servicesController extends Controller
     }
     public function moveIns()
     {
+        Gate::authorize('services.view');
         $moveIn = MoveIn::orderBy('agree', 'asc')
             ->get();
 
@@ -126,6 +128,7 @@ class servicesController extends Controller
     }
     public function moveouts()
     {
+        Gate::authorize('services.view');
         $moveout = MoveOut::with('user')->orderBy('agree', 'asc')
             ->get();
         return view('admin.services.moveout.index', [
@@ -167,7 +170,7 @@ class servicesController extends Controller
     public function WorkPermits()
     {
 
-
+        Gate::authorize('services.view');
         $workpermit = WorkPermit::with('user')
             ->orderBy('agree', 'asc')
             ->get();

@@ -73,7 +73,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Event::class, 'interested_users');
     }
-
+    public function contacts()
+    {
+        return $this->hasMany(ContactWithAdmin::class, 'user_id', 'id');
+    }
+    public function enquires()
+    {
+        return $this->hasMany(Enquiry::class, 'user_id', 'id');
+    }
     static $term_en = "Contrary to popular belief, Lorem Ipsum is
     not simply random text. It has roots in a
     piece of classical Latin literature from 45

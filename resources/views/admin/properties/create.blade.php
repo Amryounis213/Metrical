@@ -94,6 +94,19 @@
                                        
 
 
+                                       
+                                        @if (!Route::is('properties.create'))
+                                        <div class="form-group row">
+                                            <label class="col-2 col-form-label">Community</label>
+                                            <div class="col-10">
+                                                <select name="community_id" class="form-control selectpicker" data-size="5"
+                                                    data-live-search="true">
+                                                    <option value="">Select</option>
+                                                    <option value="{{$community->id}}" selected>{{$community->name_en}}</option> 
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @else
                                         <div class="form-group row">
                                             <label class="col-2 col-form-label">Community</label>
                                             <div class="col-10">
@@ -101,27 +114,28 @@
                                                     data-live-search="true">
                                                     <option value="">Select</option>
                                                     @foreach ($communities as $communities)
-                                                    <option value="{{$communities->id}}">{{$communities->name_en}}</option> 
+                                                    <option {{ old('community_id') == $communities->id ? "selected" : "" }}  value="{{$communities->id}}" >{{$communities->name_en}}</option> 
                                                     @endforeach  
                                                 </select>
                                             </div>
                                         </div>
-   
+                                        
+                                        @endif
   
 
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Name</label>
                                             <div class="col-lg-3">
-                                                <input  maxlength="25"  name="name_ar[]" value="{{ old('name_ar') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
+                                                <input  maxlength="25"  name="name_ar" value="{{ old('name_ar') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
                                                 
                                             </div>
                                             <div class="col-lg-3">
-                                                <input maxlength="25"  name="name_gr[]" value="{{ old('name_gr') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
+                                                <input maxlength="25"  name="name_gr" value="{{ old('name_gr') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
                                                 
                                             </div>
 
                                             <div class="col-lg-4">
-                                                <input maxlength="25"  name="name_en[]" value="{{ old('name_en') }}"  type="text" class="form-control kt_maxlength_1" placeholder="English" />
+                                                <input maxlength="25"  name="name_en" value="{{ old('name_en') }}"  type="text" class="form-control kt_maxlength_1" placeholder="English" />
                                                 
                                             </div>
 
@@ -131,44 +145,27 @@
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (Arabic)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_ar" value="{{ old('description_ar') }}" class="form-control kt_maxlength_5_modal" minlength="200"   maxlength="1500" placeholder="" rows="6">{{$property->description_ar}}</textarea>
+                                                <textarea name="description_ar" value="{{ old('description_ar') }}" class="form-control kt_maxlength_5_modal editor" minlength="200"   maxlength="1500" placeholder="" rows="6">{{ old('description_ar') }}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (Germany)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_gr" value="{{ old('description_gr') }}" class="form-control kt_maxlength_5_modal" minlength="200"  maxlength="1500" placeholder="" rows="6">{{$property->description_gr}}</textarea>
+                                                <textarea name="description_gr" value="{{ old('description_gr') }}" class="form-control kt_maxlength_5_modal editor" minlength="200"  maxlength="1500" placeholder="" rows="6">{{ old('description_gr') }}</textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label for="example-search-input" class="col-2 col-form-label">Description (English)</label>
                                             <div class="col-10" style="position: relative;">
-                                                <textarea name="description_en" value="{{ old('description_en') }}" class="form-control kt_maxlength_5_modal" minlength="200"  maxlength="1500" placeholder="" rows="6">{{$property->description_en}}</textarea>
+                                                <textarea name="description_en" value="{{ old('description_en') }}" class="form-control kt_maxlength_5_modal editor" minlength="200"  maxlength="1500" placeholder="" rows="6">{{ old('description_en') }}</textarea>
                                             </div>
                                         </div>
 
 
 
-                                        <div class="form-group row ">
-                                            <label class="col-2 col-form-label">Address</label>
-                                            <div class="col-lg-3">
-                                                <input  maxlength="75"  name="address_ar" value="{{ old('address_ar') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Arabic" />
-                                                
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <input maxlength="75"  name="address_gr" value="{{ old('address_gr') }}"  type="text" class="form-control kt_maxlength_1" placeholder="Germany" />
-                                                
-                                            </div>
-
-                                            <div class="col-lg-4">
-                                                <input maxlength="75"  name="address_en" value="{{ old('address_en') }}"  type="text" class="form-control kt_maxlength_1" placeholder="English" />
-                                                
-                                            </div>
-
-                                          
-                                        </div>
+                                        
 
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Area (mm)</label>
@@ -190,17 +187,7 @@
 
                                        
                                        
-                                        <div class="form-group row">
-                                            <label for="feminizations" class="col-2 col-form-label">Feminizations</label>
-                                            <div class="col-10">
-                                                <input  name="feminizations"
-                                                    class="form-control" type="text"
-                                                    value="{{ old('feminizations') }}"
-                                                    id="readness_percentage"
-                                                    placeholder="Ex : Yes , No , Soon ...."
-                                                    />
-                                            </div>
-                                        </div>
+                                    
 
                                       
                                         <div class="form-group row">
@@ -208,12 +195,12 @@
                                             <div class="col-10">
                                                 <div class="radio-inline">
                                                     <label class="radio radio-danger">
-                                                        <input type="radio" value="0" name="status" checked="checked"/>
+                                                        <input type="radio" value="0" name="status" {{ old('status') == '0' ? "checked" : "" }} checked="checked"/>
                                                         <span></span>
                                                         Under Constraction
                                                     </label>
                                                     <label class="radio radio-danger">
-                                                        <input type="radio" value="1" name="status"  />
+                                                        <input type="radio" value="1"  name="status" {{ old('status') == '1' ? "checked" : "" }}  />
                                                         <span></span>
                                                         Ready
                                                     </label>
@@ -222,6 +209,48 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
+                                            <label class="col-2 col-form-label">Type</label>
+                                            <div class="col-10">
+                                                <div class="radio-inline">
+                                                    <label class="radio radio-danger">
+                                                        <input  type="radio" value="house" name="type" {{ old('type') == 'house' ? "checked" : "" }} checked="checked"/>
+                                                        <span></span>
+                                                        house
+                                                    </label>
+                                                    <label class="radio radio-danger">
+                                                        <input type="radio" value="apartment" name="type"  {{ old('type') == 'apartment' ? "checked" : "" }} />
+                                                        <span></span>
+                                                        apartment
+                                                    </label>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group row">
+                                            <label class="col-2 col-form-label">Offer Type</label>
+                                            <div class="col-10">
+                                                <div class="radio-inline">
+                                                    <label class="radio radio-danger">
+                                                        <input id="none" type="radio" value="stop" name="offer_type" {{ old('offer_type') == 'stop' ? "checked" : "" }} checked />
+                                                        <span></span>
+                                                        none
+                                                    </label>
+                                                    <label class="radio radio-danger">
+                                                        <input id="sale" type="radio" value="sale" name="offer_type" {{ old('offer_type') == 'sale' ? "checked" : "" }} />
+                                                        <span></span>
+                                                        sale
+                                                    </label>
+                                                    <label class="radio radio-danger">
+                                                        <input id="rent" type="radio" value="rent" name="offer_type" {{ old('offer_type') == 'rent' ? "checked" : "" }} />
+                                                        <span></span>
+                                                        rent
+                                                    </label>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="shortterm" class="form-group row ">
                                             <label class="col-2 col-form-label">Short Term</label>
                                             <div class="col-10">
                                                 <div class="radio-inline">
@@ -239,88 +268,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label class="col-2 col-form-label">Type</label>
-                                            <div class="col-10">
-                                                <div class="radio-inline">
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="0" name="type" checked="checked"/>
-                                                        <span></span>
-                                                        house
-                                                    </label>
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="1" name="type"  />
-                                                        <span></span>
-                                                        apartment
-                                                    </label>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-2 col-form-label">Offer Type</label>
-                                            <div class="col-10">
-                                                <div class="radio-inline">
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="stop" name="offer_type" checked />
-                                                        <span></span>
-                                                        stop
-                                                    </label>
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="sale" name="offer_type"  />
-                                                        <span></span>
-                                                        sale
-                                                    </label>
-                                                    <label class="radio radio-danger">
-                                                        <input type="radio" value="rent" name="offer_type" />
-                                                        <span></span>
-                                                        rent
-                                                    </label>
-                                                   
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Information</label>
                                             <div class="col-lg-2">
-                                                <input name="gate" type="number" class="form-control"placeholder="Gates" />
+                                                <input name="gate" value="{{ old('gate')}}" type="number" class="form-control" placeholder="Gates" />
                                                 <span class="form-text text-muted">Gates number</span>
                                             </div>
                                             <div class="col-lg-2">
-                                                <input name="bathroom" type="number" class="form-control" placeholder="Bathroom" />
+                                                <input name="bathroom" value="{{ old('bathroom')}}" type="number" class="form-control" placeholder="Bathroom" />
                                                 <span class="form-text text-muted">Bathroom number</span>
 
                                             </div>
 
                                             <div class="col-lg-2">
-                                                <input name="bedroom" type="number" class="form-control" placeholder="Bedroom" />
+                                                <input name="bedroom" value="{{ old('bedroom')}}" type="number" class="form-control" placeholder="Bedroom" />
                                                 <span class="form-text text-muted">Bedroom number</span>
 
                                             </div>
 
                                             <div class="col-lg-3">
-                                                <input name="floor" type="number" class="form-control" placeholder="Floor" />
-                                                <span class="form-text text-muted">floor</span>
+                                                <input maxlength="15" value="{{ old('floor')}}" name="floor" type="text" class="form-control" placeholder="Ex :The forth or 4" />
+                                                <span class="form-text text-muted">Floor</span>
 
                                             </div>
                                           
                                         </div>
 
-                                        <div class="form-group row ">
-                                            <label class="col-2 col-form-label">Location</label>
-                                            <div class="col-lg-3">
-                                                <input id="lat"  name="location_latitude" type="text" class="form-control" placeholder="latitude"/>
-                                                
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <input id="lng" name="location_longitude" type="text" class="form-control" placeholder="longtude"/>
-                                                
-                                            </div>
-
-                                          
-
-                                          
-                                        </div>
+                                       
                                         <div class="form-group row">
                                             <label class="col-2 col-form-label">Amenities</label>
                                             <div class="checkbox-inline">
@@ -340,8 +315,8 @@
                                     </div>
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary mr-2">Create</button>
-                                        <button type="reset" class="btn btn-secondary">Cancel</button>
-                                        <a class="btn btn-secondary append">Add</a >                         </div>
+                                        <button type="reset" class="btn btn-secondary">Reset Fields</button>
+                                    </div>
                                 </div>
                             </form>
                             <!--end::Form-->
@@ -381,6 +356,26 @@
         }
 };
 </script>
+<script>
+    $("#shortterm").hide();
+    $("#rent").click(function(){
+        $("#shortterm").show();
+    });
+    $("#sale").click(function(){
+        $("#shortterm").hide();
+    });
+    $("#none").click(function(){
+        $("#shortterm").hide();
+    });
+</script>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
+<script>
+   var allEditors = document.querySelectorAll('.editor');
+for (var i = 0; i < allEditors.length; ++i) {
+  ClassicEditor.create(allEditors[i]);
+}
+  </script> 
 @endsection
 @include('components.form-script');
 @endsection

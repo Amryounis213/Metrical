@@ -16,6 +16,6 @@ class Rent extends Model
     }
     public function property()
     {
-        return $this->belongsTo(Property::class, 'property_id');
+        return $this->belongsTo(Property::class, 'property_id')->withDefault(['name_en' => 'Property']);
     }
 }

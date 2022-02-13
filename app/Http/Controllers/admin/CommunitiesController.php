@@ -49,6 +49,9 @@ class CommunitiesController extends Controller
             'name_en' => 'required',
             'name_gr' => 'required',
             'area' => 'required',
+            'address_ar' => 'required',
+            'address_en' => 'required',
+            'address_gr' => 'required',
             'image_url' => 'required',
             'status' => 'required',
             'readness_percentage' => 'required|min:0|max:100',
@@ -88,31 +91,42 @@ class CommunitiesController extends Controller
     }
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'name_ar' => 'required',
             'name_en' => 'required',
             'name_gr' => 'required',
             'area' => 'required',
-            'image' => 'required',
+            'address_ar' => 'required',
+            'address_en' => 'required',
+            'address_gr' => 'required',
+            //'image' => 'required',
             'status' => 'required',
             'readness_percentage' => 'required|min:0|max:100',
         ]);
         $community = Community::findOrFail($id);
-        if ($request->hasFile('image_url')) {
-            $file = $request->file('image_url');
+
+        $input = $request->all();
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
             $image_path = $file->store('/', [
                 'disk' => 'upload',
             ]);
-            $request->merge([
-                'image' => $image_path,
-            ]);
+
+            $input['image'] = $image_path;
         }
-        $community->update($request->all());
+
+        $community->update($input);
         return redirect(route('communities.index'));
     }
     public function destroy($id)
     {
+        // dd(Community::findOrFail($id)->properties()->count());
         Gate::authorize('communities.delete');
+        if (Community::findOrFail($id)->properties()->count() > 0) {
+            return redirect()->back()->with('primary', 'the community has more one properties (You cannot delete)');
+        }
         $community = Community::findOrFail($id);
         $community->delete();
         return redirect(route('communities.index'));
@@ -131,7 +145,8 @@ class CommunitiesController extends Controller
             'percentage' => 0,
             'title' => $title,
             'tenants' => $tenants,
-            'owners' => $owners
+            'owners' => $owners,
+            'id' => $id,
         ]);
     }
 }

@@ -71,4 +71,14 @@ return [
     'contact.view-any' => 'View any contact',
     'contact.view' => 'View contact',
     'contact.delete' => 'Delete contact',
+
+    'services.view-any' => 'View any services',
+    'services.view' => 'View services',
+    'services.delete' => 'Delete services',
+
+
+    'admin.view' => 'View Admin',
+    'admin.delete' => 'Delete admin',
+    'admin.create' => 'Create Admin',
+    'admin.edit' => 'Edit Admin',
 ];

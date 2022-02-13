@@ -31,20 +31,20 @@
                     <!--begin::Body-->
                     <div class="card-body d-flex flex-column">
                       <!--begin::Title-->
-                      <a href="#" class="text-dark-75 text-hover-warning font-weight-bolder font-size-h3">Properties</a> <br>
+                      <a @can('properties.view-any') href="{{route('properties.index')}}" @endcan class="text-dark-75 text-hover-warning font-weight-bolder font-size-h3">Properties</a> <br>
                       <span class="text-inverse-primary font-weight-bolder font-size-h2 mt-3" >{{$properties}}</span>
                       <!--end::Title-->
                     </div>
                     <!--end::Body-->
                   </div>
                   <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-8">
 
                   <div class="card card-custom  bg-dark bgi-no-repeat bgi-no-repeat bgi-size-cover gutter-b" style="height: 150px;">
                     <!--begin::Body-->
                     <div class="card-body d-flex flex-column">
                       <!--begin::Title-->
-                      <a href="#" class="text-warning text-hover-warning font-weight-bolder ">Users</a> <br>
+                      <a @can('user.view-any') href="{{route('binding.users')}}" @endcan class="text-warning text-hover-warning font-weight-bolder ">Pending User</a> <br>
                       <span class="text-inverse-primary font-weight-bolder font-size-h2 mt-3" >{{$pending_users->count()}}</span>
                       <!--end::Title-->
                     </div>
@@ -52,27 +52,14 @@
                   </div>
 
                   </div>
+                 
                   <div class="col-md-4">
 
                     <div class="card card-custom  bg-dark bgi-no-repeat bgi-no-repeat bgi-size-cover gutter-b" style="height: 150px;">
                       <!--begin::Body-->
                       <div class="card-body d-flex flex-column">
                         <!--begin::Title-->
-                        <a href="#" class="text-warning text-hover-warning font-weight-bolder ">News</a> <br>
-                        <span class="text-inverse-primary font-weight-bolder font-size-h4 mt-3" >{{$news->count()}}</span>
-                        <!--end::Title-->
-                      </div>
-                      <!--end::Body-->
-                    </div>
-  
-                    </div>
-                  <div class="col-md-4">
-
-                    <div class="card card-custom  bg-dark bgi-no-repeat bgi-no-repeat bgi-size-cover gutter-b" style="height: 150px;">
-                      <!--begin::Body-->
-                      <div class="card-body d-flex flex-column">
-                        <!--begin::Title-->
-                        <a href="#" class="text-warning text-hover-warning font-weight-bolder " style="font-size: 12px;">Events</a> <br>
+                        <a @can('events.view') href="{{route('events.index')}}" @endcan class="text-warning text-hover-warning font-weight-bolder " style="font-size: 12px;">Events</a> <br>
                         <span class="text-inverse-primary font-weight-bolder font-size-h4 mt-3" >{{$events->count()}}</span>
                         <!--end::Title-->
                       </div>
@@ -83,13 +70,27 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-4">
+
+                      <div class="card card-custom  bg-dark bgi-no-repeat bgi-no-repeat bgi-size-cover gutter-b" style="height: 150px;">
+                        <!--begin::Body-->
+                        <div class="card-body d-flex flex-column">
+                          <!--begin::Title-->
+                          <a @can('events.view') href="{{route('news.index')}}" @endcan class="text-warning text-hover-warning font-weight-bolder ">News</a> <br>
+                          <span class="text-inverse-primary font-weight-bolder font-size-h4 mt-3" >{{$news->count()}}</span>
+                          <!--end::Title-->
+                        </div>
+                        <!--end::Body-->
+                      </div>
+    
+                      </div>
+                    <div class="col-md-4">
   
                     <div class="card card-custom  bg-dark bgi-no-repeat bgi-no-repeat bgi-size-cover gutter-b" style="height: 150px;">
                       <!--begin::Body-->
                       <div class="card-body d-flex flex-column">
                         <!--begin::Title-->
-                        <a href="#" class="text-warning text-hover-warning font-weight-bolder ">Communities</a> <br>
+                        <a @can('communities.view') href="{{route('communities.index')}}" @endcan class="text-warning text-hover-warning font-weight-bolder ">Com</a> <br>
                         <span class="text-inverse-primary font-weight-bolder font-size-h2 mt-3" >{{$communities->count()}}</span>
                         <!--end::Title-->
                       </div>
@@ -104,7 +105,7 @@
                         <!--begin::Body-->
                         <div class="card-body d-flex flex-column">
                           <!--begin::Title-->
-                          <a href="#" class="text-warning text-hover-warning font-weight-bolder " style="font-size: 12px;">Offers</a> <br>
+                          <a @can('offers.view') href="{{route('offers.index')}}" @endcan class="text-warning text-hover-warning font-weight-bolder " style="font-size: 12px;">Offers</a> <br>
                           <span class="text-inverse-primary font-weight-bolder font-size-h4 mt-3" >{{$offers}}</span>
                           <!--end::Title-->
                         </div>
@@ -121,16 +122,11 @@
                     <div class="card-header align-items-center border-0 mt-4">
                       <h3 class="card-title align-items-start flex-column">
                         <span class="font-weight-bolder text-dark">Rents Activity</span>
-                        <span class="text-muted mt-3 font-weight-bold font-size-sm">890,344 Sales</span>
                       </h3>
                       <div class="card-toolbar">
                         <div class="dropdown dropdown-inline">
-                          <a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ki ki-bold-more-hor"></i>
-                          </a>
-                          <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-                          
-                          </div>
+                         
+                         
                         </div>
                       </div>
                     </div>
@@ -259,7 +255,7 @@
                  
                 </div>
                
-                <div class="col-xxl-8 order-2 order-xxl-1">
+                <div class="col-xxl-8 col-md-8 order-2 order-xxl-1">
                   <div class="card card-custom gutter-b">
                     <div class="card-body p-0">
                       <!-- begin: Invoice-->
@@ -277,6 +273,7 @@
                                   <th class="text-right font-weight-bold text-muted text-uppercase">News</th>
                                   <th class="text-right font-weight-bold text-muted text-uppercase">Events</th>
                                   <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Properties</th>
+                                 
                                 </tr>
                               </thead>
                               <tbody>
@@ -312,9 +309,59 @@
                     </div>
                   </div>
                 </div>
-             
+                <div class="col-xxl-4 col-md-4 order-2 order-xxl-1">
+                  <div class="card card-custom gutter-b">
+                    <div class="card-body p-0">
+                      <!-- begin: Invoice-->
+                      <!-- begin: Invoice header-->
+                      
+                      <!-- end: Invoice header-->
+                      <!-- begin: Invoice body-->
+                      <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                        <div class="col-md-10">
+                          <div class="table-responsive">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th class="pl-0 font-weight-bold text-muted text-uppercase">Top Owner</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr class="font-weight-boldest">
+                                  <td class="border-0 pl-0 pt-7 d-flex align-items-center">
+                                  <!--begin::Symbol-->
+                                  <div class="symbol symbol-60 flex-shrink-0 mr-4 bg-light">
+                                    <div class="symbol-label" style="background-image: url({{ asset('uploads/' .$user1->image_url)}})"></div>
+                                   
+                                  </div>
+                                  <a href="{{route('binding.show' ,$user1->id)}}" class="text-left pt-7 font-size-h6 text-dark text-hover-success">{{ $user1->first_name . ' ' . $user1->last_name }}</a>
+                                  <br><a  class="text-left pt-7 text-warning">&nbsp; ({{$topowner}} Properties )</a>
+                                  <!--end::Symbol-->
+                                  </td>
+                                  
+            
+                                  
+                                </tr>
+                             
+                                
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end: Invoice body-->
+                      <!-- begin: Invoice footer-->
+                      
+                      <!-- end: Invoice footer-->
+                      <!-- begin: Invoice action-->
+                      
+                      <!-- end: Invoice action-->
+                      <!-- end: Invoice-->
+                    </div>
+                  </div>
+                </div>  
 
-                <div class="col-xxl-8 order-2 order-xxl-1">
+                <div class="col-xxl-8 col-md-12 order-2 order-xxl-1">
                   <div class="card card-custom gutter-b">
                     <div class="card-body p-0">
                       <!-- begin: Invoice-->

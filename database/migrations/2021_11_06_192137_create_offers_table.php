@@ -24,10 +24,10 @@ class CreateOffersTable extends Migration
             $table->string('emirate_id')->nullable();
 
             //Sale Offer
-            $table->unsignedFloat('sale_price')->nullable();
+            $table->unsignedFloat('sale_price', 10, 2)->nullable();
 
             //Rent Offer
-            $table->unsignedFloat('rent_price')->nullable();
+            $table->unsignedFloat('rent_price', 10, 2)->nullable();
             $table->date('rent_start_date')->nullable();
             $table->date('rent_end_date')->nullable();
 

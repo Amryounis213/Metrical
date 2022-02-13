@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 
 class Event extends Model
@@ -35,9 +36,12 @@ class Event extends Model
 
         $title = 'title_' . strval($this->name . app()->getLocale());
         $description = 'description_' . strval($this->name . app()->getLocale());
+        $cleaner_input = strip_tags($this->$description);
+
         return [
             'id' => $this->id,
             'title' => $this->$title,
+            'brief' => Str::limit($cleaner_input, 150, '...'),
             'description' => $this->$description,
             'address' => $this->address,
             'community_id' => $this->community_id,

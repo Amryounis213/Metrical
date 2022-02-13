@@ -24,7 +24,10 @@ class CreateEnquiriesTable extends Migration
             $table->foreignId('property_id')->nullable()->constrained('properties', 'id')->cascadeOnDelete();
             $table->foreignId('community_id')->nullable()->constrained('communities', 'id')->cascadeOnDelete();
             $table->string('subject');
+
             $table->text('message');
+            $table->boolean('is_read')->default(0);
+
             $table->timestamps();
         });
     }

@@ -108,6 +108,7 @@ class OfferController extends Controller
             'status' => "1",
         ]);
 
+
         $property = Property::where('id', $offers->property_id)->first();
         $property->update(
             [
@@ -136,7 +137,35 @@ class OfferController extends Controller
     public function filter(Request $request)
     {
 
-        $offers = Offer::with('property')->where('type', $request->type)->orwhere('full_name', '%' . $request->name . '%')->get();
+        if ($request->type != '') {
+            $offers = Offer::with('property')
+                ->where('type', $request->type)
+                ->get();
+
+            if ($request->name != '') {
+                $offers = Offer::where('full_name', 'LIKE', '%' . $request->name . '%')
+                    ->orwhere('email', 'LIKE', '%' . $request->name . '%')
+                    ->get();
+            }
+        } else {
+            $offers = Offer::with('property')->get();
+            if ($request->name != '') {
+                $offers = Offer::where('full_name', 'LIKE', '%' . $request->name . '%')
+                    ->orwhere('email', 'LIKE', '%' . $request->name . '%')
+                    ->get();
+            }
+        }
         return view('admin.offers.index', ['offers' => $offers]);
+    }
+
+    /**
+     * Edit Price
+     */
+
+    public function OfferUpdate(Request $request)
+    {
+        $offers = Offer::find($request->offer_id);
+        $offers->update($request->all());
+        return redirect()->back()->with('success', 'Offer Updated Succesfully');
     }
 }
