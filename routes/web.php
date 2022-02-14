@@ -45,7 +45,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('append', [PropertyController::class, 'append'])->name('append');
+//Route::get('append', [PropertyController::class, 'append'])->name('append');
 
 
 Route::get('admin-panel', function () {
@@ -192,7 +192,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('user-details/{id}', [UsersController::class, 'UpdateUserInfo'])->name('updateuserinfo');
     Route::get('user-details/{id}', [UsersController::class, 'EditUser'])->name('edituser');
 
-    Route::get('users/all', [UsersController::class, 'AllUser'])->name('AllUsers');
+    Route::get('users/all', [UsersController::class, 'AllUser'])->nثame('AllUsers');
     //Route::get('new/users/create', [UsersController::class, 'addnewuser'])->name('create-users');
     Route::post('user/store', [UsersController::class, 'storeUser'])->name('storeuser');
     Route::get('addnewuser', [EliteController::class, 'showformadduser'])->name('addnewuserform');

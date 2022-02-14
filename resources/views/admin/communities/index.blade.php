@@ -1,4 +1,8 @@
 @extends('components.admin-layout')
+@section('stylesheet')
+<link rel="stylesheet" type="text/css" 
+     href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+@endsection
 @section('content')
      <!--begin::Subheader-->
      <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
@@ -87,13 +91,13 @@
                                                     @csrf
                                                     @method('DELETE')
                                                 <li class="navi-item">
-                                                    <a href="#" class="navi-link">
+                                                    <a href="#" class="navi-link  ">
                                                         <span class="navi-icon">
                                                             <i class="far fa-trash-alt"></i>
                                                         </span>
 
                         
-                                                       <span class="delete navi-text">Delete</span>
+                                                       <span class=" delete   navi-text">Delete</span>
                                                     </a>
                                                 </li>
                                                 </form>
@@ -124,6 +128,8 @@
                             <div class="mt-9">
                                 <a href="{{route('showPropertiesByCommunity', $community->id)}}" class="btn btn-light-primary font-weight-bolder btn-sm py-3 px-6 text-uppercase">( {{$community->properties_count}} ) View Properties</a>
                             </div>
+
+                          
                             <!--end::Buttons-->
                         </div>
                         <!--end::Body-->
@@ -138,7 +144,37 @@
 @endsection
 
 @section('scripts')
+
+
 <script src="{{asset('admin/assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
-<script src="{{asset('admin/assets/js/sweettost/alert.js')}}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script>
+@if(Session::has('primary'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true,
+    "positionClass": "toast-bottom-right",
+  }
+
+  toastr.error("{{ session('primary') }}");
+@endif
+
+@if(Session::has('success'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true,
+    "positionClass": "toast-bottom-right",
+  
+  }
+  		toastr.success("{{ session('success') }}");
+@endif
+</script>
+
+
+
+<script src="{{asset('admin/assets/js/sweettost/alert2.js')}}"></script>
 
 @endsection

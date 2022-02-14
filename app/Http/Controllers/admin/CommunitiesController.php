@@ -125,11 +125,11 @@ class CommunitiesController extends Controller
         // dd(Community::findOrFail($id)->properties()->count());
         Gate::authorize('communities.delete');
         if (Community::findOrFail($id)->properties()->count() > 0) {
-            return redirect()->back()->with('primary', 'the community has more one properties (You cannot delete)');
+            return redirect()->back()->with('primary', 'Community has more one property');
         }
         $community = Community::findOrFail($id);
         $community->delete();
-        return redirect(route('communities.index'));
+        return redirect(route('communities.index'))->with('success', 'Community deleted successfully');
     }
 
     public function showPropertiesByCommunity($id)
