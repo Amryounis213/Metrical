@@ -310,8 +310,8 @@ class User extends Authenticatable
     {
         return $this->deviceTokens()->pluck('token')->toArray();
     }
-    // public function deviceTokens()
-    // {
-    //     return $this->hasMany(DeviceToken::class);
-    // }
+    public function deviceTokens()
+    {
+        return $this->hasMany(DeviceToken::class);
+    }
 }

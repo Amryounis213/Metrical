@@ -45,7 +45,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('append', [PropertyController::class, 'append'])->name('append');
+//Route::get('append', [PropertyController::class, 'append'])->name('append');
 
 
 Route::get('admin-panel', function () {
@@ -218,8 +218,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     /**
      * Emails
      */
-    Route::get('/email', function () {
+    /* Route::get('/email', function () {
         return new SendPassword();
-    });
+    });*/
 });
 require __DIR__ . '/auth.php';

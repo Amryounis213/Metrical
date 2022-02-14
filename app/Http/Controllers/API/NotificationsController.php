@@ -11,34 +11,36 @@ class NotificationsController extends Controller
     public function index()
     {
         $user = Auth::guard('sanctum')->user();
+
         foreach ($user->unreadNotifications as $not) {
-            
+
             $data[] = [
                 'id' => $not->id,
-                'title' =>$not->data['title'],
-                'body' => $not->data['body'],
+                'title' => $not->data['title'][app()->getLocale()],
+                'body' => $not->data['body'][app()->getLocale()],
             ];
         }
         return  response()->json([
             'status' => true,
-            'code' => 200 ,
+            'code' => 200,
             'message' => '',
             'data' => $data,
-        ], 200 );
-        
+        ], 200);
     }
+
+
     public function delete($id)
     {
-        
+
         $user = Auth::guard('sanctum')->user();
         $notifciation = $user->notifications()->findOrFail($id);
-     
+
         $notifciation->markAsRead();
         return  response()->json([
             'status' => true,
-            'code' => 200 ,
+            'code' => 200,
             'message' => '',
             'data' => 'Delete Notification',
-        ], 200 );
+        ], 200);
     }
 }
