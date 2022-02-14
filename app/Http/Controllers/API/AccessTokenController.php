@@ -62,6 +62,7 @@ class AccessTokenController extends Controller
         ]);
 
         $user = User::create($request->all());
+
         return  response()->json([
             'status' => true,
             'code' => 201,
