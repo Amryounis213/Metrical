@@ -147,7 +147,7 @@
                           </div>
                           <!--end::Badge-->
                           <!--begin::Text-->
-                          <div class="font-weight-mormal font-size-lg timeline-content text-dark pl-3">{{$rent->property->name_en}} rent now from {{$rent->tenet->full_nume ?? 'User'}}</div>
+                          <div class="font-weight-mormal font-size-lg timeline-content text-dark pl-3">{{$rent->property->name_en}} rent now from {{$rent->tenant->full_nume ?? 'User'}}</div>
                           <!--end::Text-->
                         </div>
                         @endforeach

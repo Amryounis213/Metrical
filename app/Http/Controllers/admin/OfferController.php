@@ -125,7 +125,11 @@ class OfferController extends Controller
     public function type($type)
     {
         $title = 'Offers';
-        $offers = Offer::where('type', $type)->get();
+        if ($type != 'stop') {
+            $offers = Offer::where('type', $type)->get();
+        } else {
+            $offers = Offer::where('status', '!=', '1')->get();
+        }
 
         return view('admin.offers.index', [
             'offers' => $offers,

@@ -55,7 +55,7 @@ class UsersController extends Controller
             ]);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('User Linked Successfully');
     }
 
 
@@ -63,7 +63,7 @@ class UsersController extends Controller
     /* binging users */
     public function index()
     {
-        $users = User::where('request_sent', '1')->where('type', '0')->paginate(5);
+        $users = User::where('request_sent', '1')->paginate(5);
 
         return view('admin.users.index', [
             'users' => $users,
@@ -213,7 +213,7 @@ class UsersController extends Controller
             'last_name' => 'required',
             'image_url' => 'nullable',
             'email' => 'required|email|unique:users,email',
-            'city' => 'required',
+            'city' => 'nullable',
             'password' => 'required',
             'mobile_number' => 'required|unique:users,mobile_number',
             'community_id' => [ValidationRule::requiredIf($request->type != '0')],
@@ -228,12 +228,14 @@ class UsersController extends Controller
         ]);
 
 
+
         $str = $request->password;
         try {
             $request->merge([
                 'email_verified_at' => Carbon::now(),
                 'mobile_number' => $request->phonecode . $request->mobile_number,
                 'password' => Hash::make($request->password),
+                'city' => $request->city ?? 1,
             ]);
 
 
@@ -408,7 +410,7 @@ class UsersController extends Controller
             'last_name' => 'required',
             'image_url' => 'nullable',
             'email' => 'required',
-            'city' => 'required',
+            'city' => 'nullable',
             'mobile_number' => 'required',
 
         ]);
@@ -418,6 +420,10 @@ class UsersController extends Controller
                 'password' => Hash::make($request->password),
             ]);
         }
+        $request->merge([
+            'city' => $request->city ?? 1,
+        ]);
+
         $input = $request->all();
         if ($request->hasFile('image_url')) {
             $file = $request->file('image_url');

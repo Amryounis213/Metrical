@@ -105,7 +105,7 @@
                                    <div class="form-group row">
                                     <label class="col-lg-3 col-form-label text-right">Country:<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
-                                        <select name="country"   class="form-control form-control-light">
+                                        <select id="country" name="country"   class="form-control form-control-light">
                                             <option value="">-- Select Country --</option>
                                             @foreach ($country as $country)
                                             <option value="{{$country->id}}" @if($country->id == $user->country) selected  @endif>{{$country->name}}</option>
@@ -117,20 +117,24 @@
                                      
                                     </div>
                                    </div>
-                                
-                                   <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">City :<strong class="text-danger">*</strong></label>
-                                    <div class="col-lg-6">
-                                        <select name="city"   class="form-control form-control-light">
-                                            <option value="">-- Select City --</option>
-                                            @foreach ($cities as $cities)
-                                            <option value="{{$cities->id}}" @if($cities->id == $user->city) selected  @endif>{{$cities->name}}</option>
-                                            @endforeach
-                                            
-
-                                        </select>
-                                    </div>
-                                   </div>
+                                   
+                                  
+                                   
+                                    <div id="city" class="form-group row">
+                                        <label class="col-lg-3 col-form-label text-right">City :<strong class="text-danger">*</strong></label>
+                                        <div class="col-lg-6">
+                                            <select name="city"   class="form-control form-control-light">
+                                                <option value="">-- Select City --</option>
+                                                @foreach ($cities as $cities)
+                                                <option value="{{$cities->id}}" @if($cities->id == $user->city) selected  @endif>{{$cities->name}}</option>
+                                                @endforeach
+                                                
+    
+                                            </select>
+                                        </div>
+                                       </div>
+                                  
+                                  
                                    <div class="form-group row">
                                     <label class="col-lg-3 col-form-label text-right">Nationalty :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
@@ -242,6 +246,23 @@
     button.addEventListener("click", function(){
   input.toggleAttribute("disabled");
 });
+
+
+if($(country).val() == 231){
+    $('#city').show();
+}
+else{
+    $('#city').hide();
+}
+    $('#country').on('change', function () {
+       if($(this).val() == 231)
+       {
+           $('#city').show();
+       }
+       else{
+        $('#city').hide();
+       }
+    });
 </script>
 
 @endsection

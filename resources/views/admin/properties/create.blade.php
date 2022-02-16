@@ -170,7 +170,7 @@
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Area (mm)</label>
                                             <div class="col-lg-4">
-                                                <input max="100000" value="{{ old('area') }}"  name="area" step="any" type="number" class="form-control"  value="{{$property->area}}" placeholder="Ex:195 mm" />
+                                                <input min="0" max="100000" value="{{ old('area') }}"  name="area" step="any" type="number" class="form-control"  value="{{$property->area}}" placeholder="Ex:195 mm" />
                                                 
                                             </div>
 
@@ -272,17 +272,17 @@
                                         <div class="form-group row ">
                                             <label class="col-2 col-form-label">Information</label>
                                             <div class="col-lg-2">
-                                                <input name="gate" value="{{ old('gate')}}" type="number" class="form-control" placeholder="Gates" />
+                                                <input min="0" name="gate" value="{{ old('gate')}}" type="number" class="form-control" placeholder="Gates" />
                                                 <span class="form-text text-muted">Gates number</span>
                                             </div>
                                             <div class="col-lg-2">
-                                                <input name="bathroom" value="{{ old('bathroom')}}" type="number" class="form-control" placeholder="Bathroom" />
+                                                <input min="0" name="bathroom" value="{{ old('bathroom')}}" type="number" class="form-control" placeholder="Bathroom" />
                                                 <span class="form-text text-muted">Bathroom number</span>
 
                                             </div>
 
                                             <div class="col-lg-2">
-                                                <input name="bedroom" value="{{ old('bedroom')}}" type="number" class="form-control" placeholder="Bedroom" />
+                                                <input min="0" name="bedroom" value="{{ old('bedroom')}}" type="number" class="form-control" placeholder="Bedroom" />
                                                 <span class="form-text text-muted">Bedroom number</span>
 
                                             </div>

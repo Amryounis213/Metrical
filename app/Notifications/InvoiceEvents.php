@@ -39,7 +39,7 @@ class InvoiceEvents extends Notification
     {
         return [
             'database',
-            FcmChannel::class
+            // FcmChannel::class
         ];
     }
 

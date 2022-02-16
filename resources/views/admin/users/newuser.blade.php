@@ -122,11 +122,11 @@
                                     </div>
                                    </div>
                                 
-                                   <div class="form-group row">
+                                   <div id="city" class="form-group row">
                                     <label class="col-lg-3 col-form-label text-right">City :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
-                                        <select name="city"   class="form-control form-control-light">
-                                            <option value="">-- Select Country --</option>
+                                        <select name="city" class="form-control form-control-light ">
+                                            <option value="">-- Select City --</option>
                                             @foreach ($cities as $cities)
                                             <option {{ old('city') == $cities->id ? "selected" : "" }} value="{{$cities->id}}">{{$cities->name}}</option>
                                             @endforeach
@@ -386,7 +386,7 @@
 
             });
         });
-   
+        
 
 
    
@@ -410,8 +410,28 @@
         });
         
     }
+    let countryId = document.getElementById('country').value;
 
+    
+    
+    
+    $('#country').on('change', function () {
+       if($(this).val() == 231)
+       {
+           $('#city').show();
+       }
+       else{
+        $('#city').hide();
+       }
+    });
 
+    if($(this).val() == 231)
+    {
+    $('#city').show();
+    }
+    else{
+        $('#city').hide();
+    }
   
 </script>
 @include('components.hide-show-inputs');

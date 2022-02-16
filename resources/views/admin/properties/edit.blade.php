@@ -167,9 +167,9 @@
 
 
                                         <div class="form-group row ">
-                                            <label class="col-2 col-form-label">Area (mm)</label>
+                                            <label class="col-2 col-form-label">Area (sqft)</label>
                                             <div class="col-lg-4">
-                                                <input id="kt_maxlength_1"  name="area" type="number" class="form-control"  value="{{$property->area}}" placeholder="Ex:195 mm" />
+                                                <input id="kt_maxlength_1" min="0"  name="area" type="number" class="form-control"  value="{{$property->area}}" placeholder="Ex:195 mm" />
                                                 
                                             </div>
 

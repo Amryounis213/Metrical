@@ -320,6 +320,20 @@
                            
 
                             @if($user->tenant)
+                           
+                            @endif
+                            @if($user->owner)
+                           
+                           
+                            
+                            <div class="form-group row my-2">
+                                <label class="col-4 col-form-label">Community: </label>
+                                <div class="col-8">
+                                    <span class="form-control-plaintext">
+                                    <span class="label label-lg label-inline ">{{ $user->owner->community->name_en}}</span></span>
+                                </div>
+                            </div>
+                            @elseif($user->tenant)
                             <div class="form-group row my-2">
                                 <label class="col-4 col-form-label">Community </label>
                                 <div class="col-8">
@@ -329,25 +343,7 @@
                                 </div>
                             </div>
                             @endif
-                            @if($user->owner)
-                           
-                           
-                            <div class="form-group row my-2">
-                                <label class="col-4 col-form-label">Renting Price:</label>
-                                <div class="col-8">
-                                    <span class="form-control-plaintext font-weight-bolder">
-                                        <a >{{ $user->owner->renting_price }}</a>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row my-2">
-                                <label class="col-4 col-form-label">Community: </label>
-                                <div class="col-8">
-                                    <span class="form-control-plaintext">
-                                    <span class="label label-lg label-inline ">{{ $user->owner->community->name_en}}</span></span>
-                                </div>
-                            </div>
-                            @endif
+
                            
                             
                            

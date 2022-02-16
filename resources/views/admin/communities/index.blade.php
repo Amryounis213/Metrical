@@ -65,7 +65,7 @@
                             <!--begin::Toolbar-->
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <span class="text-danger font-weight-bold">{{$community->area}} mm</span>
+                                    <span class="text-danger font-weight-bold">{{$community->area}} sqft</span>
                                 </div>
                                 <div class="dropdown dropdown-inline" data-toggle="tooltip" title="" data-placement="left" data-original-title="Quick actions">
                                     <a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

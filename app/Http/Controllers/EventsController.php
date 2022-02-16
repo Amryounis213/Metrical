@@ -28,7 +28,7 @@ class EventsController extends Controller
 
     public function index()
     {
-        $events = Event::with('community')->paginate(5);
+        $events = Event::with('community')->paginate(6);
         // return $events;
         return view('admin.events.index', [
             'events' => $events,

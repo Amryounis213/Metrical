@@ -10,7 +10,7 @@ class Rent extends Model
     use HasFactory;
     protected $fillable = ['from', 'to', 'price', 'property_id', 'tenant_id', 'status'];
 
-    public function tenet()
+    public function tenant()
     {
         return $this->belongsTo(Tenant::class, 'tenant_id');
     }

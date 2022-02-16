@@ -168,7 +168,7 @@
                                             <div class="col-10">
                                               <div class="row align-items-center">
                                                <div class="col-4">
-                                                <input type="number"  value="{{$community->readness_percentage}}" class="form-control" id="kt_nouislider_1_input" />
+                                                <input type="number"  name="readness_percentage" value="{{$community->readness_percentage}}" class="form-control" id="kt_nouislider_1_input" />
                                                </div>
                                                <div class="col-8">
                                                 <div id="kt_nouislider_1" class="nouislider-drag-danger"></div>

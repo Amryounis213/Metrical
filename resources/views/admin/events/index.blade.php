@@ -365,7 +365,7 @@
                 <!--begin::Pagination-->
                 <div class="d-flex justify-content-between align-items-center flex-wrap">
                     
-                       {{--$properties->links()--}} 
+                       {{$events->links()}} 
                 </div>
                 <!--end::Pagination-->
             </div>
