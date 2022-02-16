@@ -83,7 +83,7 @@ class InvoiceEvents extends Notification
             ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
                 ->setTitle('Account Activated')
                 
-                ->setBody(
+                ->setBody("
                     [
                         'id' => $this->events->id,
                         'title' => [
@@ -96,7 +96,7 @@ class InvoiceEvents extends Notification
                             'ar' => $this->events->description_ar,
                             'gr' => $this->events->description_gr,
                         ],
-                ]
+                ]"
                 )
                 // ->setImage('https://matjr.host/uploads/logo2.jpeg')
                 )

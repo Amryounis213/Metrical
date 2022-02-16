@@ -14,6 +14,7 @@ use App\Models\Owner;
 use App\Models\Property;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Notifications\AcceptUserNotification;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule as ValidationRule;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -32,6 +34,8 @@ class UsersController extends Controller
         $user = User::find($id);
 
         if ($user->need == 'tenant') {
+            $user->notify(new AcceptUserNotification($user, $user->need, ' Accepted'));
+
             $property = Property::find($user->tenant->unit_number);
             $property->update([
                 'tenant_id' => $user->tenant->id,
@@ -42,6 +46,8 @@ class UsersController extends Controller
             return redirect()->route('link-tenant-show', ['id' => $user->tenant->id, 'unit_number' => $property->id]);
         }
         if ($user->need == 'owner') {
+            $user->notify(new AcceptUserNotification($user, $user->need, 'Accepted'));
+
             $property = Property::find($user->owner->unit_number);
             $property->update([
                 'owner_id' => $user->owner->id,
@@ -106,6 +112,7 @@ class UsersController extends Controller
                     'request_sent' => '0',
                     'type' => '1',
                 ]);
+                $user->notify(new AcceptUserNotification($user, $user->need, 'Accepted'));
                 $property = Property::find($user->owner->unit_number);
                 $property->update([
                     'owner_id' => $owner->id,
