@@ -175,6 +175,7 @@
                                 <th style="min-width: 120px">Mobile Number</th>
                                 <th style="min-width: 130px">Type</th>
                                 <th style="min-width: 130px">Request type</th>
+                                <th style="min-width: 130px">Status</th>
                                 <th class="pr-0 text-right" style="min-width: 160px">action</th>
                             </tr>
                         </thead>
@@ -184,6 +185,7 @@
                                
                                 <td class="pl-0">
                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$key +1}}</a>
+                                    <input hidden id="userId"  value="{{$user->id}}">
                                 </td>
                                 <td>
 
@@ -229,6 +231,12 @@
                                     @else
                                     <span class="label label-lg label-light-primary label-inline">Tenant</span>
                                     @endif
+                                </td>
+
+                                <td>
+                                    
+                                   <span  class="label @if($user->is_active) label-light-success  @else label-light-danger @endif  label-inline ml-2">@if($user->is_active) Active @else blocked @endif</span>
+                                                             
                                 </td>
                                 <td class="pr-0 text-right">
                                     <a href="{{route('binding.show', $user->id)}}" class="btn btn-icon btn-light btn-hover-primary btn-sm">
@@ -302,5 +310,6 @@
 
 
 @section('scripts')
+<script src="{{asset('admin/assets/js/pages/crud/forms/validation/form-widgets.js')}}"></script>
 
 @endsection

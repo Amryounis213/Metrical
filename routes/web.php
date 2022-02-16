@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\OfferController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\OtherServicesController;
 use App\Http\Controllers\Admin\RentController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\servicesController;
@@ -189,6 +190,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('user/import-csv', [UsersController::class, 'importCsvView'])->name('viewImportUser');
     Route::post('user/import-prop', [UsersController::class, 'import'])->name('importUser');
 
+    Route::resource('services/otherservices', OtherServicesController::class);
 
     Route::put('user-details/{id}', [UsersController::class, 'UpdateUserInfo'])->name('updateuserinfo');
     Route::get('user-details/{id}', [UsersController::class, 'EditUser'])->name('edituser');
@@ -215,6 +217,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 
     Route::get('done/{id}', [UsersController::class, 'Done'])->name('Done');
+
+    Route::get('activeblock/{user}', [UsersController::class, 'isActiveBlock'])->name('activeblock');
+    Route::post('link-tenant', [RentController::class, 'store'])->name('link-tenant');
+    Route::get('link-tenant/{id}/property/{unit_number}', [RentController::class, 'showlinkform'])->name('link-tenant-show');
     /**
      * Emails
      */

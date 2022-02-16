@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Community;
+use App\Models\DeviceToken;
 use App\Models\Event;
 use App\Models\InterestedUser;
 use App\Models\User;
@@ -48,6 +49,7 @@ class EventsController extends Controller
     public function store(Request $request)
     {
 
+
         $request->validate([
             'title_ar' => 'required',
             'title_en' => 'required',
@@ -74,8 +76,20 @@ class EventsController extends Controller
             $input['image_url'] = $image_path;
         }
         $event = Event::create($input);
+
         $users = User::get();
-        Notification::send($users, new InvoiceEvents($event) );
+        Notification::send($users, new InvoiceEvents($event));
+
+
+        $users = User::whereHas('deviceTokens', function ($query) {
+            $query->where('user_id', '!=', null);
+        })->get();
+
+        foreach ($users as $user) {
+            $token = DeviceToken::where('user_id', $user->id)->first('token');
+            $this->sendNotificationrToUser($token->token, $event);
+        }
+
         return redirect()->route('events.index')->with('create', 'the Event is created Successfully');
     }
 
@@ -129,5 +143,55 @@ class EventsController extends Controller
         $event = Event::findOrFail($id);
         $event->delete();
         return redirect()->route('events.index')->with('delete', 'The event ( ' . $event->title_en . ') is deleted');
+    }
+
+
+    public function sendNotificationrToUser($token, $event)
+    {
+
+        // FCM Configration
+        $SERVER_API_KEY = 'AAAAji5vbXQ:APA91bGg4V1H3v-j_pQMvyFvVcFmGrZZHOhoCeqjdmClFKgn7irpeeaesyUnUaAqsnJ9N9dP5iv9chgGFgfPilaCmj1RqUQ1yu_QNsGCeU9dzmwnbcBBsDkrodp1pA4DIqhTq2NCemtP';
+        $token_1 = $token;
+        $data = [
+            "registration_ids" => [
+                $token_1
+            ],
+            "notification" => [
+
+                "title" => 'New Event for You',
+
+                "body" => $event->community->name_en . ' Community has a new event waiting for you',
+
+                "sound" => "default" // required for sound on ios
+
+            ],
+
+        ];
+
+        $dataString = json_encode($data);
+
+        $headers = [
+
+            'Authorization: key=' . $SERVER_API_KEY,
+
+            'Content-Type: application/json',
+
+        ];
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+
+        curl_setopt($ch, CURLOPT_POST, true);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+        $response = curl_exec($ch);
     }
 }

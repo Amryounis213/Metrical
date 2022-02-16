@@ -6,11 +6,13 @@ use App\Http\Controllers\API\AmenityController;
 use App\Http\Controllers\API\CommunityController;
 use App\Http\Controllers\API\ContactsController;
 use App\Http\Controllers\API\CountriesController;
+use App\Http\Controllers\API\DeviceTokenController;
 use App\Http\Controllers\API\EnquiryController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\NewsController;
-use App\Http\Controllers\Api\NotificationsController;
+use App\Http\Controllers\API\NotificationsController;
 use App\Http\Controllers\API\OfferController;
+use App\Http\Controllers\API\OtherServicesController;
 use App\Http\Controllers\API\ProfileController;
 use App\Http\Controllers\API\PropertyController;
 use App\Http\Controllers\API\RentController;
@@ -56,7 +58,15 @@ Route::get('units/tenant/{id}', function ($id) {
         'properties' => Property::where('tenant_id', null)->where('community_id', $id)->where('offer_type', '!=', 'stop')->get(),
     ]);
 });
+
+
+
 Route::middleware(['localization', 'auth:sanctum'])->group(function () {
+
+    Route::post('device-token/update', [DeviceTokenController::class, 'updateDeviceToken']);
+
+
+    Route::apiResource('users', UserController::class);
     Route::resource('users', UserController::class);
     Route::get('new-user-with-news', [UserController::class, 'withNews']);
     Route::apiResource('properties', PropertyController::class);
@@ -75,7 +85,7 @@ Route::middleware(['localization', 'auth:sanctum'])->group(function () {
     Route::get('community/{id}/status/{status}', [CommunityController::class, 'Status']);
 
     Route::apiResource('enquiry', EnquiryController::class);
-    Route::apiResource('users', UserController::class);
+
     Route::apiResource('offers', OfferController::class);
     Route::post('stop-offer', [StopOfferController::class, 'store']);
     //Route::put('accept-offer', [OfferController::class , 'acceptOffers']);
@@ -143,7 +153,7 @@ Route::post('interested', [EventController::class, 'interested'])
 
 Route::get('notifications', [NotificationsController::class, 'index'])
     ->middleware('auth:sanctum');
-    Route::get('notifications/{id}', [NotificationsController::class, 'delete'])->name('notifications.read');
+Route::get('notifications/{id}', [NotificationsController::class, 'delete'])->name('notifications.read');
 
 
 
@@ -180,3 +190,6 @@ Route::post('profile/emergency_contacts/edit', [UserProfileInfoController::class
 
 Route::post('contact/emergency', [ContactsController::class, 'AddEmergencyContact'])
     ->middleware('auth:sanctum');
+
+
+Route::get('services/otherservices', [OtherServicesController::class, 'getServices']);

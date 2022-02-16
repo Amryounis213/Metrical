@@ -714,6 +714,16 @@ License: You must have a valid license purchased only from themeforest(the above
                                                         <span class="menu-text">Work Permits</span>
                                                     </a>
                                                 </li>
+
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a href="{{route('otherservices.index')}}"
+                                                        class="menu-link">
+                                                        <i class="menu-bullet menu-bullet-dot">
+                                                            <span></span>
+                                                        </i>
+                                                        <span class="menu-text">Other Services</span>
+                                                    </a>
+                                                </li>
                                               
                                             </ul>
                                         </div>
@@ -748,7 +758,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<ul class="menu-nav">
 										<li class="menu-item menu-item-submenu menu-item-rel menu-item-active" data-menu-toggle="click" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
-												<span class="menu-text">METRICAL</span>
+												<span class="menu-text text-warning">METRICAL</span>
 												<i class="menu-arrow"></i>
 											</a>
 											
@@ -768,9 +778,9 @@ License: You must have a valid license purchased only from themeforest(the above
 								<div class="topbar-item">
 									<div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
 										<span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
-										<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">{{Auth::guard('web')->user()->first_name}}</span>
+										<span class="text-light font-weight-bolder font-size-base d-none d-md-inline mr-3">{{Auth::guard('web')->user()->first_name}}</span>
 										<span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
-											<span class="symbol-label font-size-h5 font-weight-bold">S</span>
+											<span class="symbol-label font-size-h5 font-weight-bold">{{Auth::guard('web')->user()->first_name[0]}}</span>
 										</span>
 									</div>
 								</div>
@@ -910,7 +920,6 @@ License: You must have a valid license purchased only from themeforest(the above
 			<!--begin::Header-->
 			<div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
 				<h3 class="font-weight-bold m-0">User Profile
-				<small class="text-muted font-size-sm ml-2">12 messages</small></h3>
 				<a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_user_close">
 					<i class="ki ki-close icon-xs text-muted"></i>
 				</a>

@@ -39,6 +39,7 @@ class UsersController extends Controller
             $user->update([
                 'request_sent' => 0,
             ]);
+            return redirect()->route('link-tenant-show', ['id' => $user->tenant->id, 'unit_number' => $property->id]);
         }
         if ($user->need == 'owner') {
             $property = Property::find($user->owner->unit_number);
@@ -74,10 +75,21 @@ class UsersController extends Controller
         $contact = ContactWithAdmin::where('user_id', $user->id)->get();
         $history = $enquires->concat($contact);
 
+        if ($user->owner) {
+            $ownedproperty = Property::where('owner_id', $user->owner->id)->get();
+            $unit_name = Property::where('id', $user->owner->unit_number)->first() ?? null;
+        }
+        if ($user->tenant) {
+            $rentalproperty = Property::where('tenant_id', $user->tenant->id)->get();
+            $unit_name = Property::where('id', $user->tenant->unit_number)->first() ?? null;
+        }
+
         return view('admin.users.show', [
             'user' => $user,
             'history' => $history,
-
+            'ownedproperty' => $ownedproperty ?? null,
+            'rentalproperty' => $rentalproperty ?? null,
+            'unit_name' => $unit_name ?? null,
         ]);
     }
 
@@ -113,6 +125,7 @@ class UsersController extends Controller
                     'tenant_id' => $tenant->id,
                 ]);
                 $tenant->update(['status' => '1']);
+                return redirect()->route('link-tenant-show', ['id' => $user->tenant->id, 'unit_number' => $property->id]);
             }
         }
 
@@ -451,5 +464,19 @@ class UsersController extends Controller
     public function importCsvView()
     {
         return view('admin.users.uploadcsv');
+    }
+
+
+    public function isActiveBlock($id)
+    {
+        //  dd($status);
+        $user = User::find($id);
+        if ($user->is_active = 1) {
+            $user->update(['is_active' => 0]);
+            return back()->with('success', 'User Blocked Successfully');
+        } else {
+            $user->update(['is_active' => 1]);
+            return back()->with('success', 'User Actived Successfully');
+        }
     }
 }
