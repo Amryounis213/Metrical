@@ -97,7 +97,7 @@ class InvoiceEvents extends Notification
                             'gr' => $this->events->description_gr,
                         ],
                 ]
-                )
+               
                 // ->setImage('https://matjr.host/uploads/logo2.jpeg')
                 )
             ->setAndroid(

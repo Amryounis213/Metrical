@@ -14,6 +14,7 @@ use App\Models\Owner;
 use App\Models\Property;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Notifications\AcceptUserNotification;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
@@ -32,6 +33,7 @@ class UsersController extends Controller
         $user = User::find($id);
 
         if ($user->need == 'tenant') {
+            $user->notify(new AcceptUserNotification($user, $user->need, 'Accepted'));
             $property = Property::find($user->tenant->unit_number);
             $property->update([
                 'tenant_id' => $user->tenant->id,
@@ -42,6 +44,7 @@ class UsersController extends Controller
             return redirect()->route('link-tenant-show', ['id' => $user->tenant->id, 'unit_number' => $property->id]);
         }
         if ($user->need == 'owner') {
+            $user->notify(new AcceptUserNotification($user, $user->need, 'Accepted'));
             $property = Property::find($user->owner->unit_number);
             $property->update([
                 'owner_id' => $user->owner->id,
@@ -100,6 +103,8 @@ class UsersController extends Controller
 
 
         if ($user->need == 'owner') {
+            $user->notify(new AcceptUserNotification($user, $user->need, 'Accepted'));
+
             $owner = Owner::where('user_id', $user->id)->first() ?? null;
             if ($owner != null) {
                 $user->update([
@@ -113,7 +118,7 @@ class UsersController extends Controller
                 $owner->update(['status' => '1']);
             }
         } else {
-
+            $user->notify(new AcceptUserNotification($user, $user->need, 'Accepted'));
             $tenant = Tenant::where('user_id', $user->id)->first() ?? null;
             if ($tenant != null) {
                 $user->update([
