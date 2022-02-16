@@ -13,18 +13,16 @@ class AcceptOfferNotification extends Notification
     use Queueable;
 
     protected $user;
-    protected $need;
-    protected $status;
+    
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user, $need, $status)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->need = $need;
-        $this->status = $status;
+        
     }
 
     /**
@@ -52,8 +50,20 @@ class AcceptOfferNotification extends Notification
                     ->line('Thank you for using our application!');
     }
     public function toDatabase($notifiable){
+       
         return [
-            "Hi, ". $this->user->first_name . "Your Offer for ". $this->need . "Is" . $this->status
+            'id' => $notifiable->id,
+            'title' => [
+                'en' => 'Congratulations , Your Offer  was accepted',
+                'ar' => 'مبروك , عرضك اصبح مقبولا ',
+                'gr' => 'Herzlichen Glückwunsch, Ihr Angebot wurde angenommen'
+            ],
+            'body' => [
+                'en' => "Congratulations, " . $this->user->first_name . "  Your property is on display  " ,
+                'ar' => "مبروك, " . $this->user->first_name . "  عقارك اصبح معروضا " ,
+                'gr' => "Glückwunsch, " . $this->user->first_name . "  Ihre Immobilie wird ausgestellt  " ,
+            ],
+            'created_at' => date('Y-m-d H:i:s.uZ'),
         ];
     }
 

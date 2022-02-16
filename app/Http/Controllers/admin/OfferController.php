@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use App\Models\Property;
+use App\Models\User;
+use App\Notifications\AcceptOfferNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -107,6 +109,8 @@ class OfferController extends Controller
         $offers->update([
             'status' => "1",
         ]);
+        $user = User::find($offers->user_id);
+        $user->notify(new AcceptOfferNotification($user));
 
 
         $property = Property::where('id', $offers->property_id)->first();

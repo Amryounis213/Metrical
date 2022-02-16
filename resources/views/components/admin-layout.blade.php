@@ -758,7 +758,16 @@ License: You must have a valid license purchased only from themeforest(the above
 									<ul class="menu-nav">
 										<li class="menu-item menu-item-submenu menu-item-rel menu-item-active" data-menu-toggle="click" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
-												<span class="menu-text text-warning">METRICAL</span>
+												<span class="menu-text text-warning">
+                                                    Pending Users( 
+                                                    {{ App\Models\User::where('request_sent', '!=', 0)->count() }} )
+                                                    
+                                                </span>
+												<span class="menu-text text-warning ml-5">
+                                                    Pending Offers( 
+                                                    {{ App\Models\Offer::where('status', '=', 0)->count() }} )
+                                                    
+                                                </span>
 												<i class="menu-arrow"></i>
 											</a>
 											
