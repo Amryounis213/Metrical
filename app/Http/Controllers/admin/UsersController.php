@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule as ValidationRule;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -111,6 +112,7 @@ class UsersController extends Controller
                     'request_sent' => '0',
                     'type' => '1',
                 ]);
+                $user->notify(new AcceptUserNotification($user, $user->need, 'Accepted'));
                 $property = Property::find($user->owner->unit_number);
                 $property->update([
                     'owner_id' => $owner->id,

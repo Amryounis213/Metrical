@@ -78,12 +78,12 @@ class InvoiceEvents extends Notification
     }
     public function toFcm($notifiable)
     {
-        return FcmMessage::create()
+        /*   return FcmMessage::create()
             ->setData(['url' => config('app.url') . "/api/events/" . $this->events->id])
             ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
                 ->setTitle('Account Activated')
                 
-                ->setBody(
+                ->setBody("
                     [
                         'id' => $this->events->id,
                         'title' => [
@@ -96,8 +96,8 @@ class InvoiceEvents extends Notification
                             'ar' => $this->events->description_ar,
                             'gr' => $this->events->description_gr,
                         ],
-                ]
-               
+                ]"
+                )
                 // ->setImage('https://matjr.host/uploads/logo2.jpeg')
                 )
             ->setAndroid(
@@ -107,7 +107,7 @@ class InvoiceEvents extends Notification
             )
             ->setApns(
                 ApnsConfig::create()
-                    ->setFcmOptions(ApnsFcmOptions::create()->setAnalyticsLabel('analytics_ios')));
+                    ->setFcmOptions(ApnsFcmOptions::create()->setAnalyticsLabel('analytics_ios')));*/
     }
     /**
      * Get the array representation of the notification.
