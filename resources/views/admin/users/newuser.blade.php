@@ -73,7 +73,7 @@
      
                                     
                                   <div class="form-group row">
-                                   <label class="col-lg-3 col-form-label text-right">First Name:</label>
+                                   <label class="col-lg-3 col-form-label text-right">First Name:<strong class="text-danger">*</strong></label>
                                    <div class="col-lg-6">
                                     <input id="fname" name="first_name" value="{{old('first_name')}}" type="text" class="form-control" placeholder="Enter first name"/>
                                     <span class="form-text text-muted">Please enter your first name</span>
@@ -81,7 +81,7 @@
                                   </div>
 
                                   <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">Last Name:</label>
+                                    <label class="col-lg-3 col-form-label text-right">Last Name :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                      <input id="lname"  name="last_name" value="{{old('last_name')}}" type="text" class="form-control" placeholder="Enter last name"/>
                                      <span class="form-text text-muted">Please enter your last name</span>
@@ -90,7 +90,7 @@
 
 
                                   <div class="form-group row">
-                                   <label class="col-lg-3 col-form-label text-right">Email address:</label>
+                                   <label class="col-lg-3 col-form-label text-right">Email address:<strong class="text-danger">*</strong></label>
                                    <div class="col-lg-6">
                                     <input id="email" name="email" value="{{old('email')}}"  type="email" class="form-control" placeholder="Enter email"/>
                                     <span class="form-text text-muted">We'll never share your email with anyone else</span>
@@ -98,7 +98,7 @@
                                   </div>
 
                                   <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">Password:</label>
+                                    <label class="col-lg-3 col-form-label text-right">Password:<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                      <input  name="password"     type="text"  class="form-control" value="{{$str_random}}"/>
                                      <span class="form-text text-muted">We'll never share your password with anyone else</span>
@@ -107,7 +107,7 @@
 
 
                                    <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">Country:</label>
+                                    <label class="col-lg-3 col-form-label text-right">Country:<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                         <select id="country" onclick="phonecode()"  name="country"   class="form-control form-control-light">
                                             <option value="">-- Select Country --</option>
@@ -123,7 +123,7 @@
                                    </div>
                                 
                                    <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">City :</label>
+                                    <label class="col-lg-3 col-form-label text-right">City :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                         <select name="city"   class="form-control form-control-light">
                                             <option value="">-- Select Country --</option>
@@ -137,7 +137,7 @@
                                    </div>
 
                                    <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">Nationalty :</label>
+                                    <label class="col-lg-3 col-form-label text-right">Nationalty :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                         <select name="nationality"   class="form-control form-control-light">
                                             <option value="">-- Select Nationalty --</option>
@@ -168,7 +168,7 @@
                                  <div class="mb-15">
 
                                   <div class="form-group row">
-                                   <label class="col-lg-3 col-form-label text-right">Phone :</label>
+                                   <label class="col-lg-3 col-form-label text-right">Phone :<strong class="text-danger">*</strong></label>
                                    <div class="col-lg-2">
                                     <select name="phonecode"   class="form-control form-control-light selectpicker" data-size="5"
                                     data-live-search="true">
@@ -182,7 +182,7 @@
                                    <div class="col-lg-4">
                                     <div class="input-group">
                                      
-                                     <input name="mobile_number" value="{{old('mobile_number')}}"  type="number" class="form-control" placeholder="Phone number"/>
+                                     <input name="mobile_number" value="{{old('mobile_number')}}"  type="tel" class="form-control" placeholder="Phone number"/>
                                     </div>
                                    </div>
 
@@ -209,7 +209,7 @@
                                   <h3 class="font-size-lg text-dark font-weight-bold mb-6">3. Customer Linking:</h3>
                                   <div class="mb-15">
                                     <div class="form-group row">
-                                        <label class="col-lg-3 col-form-label text-right">Type :</label>
+                                        <label class="col-lg-3 col-form-label text-right">Type :<strong class="text-danger">*</strong></label>
                                         <div class="col-lg-6">
                                             <select id="type" value="{{old('type')}}" name="type" class="form-control form-control-light">
                                                 <option value="0">Lead</option>
@@ -220,7 +220,7 @@
                                        </div>
 
                                     <div id="comm" class=" form-group row">
-                                        <label class="col-lg-3 col-form-label text-right">Communities :</label>
+                                        <label class="col-lg-3 col-form-label text-right">Communities :<strong class="text-danger">*</strong></label>
                                         <div class="col-lg-6">
                                             <select id="community"  name="community_id" class="form-control form-control-light">
                                                 <option value="">-- Select Communities --</option>
@@ -259,7 +259,7 @@
 
                                    <div class="form-group row owner ">
                                     
-                                        <label class="col-lg-3 col-form-label text-right">Unit Name (Property) :</label>
+                                        <label class="col-lg-3 col-form-label text-right">Unit Name (Property) :<strong class="text-danger">*</strong></label>
                                         <div class="col-lg-6">
                                             <select id="property" name="property" class="form-control form-control-light">
                                                 <option value="">-- Select Property --</option>

@@ -43,7 +43,8 @@ class User extends Authenticatable
         'member_family_number',
         'children_number',
         'adults_number',
-        'passport_number'
+        'passport_number',
+        'is_active'
     ];
 
 

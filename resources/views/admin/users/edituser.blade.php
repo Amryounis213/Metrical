@@ -75,7 +75,7 @@
      
                                     
                                   <div class="form-group row">
-                                   <label class="col-lg-3 col-form-label text-right">First Name:</label>
+                                   <label class="col-lg-3 col-form-label text-right">First Name:<strong class="text-danger">*</strong></label>
                                    <div class="col-lg-6">
                                     <input name="first_name" value="{{$user->first_name}}" type="text" class="form-control" placeholder="Enter first name"/>
                                     <span class="form-text text-muted">Please enter your first name</span>
@@ -83,7 +83,7 @@
                                   </div>
 
                                   <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">Last Name:</label>
+                                    <label class="col-lg-3 col-form-label text-right">Last Name:<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                      <input name="last_name" value="{{$user->last_name}}" type="text" class="form-control" placeholder="Enter last name"/>
                                      <span class="form-text text-muted">Please enter your last name</span>
@@ -92,7 +92,7 @@
 
 
                                   <div class="form-group row">
-                                   <label class="col-lg-3 col-form-label text-right">Email address:</label>
+                                   <label class="col-lg-3 col-form-label text-right">Email address:<strong class="text-danger">*</strong></label>
                                    <div class="col-lg-6">
                                     <input name="email" value="{{$user->email}}"  type="email" class="form-control" placeholder="Enter email"/>
                                     <span class="form-text text-muted">We'll never share your email with anyone else</span>
@@ -103,7 +103,7 @@
 
 
                                    <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">Country:</label>
+                                    <label class="col-lg-3 col-form-label text-right">Country:<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                         <select name="country"   class="form-control form-control-light">
                                             <option value="">-- Select Country --</option>
@@ -119,7 +119,7 @@
                                    </div>
                                 
                                    <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">City :</label>
+                                    <label class="col-lg-3 col-form-label text-right">City :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                         <select name="city"   class="form-control form-control-light">
                                             <option value="">-- Select City --</option>
@@ -132,7 +132,7 @@
                                     </div>
                                    </div>
                                    <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label text-right">Nationalty :</label>
+                                    <label class="col-lg-3 col-form-label text-right">Nationalty :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                         <select name="nationality"   class="form-control form-control-light">
                                             <option value="">-- Select Nationalty --</option>
@@ -163,7 +163,7 @@
                                  <div class="mb-15">
 
                                   <div class="form-group row">
-                                   <label class="col-lg-3 col-form-label text-right">Phone :</label>
+                                   <label class="col-lg-3 col-form-label text-right">Phone :<strong class="text-danger">*</strong></label>
                                    <div class="col-lg-6">
                                     <div class="input-group">
                                      <div class="input-group-prepend"><span class="input-group-text"><i class="la la-chain"></i></span></div>

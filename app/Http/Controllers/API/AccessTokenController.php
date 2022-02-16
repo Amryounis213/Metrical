@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeviceToken;
 use App\Models\Owner;
 use App\Models\Property;
 use App\Models\Tenant;
@@ -23,18 +24,6 @@ class AccessTokenController extends Controller
      */
     public function signUp(Request $request)
     {
-        /* $validation = $request->validate([
-            'first_name' => 'required| string',
-            'last_name' => 'required| string',
-            'email' => 'required|unique:users,email|email',
-            'country' => 'required',
-            'city' => 'required',
-            'mobile_number' => 'required| string ',
-            'password' => [Password::min(8), 'confirmed', 'required'],
-            'password_confirmation',
-            'agree' => 'required',
-        ]);*/
-
         $validation = Validator::make($request->all(), [
             'first_name' => 'required| string',
             'last_name' => 'required| string',
@@ -62,7 +51,25 @@ class AccessTokenController extends Controller
         ]);
 
         $user = User::create($request->all());
-
+        // For ADD or Refresh Device Token (user for : Push Notifications)
+        if ($request->device_token) {
+            $user = User::where('email', $request->email)->first();
+            $device = $user->deviceTokens()->count();
+            if ($device > 0) {
+                $user->deviceTokens()->update([
+                    'token' => $request->device_token,
+                    'device' => $request->device_name ?? 'unkown',
+                    'user_id' => $user->id
+                ]);
+            } else {
+                $user->deviceTokens()->create([
+                    'token' => $request->device_token,
+                    'device' => $request->device_name ?? 'unkown',
+                    'user_id' => $user->id
+                ]);
+            }
+        }
+        //End Push Notif..
         return  response()->json([
             'status' => true,
             'code' => 201,
@@ -158,6 +165,8 @@ class AccessTokenController extends Controller
      */
     public function store(Request $request)
     {
+
+
         // return $request;
         $request->validate([
             'email' => ['required'],
@@ -165,6 +174,32 @@ class AccessTokenController extends Controller
             'password' => 'required'
         ]);
         $email = trim($request->email);
+
+
+        // For ADD or Refresh Device Token (user for : Push Notifications)
+        if ($request->device_token) {
+            $user = User::where('email', $request->email)->first();
+            $device = $user->deviceTokens()->count();
+            if ($device > 0) {
+                $user->deviceTokens()->update([
+                    'token' => $request->device_token,
+                    'device' => $request->device_name ?? 'unkown',
+
+                ]);
+            } else {
+                $user->deviceTokens()->create([
+                    'token' => $request->device_token,
+                    'device' => $request->device_name ?? 'unkown',
+                ]);
+            }
+        }
+        //End Push Notif..
+
+
+
+
+
+
 
         $user = User::where('email', $email)
             ->first();
@@ -211,14 +246,7 @@ class AccessTokenController extends Controller
         $user->update([
             'code' => null
         ]);
-        /*  return  response()->json([
-            'status' => '200',
-            'message' => 'Login success',
-            '' => [
-                'token' => $token->plainTextToken,
-                'user' =>  $user,
-            ]
-        ], 200);*/
+
         return  response()->json([
             'status' => true,
             'code' => 200,

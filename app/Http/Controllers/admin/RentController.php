@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use App\Models\Property;
 use App\Models\Rent;
+use App\Models\Tenant;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class RentController extends Controller
 {
@@ -45,7 +47,12 @@ class RentController extends Controller
         if ($isRented) {
             $offer = Offer::where('property_id', $request->property_id)->delete();
         }
-        return redirect()->back();
+
+        if ($request->redirect) {
+            return redirect()->route('binding.show', Tenant::find($request->tenant_id)->user_id)->with('success', 'The Proccess Done Successfully');
+        } else {
+            return redirect()->back();
+        }
     }
 
 
@@ -62,5 +69,17 @@ class RentController extends Controller
         ]);
 
         return redirect()->back();
+    }
+
+
+    public function showlinkform($id, $unit_number)
+    {
+
+        $tenant = Tenant::find($id);
+        $property = Property::find($unit_number);
+        return view('admin.users.tenantlink', [
+            'tenant' => $tenant,
+            'property' => $property
+        ]);
     }
 }

@@ -89,8 +89,16 @@
 
                                         @endif
                                     </div>
-                                  
-                                   
+
+                                    @if($user->request_sent)
+                                    <br>
+                                    <strong>Hint : <strong class="text-success">{{$user->first_name}} {{$user->last_name}}</strong> Want to Link with <strong class="text-success">{{$unit_name->name_en}}</strong></strong>
+                                    <br>
+                                    <strong>Rq Type : <strong class="text-success">@if ($user->need  == 'owner') Own  @elseif ($user->need  == 'tenant') Rent @else  None @endif </strong>
+                                    <br>
+                                    <strong>Rq Date : <strong class="text-success">{{$user->updated_at}}</strong>
+
+                                    @endif
                                 </div>
                                    
                                    
@@ -120,7 +128,7 @@
                                                     <path d="M16.7689447,7.81768175 C17.1457787,7.41393107 17.7785676,7.39211077 18.1823183,7.76894473 C18.5860689,8.1457787 18.6078892,8.77856757 18.2310553,9.18231825 L11.2310553,16.6823183 C10.8654446,17.0740439 10.2560456,17.107974 9.84920863,16.7592566 L6.34920863,13.7592566 C5.92988278,13.3998345 5.88132125,12.7685345 6.2407434,12.3492086 C6.60016555,11.9298828 7.23146553,11.8813212 7.65079137,12.2407434 L10.4229928,14.616916 L16.7689447,7.81768175 Z" fill="#000000" fill-rule="nonzero"/>
                                                 </g>
                                             </svg><!--end::Svg Icon--></span>
-                                            Request For New Property  </a>
+                                            Accept For New Property  </a>
                                         @endif
                                         @endif
                                         @if (!$user->type == 1 || !$user->type == 2)
@@ -225,25 +233,22 @@
                           
                             @if($user->owner)
                             <div class="form-group row my-2">
-                                <label class="col-4 col-form-label">Unit Number:</label>
+                                <label class="col-4 col-form-label">Owned Units:</label>
                                 <div class="col-8">
                                     <span class="form-control-plaintext font-weight-bolder">
-                                        <a >{{ $user->owner->unit_number }}</a>
+                                        <a >{{-- $user->owner->unit_number --}}</a>
+                                        @foreach ($ownedproperty as $owned)
+                                        <a class="text-dark">{{ $owned->name_en }} ,</a>
+                                        @endforeach
+                                        
                                     </span>
                                 </div>
+
                             </div>
-                            @elseif ( $user->tenant)
-                            <div class="form-group row my-2">
-                                <label class="col-4 col-form-label">Unit Number:</label>
-                                <div class="col-8">
-                                    <span class="form-control-plaintext font-weight-bolder">
-                                        <a >{{ $user->tenant->unit_number ??  $user->tenant->unit_number}}</a>
-                                    </span>
-                                </div>
-                            </div>
+                           
                             @else
                             <div class="form-group row my-2">
-                                <label class="col-4 col-form-label">Unit Number:</label>
+                                <label class="col-4 col-form-label">Owned Units:</label>
                                 <div class="col-8">
                                     <span class="form-control-plaintext font-weight-bolder">
                                         <a> None</a>
@@ -251,6 +256,19 @@
                                 </div>
                             </div>
 
+                            @endif
+
+                            @if ( $user->tenant)
+                            <div class="form-group row my-2">
+                                <label class="col-4 col-form-label">Rental Units:</label>
+                                <div class="col-8">
+                                    <span class="form-control-plaintext font-weight-bolder">
+                                        @foreach ($rentalproperty as $owned)
+                                        <a class="text-dark">{{ $owned->name_en }} ,</a>
+                                        @endforeach
+                                    </span>
+                                </div>
+                            </div>
                             @endif
                             @if($user->country)
                             <div class="form-group row my-2">
@@ -326,8 +344,7 @@
                                 <label class="col-4 col-form-label">Community: </label>
                                 <div class="col-8">
                                     <span class="form-control-plaintext">
-                                    
-                                    <span class="label label-lg label-inline ">{{ $user->tenant->community->name_en ?? $user->owner->community->name_en}}</span></span>
+                                    <span class="label label-lg label-inline ">{{ $user->owner->community->name_en}}</span></span>
                                 </div>
                             </div>
                             @endif
@@ -370,9 +387,13 @@
                                    
                                 </ul>
 
+                                @if($user->type != 0)
+                                
                                 <a data-toggle="modal" data-target="#exampleModalScrollable"  class="btn btn-sm btn-warning font-weight-bolder text-uppercase ml-2">
                                     Edit Document
                                 </a>
+
+                                @endif
                             </div>
                             
                         </div>
