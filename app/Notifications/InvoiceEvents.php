@@ -79,19 +79,35 @@ class InvoiceEvents extends Notification
     public function toFcm($notifiable)
     {
         return FcmMessage::create()
-            ->setData(['data1' => 'value', 'data2' => 'value2'])
+            ->setData(['url' => config('app.url') . "/api/events/" . $this->events->id])
             ->setNotification(\NotificationChannels\Fcm\Resources\Notification::create()
-                ->setTitle('Event created')
-                ->setBody('Your account has been activated.')
-                ->setImage('http://example.com/url-to-image-here.png'))
+                ->setTitle('Account Activated')
+                
+                ->setBody(
+                    [
+                        'id' => $this->events->id,
+                        'title' => [
+                            'en' => $this->events->title_en,
+                            'ar' => $this->events->title_ar,
+                            'gr' => $this->events->title_gr,
+                        ],
+                        'body' => [
+                            'en' => $this->events->description_en,
+                            'ar' => $this->events->description_ar,
+                            'gr' => $this->events->description_gr,
+                        ],
+                ]
+                )
+                // ->setImage('https://matjr.host/uploads/logo2.jpeg')
+                )
             ->setAndroid(
                 AndroidConfig::create()
                     ->setFcmOptions(AndroidFcmOptions::create()->setAnalyticsLabel('analytics'))
                     ->setNotification(AndroidNotification::create()->setColor('#0A0A0A'))
-            )->setApns(
+            )
+            ->setApns(
                 ApnsConfig::create()
-                    ->setFcmOptions(ApnsFcmOptions::create()->setAnalyticsLabel('analytics_ios'))
-            );
+                    ->setFcmOptions(ApnsFcmOptions::create()->setAnalyticsLabel('analytics_ios')));
     }
     /**
      * Get the array representation of the notification.
