@@ -208,13 +208,17 @@
                 </select>
 
 
-                <select name="status" class="form-control h-auto border-0 py-7 px-1 font-size-h6 m-2">
+                <select name="status"  class="form-control h-auto border-0 py-7 px-1 font-size-h6 m-2">
                     <option selected="true" disabled="disabled">-- Properties  --</option>
                     <option value="owned">Owned now</option>
                     <option value="rented">Rented now</option>
                     <option value="notowned">Witout Owner</option>
                     <option value="notrented">Witout Tenant</option>
                 </select>
+
+
+                <input type="number"  name="bedroom" class="form-control h-auto w-1 border-0   font-size-h6 m-2" placeholder="--Bedroom--">
+                <input type="number"  name="bathroom" class="form-control h-auto w-1 border-0   font-size-h6 m-2" placeholder="--Bathroom--">
 
                 <input type="submit" class="form-control h-auto btn btn-light-success font-size-h6 m-2" value="Filter">
 

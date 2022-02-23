@@ -317,6 +317,10 @@ class PropertyController extends Controller
             $query->where('status', 'active');
         }])->when($request->offerBy, function ($query) use ($request) {
             $query->where('offer_type', $request->offerBy);
+        })->when($request->bedroom, function ($query) use ($request) {
+            $query->where('bedroom', $request->bedroom);
+        })->when($request->bathroom, function ($query) use ($request) {
+            $query->where('bathroom', $request->bathroom);
         })->when($request->type, function ($query) use ($request) {
             $query->where('type', $request->type);
         })->when($request->status, function ($query) use ($request) {

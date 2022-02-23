@@ -38,6 +38,8 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
+
+        // return User::find(Auth::guard('sanctum')->id())->owner->id;
         $validation = Validator::make($request->all(), [
             'full_name' => 'required',
             'email' => 'required',
@@ -55,11 +57,25 @@ class OfferController extends Controller
             'user_id' => Auth::guard('sanctum')->id(),
             'passport_copy' => $request->passport_copy ?? $docs->passport,
         ]);
-        $owner_id = User::find($request->user_id)->owner->id;
+        $input = $request->all();
+        if ($request->hasFile('title_dead_copy')) {
+            $file = $request->file('title_dead_copy'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $input['title_dead_copy'] = $image_path;
+        }
+
+
+        $owner_id = User::find(Auth::guard('sanctum')->id())->owner->id;
+
         $property_id = Property::find($request->property_id)->owner_id;
+
+
         if ($owner_id == $property_id) {
             if (!Offer::where('property_id', $request->property_id)->exists()) {
-                $offers = Offer::create($request->all());
+                $offers = Offer::create($input);
                 return response()->json([
                     'status' => true,
                     'code' => 201,
@@ -88,6 +104,7 @@ class OfferController extends Controller
 
     public function storeOffer(Request $request, $type)
     {
+
         $validation = Validator::make($request->all(), [
             'full_name' => 'required',
             'email' => 'required',
@@ -98,17 +115,28 @@ class OfferController extends Controller
             'rent_end_date' => [Rule::requiredIf($type == 'rent')],
             'property_id' => 'required|exists:properties,id'
         ]);
-
+        $docs = UserProfile::where('user_id', Auth::guard('sanctum')->id())->first();
         $request->merge([
             'user_id' => Auth::guard('sanctum')->id(),
             'type' => $type,
+            'passport_copy' => $request->passport_copy ?? $docs->passport,
         ]);
+
+        $input = $request->all();
+        if ($request->hasFile('title_dead_copy')) {
+            $file = $request->file('title_dead_copy'); // UplodedFile Object
+
+            $image_path = $file->store('/', [
+                'disk' => 'upload',
+            ]);
+            $input['title_dead_copy'] = $image_path;
+        }
         $owner_id = User::find($request->user_id)->owner->id;
         $property_id = Property::find($request->property_id)->owner_id;
         if ($owner_id == $property_id) {
             // return Offer::where('property_id', $request->property_id)->where('type', $type)->get();
             if (!Offer::where('property_id', $request->property_id)->where('type', $type)->exists()) {
-                $offers = Offer::create($request->all());
+                $offers = Offer::create($input);
                 return response()->json([
                     'status' => true,
                     'code' => 201,

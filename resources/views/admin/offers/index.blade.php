@@ -230,33 +230,25 @@
                                         id="kt_advance_table_widget_2">
                                         <thead>
                                             <tr class="text-uppercase">
-                                                <th class="pl-0" style="width: 40px">
-                                                    <label class="checkbox checkbox-lg checkbox-inline mr-2">
-                                                        <input type="checkbox" value="1" />
-                                                        <span></span>
-                                                    </label>
-                                                </th>
+                                                
                                                 <th class="pl-0" style="min-width: 100px">#</th>
                                                 <th style="min-width: 120px">Full Name</th>
                                                 <th style="min-width: 120px">Type</th>
                                                 <th style="min-width: 120px">Price</th>
 												<th style="min-width: 120px">Property</th>
                                                 <th style="min-width: 120px">Status</th>
+                                                <th style="min-width: 120px">DOC 1</th>
+                                                <th style="min-width: 120px">DOC 2</th>
                                                 <th class="pr-0 text-right" style="min-width: 160px">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($offers as $event)
+                                            @foreach ($offers as $key => $event)
                                             <tr>
-                                                <td class="pl-0 py-6">
-                                                    <label class="checkbox checkbox-lg checkbox-inline">
-                                                        <input type="checkbox" value="1" />
-                                                        <span></span>
-                                                    </label>
-                                                </td>
+                                                
                                                 <td class="pl-0">
                                                     <a href="#"
-                                                        class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$event->id}}</a>
+                                                        class="text-dark-75 font-weight-bolder text-hover-primary font-size-lg">{{$key + 1}}</a>
                                                 </td>
 
                                                 <td>
@@ -289,7 +281,17 @@
                                                     <span class="label label-lg @if($event->status == "1") label-light-success @else label-light-primary @endif label-inline">{{ $event->status ? 'Accepted' : 'Pending' }}</span>
                                                     
                                                 </td>
-                                         
+                                                <td>
+                                                    <a href="{{asset('uploads/' .  $event->passport_copy)}}" data-lity>
+                                                        Show passport  
+                                                    </a>
+                                                </td>
+
+                                                <td>
+                                                    <a href="{{asset('uploads/' .  $event->title_dead_copy)}}" data-lity>
+                                                        Show title copy  
+                                                    </a>
+                                                </td>
 
 
                                                 <td class="pr-0 text-right">
@@ -452,6 +454,8 @@
 @endsection
 
 @section('scripts')
+<script src="{{asset('admin/assets/js/lity/lity.js')}}"></script>
+
 <script src="{{asset('admin/assets/js/pages/features/miscellaneous/sweetalert2.js')}}"></script>
 <script src="{{asset('admin/assets/js/sweettost/alert.js')}}"></script>
 

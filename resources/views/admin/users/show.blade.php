@@ -92,7 +92,7 @@
 
                                     @if($user->request_sent)
                                     <br>
-                                    <strong>Hint : <strong class="text-success">{{$user->first_name}} {{$user->last_name}}</strong> Want to Link with <strong class="text-success">{{$unit_name->name_en}}</strong></strong>
+                                    <strong>Hint : <strong class="text-success">{{$user->first_name}} {{$user->last_name}}</strong> Want to Link with <strong class="text-success">{{$unit_name->name_en ?? ''}}</strong></strong>
                                     <br>
                                     <strong>Rq Type : <strong class="text-success">@if ($user->need  == 'owner') Own  @elseif ($user->need  == 'tenant') Rent @else  None @endif </strong>
                                     <br>

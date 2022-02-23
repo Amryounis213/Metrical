@@ -11,16 +11,18 @@ use Illuminate\Notifications\Notification;
 class SendReminderForEventNotification extends Notification
 {
     use Queueable;
-    
-     protected $event;
+
+    protected $events;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($event_id)
-    {   $event = Event::findOrFail($event_id);
-        $this->event = $event;
+    public function __construct($events)
+    {
+        //  $event = Event::findOrFail($event_id);
+        $this->events = $events;
     }
 
     /**
@@ -31,7 +33,7 @@ class SendReminderForEventNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -43,10 +45,10 @@ class SendReminderForEventNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->from('metrical@info', 'Metrical Member')
-                    ->line(__('remember you have an :name event tomorrow :date', ['name' => $this->event->title_ar , 'date' => $this->event->start_date]))
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->from('metrical@info', 'Metrical Member')
+            ->line(__('remember you have an :name event tomorrow :date', ['name' => $this->events->title_ar, 'date' => $this->events->start_date]))
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -55,6 +57,27 @@ class SendReminderForEventNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
+
+    public function toDatabase($notifiable)
+    {
+
+        return [
+            'id' => $this->events->id,
+            'title' => [
+                'en' => $this->events->title_en,
+                'ar' => $this->events->title_ar,
+                'gr' => $this->events->title_gr,
+            ],
+            'body' => [
+                'en' => $this->events->description_en,
+                'ar' => $this->events->description_ar,
+                'gr' => $this->events->description_gr,
+            ],
+
+            'created_at' => date('Y-m-d H:i:s.uZ')
+        ];
+    }
+
     public function toArray($notifiable)
     {
         return [

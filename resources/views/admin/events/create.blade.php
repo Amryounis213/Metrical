@@ -182,7 +182,7 @@
     <!--end::Content-->
 @endsection
 
-{{--
+
 @section('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
 <script>
@@ -192,4 +192,3 @@ for (var i = 0; i < allEditors.length; ++i) {
 }
   </script>
 @endsection
---}}

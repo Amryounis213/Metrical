@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\InterestedUser;
 use App\Models\User;
 use App\Notifications\InvoiceEvents;
+use App\Notifications\SendReminderForEventNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -28,7 +29,7 @@ class EventsController extends Controller
 
     public function index()
     {
-        $events = Event::with('community')->paginate(6);
+        $events = Event::with('community')->latest()->paginate(6);
         // return $events;
         return view('admin.events.index', [
             'events' => $events,
@@ -193,5 +194,21 @@ class EventsController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
 
         $response = curl_exec($ch);
+    }
+
+
+    public function sendReminderForinterstedUser($id)
+    {
+
+        $events =  Event::where('id', $id)->first();
+        $users = $events->users()->get();
+
+        foreach ($users as $user) {
+
+            $user->notify(new SendReminderForEventNotification($events));
+        }
+
+
+        return redirect()->back()->with('success', 'The Reminder send successfully');
     }
 }

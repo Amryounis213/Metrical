@@ -82,8 +82,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
             'rents' => Rent::with('property')->limit(8)->latest()->get(),
             'rents_active' => Rent::where('status', 'active')->count(),
             'total_price' => Rent::limit(5)->latest()->sum('price'),
-            'news' => News::limit(3)->latest()->get(),
-            'events' => Event::limit(3)->latest()->get(),
+            'news' => News::latest()->get(),
+            'events' => Event::latest()->get(),
             'percantage' => Property::Percentage() ?? 0,
             'pending_users' => User::where('request_sent', 1)->paginate(5),
             'user1' => $user1 ?? null,
@@ -221,6 +221,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('activeblock/{user}', [UsersController::class, 'isActiveBlock'])->name('activeblock');
     Route::post('link-tenant', [RentController::class, 'store'])->name('link-tenant');
     Route::get('link-tenant/{id}/property/{unit_number}', [RentController::class, 'showlinkform'])->name('link-tenant-show');
+
+
+    Route::get('sendreminder/{id}', [EventsController::class, 'sendReminderForinterstedUser'])->name('send-reminder');
     /**
      * Emails
      */

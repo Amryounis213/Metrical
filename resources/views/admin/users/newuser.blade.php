@@ -237,7 +237,7 @@
 
 
                                    <div class="form-group row owner tenant">
-                                    <label class="col-lg-3 col-form-label text-right">Passport Copy :</label>
+                                    <label class="col-lg-3 col-form-label text-right">Passport Copy :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                         <div class="custom-file">
                                             <input value="{{old('passport_copy')}}" name="passport_copy" type="file" class="custom-file-input" id="customFile">
@@ -248,7 +248,7 @@
 
 
                                    <div class="form-group row owner">
-                                    <label class="col-lg-3 col-form-label text-right">Title Dead Copy :</label>
+                                    <label class="col-lg-3 col-form-label text-right">Title Dead Copy :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                         <div class="custom-file">
                                             <input name="title_dead_copy" value="{{old('title_dead_copy')}}" type="file" class="custom-file-input owner" id="customFile">
@@ -301,7 +301,7 @@
                                  </div>
                                  
                                  <div class="form-group row tenant">
-                                    <label class="col-lg-3 col-form-label text-right">Visa Copy :</label>
+                                    <label class="col-lg-3 col-form-label text-right">Visa Copy :<strong class="text-danger">*</strong></label>
                                     <div class="col-lg-6">
                                         <div class="custom-file">
                                             <input name="visa_copy" type="file" value="{{old('visa_copy')}}"  class="custom-file-input" id="customFile">

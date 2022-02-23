@@ -31,6 +31,8 @@ class Event extends Model
         return $this->belongsTo(Community::class, 'community_id', 'id')->withDefault();
     }
 
+
+
     public function toArray()
     {
 

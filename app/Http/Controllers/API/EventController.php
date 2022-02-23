@@ -86,13 +86,34 @@ class EventController extends Controller
         $request->merge([
             'user_id' => $user->id
         ]);
-        // $user->notify(new SendReminderForEventNotification(Event::find($request->event_id)));
-        InterestedUser::create($request->all());
-        if ($request->status == 1) {
+        $isIntersted = InterestedUser::where('user_id', $user->id)->where('event_id', $request->event_id)->exists();
+
+        if (!$isIntersted) {
+            InterestedUser::create($request->all());
+            if ($request->status == 1) {
+                return response()->json([
+                    'status' => true,
+                    'code' => 200,
+                    'message' => __('messages.interested'),
+                ]);
+            } else {
+                return response()->json([
+                    'status' => true,
+                    'code' => 200,
+                    'message' => __('messages.notInterested'),
+                ]);
+            }
+        } else {
+            $event = InterestedUser::where('user_id', $user->id)->where('event_id', $request->event_id)->first();
+            $event->update([
+                'status' => $request->status,
+            ]);
+
+
             return response()->json([
                 'status' => true,
                 'code' => 200,
-                'message' => __('messages.interested'),
+                'message' => $request->status ? 'You have successfully interested this event' : 'You have successfully NOT interested this event',
             ]);
         }
 

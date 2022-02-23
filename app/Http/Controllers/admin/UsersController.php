@@ -317,19 +317,26 @@ class UsersController extends Controller
 
     public function filter(Request $request)
     {
-        if ($request->type != '4') {
+        /*  if ($request->type != '4') {
             $users = User::with('tenant', 'owner')
                 ->where('type', $request->type)
                 ->orwhere('first_name', '%' . $request->name . '%')
                 ->orderBy('created_at', 'DESC')
                 ->paginate();
-        } else {
-            $users = User::with('tenant', 'owner')
-                ->where('type', '!=', $request->type)
-                ->orwhere('first_name', '%' . $request->name . '%')
-                ->orderBy('created_at', 'DESC')
-                ->paginate();
-        }
+        } else {*/
+
+        $users = User::with('tenant', 'owner')
+            ->when($request->name, function ($query) use ($request) {
+                $query->select(DB::raw("CONCAT(first_name, ' ', last_name) as full_name")->where('full_name', 'LIKE', '%' . $request->name . '%');
+                // ->orwhere('email', 'LIKE', '%' . $request->name . '%');
+            })->when($request->type, function ($query) use ($request) {
+                $query->where('type',  $request->type);
+            })
+            //->where('type', '!=', $request->type)
+            //   ->orwhere('first_name', '%' . $request->name . '%')
+            ->orderBy('created_at', 'DESC')
+            ->paginate();
+        //}
         return view('admin.users.index', ['users' => $users]);
     }
 
